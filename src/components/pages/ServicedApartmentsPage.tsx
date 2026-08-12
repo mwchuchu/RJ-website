@@ -576,6 +576,25 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({
               ))}
             </div>
           </div>
+        {/* Bottom Booking CTA Banner */}
+        <div style={{ textAlign: 'center', marginTop: '64px' }}>
+          <button
+            onClick={() => onNavigate('book-now')}
+            style={{
+              background: '#152247',
+              color: '#ffffff',
+              padding: '16px 44px',
+              borderRadius: '99px',
+              fontSize: '15px',
+              fontWeight: 800,
+              border: 'none',
+              cursor: 'pointer',
+              boxShadow: '0 8px 24px rgba(21, 34, 71, 0.2)',
+              transition: 'all 0.3s ease'
+            }}
+          >
+            Reserve Your Serviced Residence →
+          </button>
         </div>
 
       </div>

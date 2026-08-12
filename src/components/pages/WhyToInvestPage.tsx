@@ -299,12 +299,6 @@ export const WhyToInvestPage: React.FC<WhyToInvestPageProps> = ({ onNavigate }) 
             <button
               onClick={() => setSelectedMetric('price')}
               style={{
-                padding: '10px 20px',
-                borderRadius: '99px',
-                fontSize: '13px',
-                fontWeight: 800,
-                background: selectedMetric === 'price' ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)' : '#ffffff',
-                color: selectedMetric === 'price' ? '#ffffff' : '#475569',
                 padding: '8px 18px',
                 borderRadius: '99px',
                 fontSize: '12px',
