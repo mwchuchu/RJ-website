@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { PROPERTIES } from '../../data/mockData';
 import type { Property } from '../../types/index';
 import { ONE_BEDROOM_FALLBACK, TWO_BEDROOM_FALLBACK } from '../../data/floorplanAssets';
-import { AnimatedNumber } from '../common/AnimatedNumber';
-import { ModernPriceDisplay } from '../common/ModernPriceDisplay';
 
 interface ServicedApartmentsPageProps {
-  onSelectProperty: (property: Property) => void;
+  onSelectProperty?: (property: Property) => void;
   onNavigate: (tabId: string) => void;
 }
 
@@ -740,31 +737,8 @@ const ExteriorAmenitiesSection: React.FC = () => {
 
 
 export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({
-  onSelectProperty,
   onNavigate,
 }) => {
-  const servicedUnits = PROPERTIES.filter((p) => p.propertyType === 'Apartment');
-  const [matrixVisible, setMatrixVisible] = useState(false);
-  const matrixSectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setMatrixVisible(true);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (matrixSectionRef.current) {
-      observer.observe(matrixSectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <div
