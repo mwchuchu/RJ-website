@@ -211,7 +211,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       {/* World's Best 33+ Amenities Showcase Section (Stadium Capsule Layout with Slideshow & Ease-In Animation) */}
       <ScrollAnimateSection>
         <section
-          ref={amenitiesSectionRef}
           className="stadium-amenities-showcase-section"
           style={{
             background: '#ffffff',
