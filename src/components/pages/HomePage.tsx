@@ -98,70 +98,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
     return () => clearInterval(timer);
   }, [isVisible]);
 
-  const fanCards = [
-    {
-      id: 1,
-      number: '106',
-      unitLabel: 'UNITS',
-      heading: '106 Total Units',
-      badge: 'TOTAL CAPACITY',
-      desc: 'Total 106 Units Comprising of Commercials and residential facilities for businesses and families.',
-      image: 'https://images.unsplash.com/photo-1696778089330-48995c755358?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      fallbackImage: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
-      actionTab: 'serviced-apartments'
-    },
-    {
-      id: 2,
-      number: '14',
-      unitLabel: 'STOREYS',
-      heading: '14 Storeys Elevation',
-      badge: 'ELEVATION HEIGHT',
-      desc: 'A 14 storey building located directly opposite IMARAT Downtown & Monal Restaurant.',
-      image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80',
-      actionTab: 'why-invest'
-    },
-    {
-      id: 3,
-      number: '78',
-      unitLabel: 'APARTMENTS',
-      heading: '78 Serviced Apartments',
-      badge: 'RESIDENTIAL SUITES',
-      desc: 'Fully serviced 1 & 2 bedroom hotel apartments with 24/7 concierge and room service.',
-      image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80',
-      actionTab: 'serviced-apartments'
-    },
-    {
-      id: 4,
-      number: '2',
-      unitLabel: 'PENTHOUSES',
-      heading: '2 Sky Penthouses',
-      badge: 'TOP FLOOR LUXURY',
-      desc: '360-degree panoramic Margalla views, private sky lounge, Jacuzzi terrace & elevator key.',
-      image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80',
-      actionTab: 'larom-hotel-residencies'
-    },
-    {
-      id: 5,
-      number: '7',
-      unitLabel: 'RETAIL SHOPS',
-      heading: '7 Retail Shops',
-      badge: 'COMMERCIAL SHOPS',
-      desc: 'Ground-floor luxury commercial retail shops driving premium brand presence.',
-      image: 'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?auto=format&fit=crop&w=800&q=80',
-      actionTab: 'book-now'
-    },
-    {
-      id: 6,
-      number: '20',
-      unitLabel: 'COMMERCIAL KIOSKS',
-      heading: '20 Standalone Kiosks',
-      badge: 'PROMENADE KIOSKS',
-      desc: '20 standalone retail & service kiosks offering coffee bars, boutique goods, and interactive terminals across the ground-floor promenade.',
-      image: 'https://images.unsplash.com/photo-1687969962129-dd77e13b95b7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8a2lvc2t8ZW58MHx8MHx8fDA%3D',
-      actionTab: 'book-now'
-    }
-  ];
-
   const [activeAmenitySlide, setActiveAmenitySlide] = React.useState(0);
 
   const amenitySlides = [
@@ -466,55 +402,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 ))}
               </div>
             </div>
-          </div>
-        </section>
-      </ScrollAnimateSection>
-
-      {/* Fanning Out Card Cluster Effect Section (Light Theme) */}
-      <ScrollAnimateSection>
-        <section className="hero-fanning-section" style={{ background: '#f8f9fa', padding: '70px 48px', overflow: 'hidden' }}>
-          <div className="hero-fanning-header">
-            
-            <h2 style={{ fontSize: '36px', marginTop: '12px', color: '#0f172a', fontWeight: 800 }}>
-              Key Specifications & Building Highlights
-            </h2>
-            <p style={{ color: '#64748b', fontSize: '15px', marginTop: '8px', maxWidth: '600px', margin: '8px auto 0' }}>
-              Hover over the card deck below to fan out and explore building statistics like a hand of playing cards.
-            </p>
-          </div>
-
-          <div className="hero-fanning-container">
-            {fanCards.map((card) => (
-              <div
-                key={card.id}
-                className="hero-fan-card"
-                onClick={() => onNavigate(card.actionTab)}
-              >
-                <div>
-                  <span style={{ background: 'rgba(2, 132, 199, 0.12)', color: '#0369a1', padding: '4px 10px', borderRadius: '99px', fontSize: '10px', fontWeight: 700, display: 'inline-block', marginBottom: '12px' }}>
-                    {card.badge}
-                  </span>
-                  <div className="fan-stat-num">{card.number}</div>
-                  <div className="fan-stat-label">{card.unitLabel}</div>
-                  <h3 className="fan-card-title">{card.heading}</h3>
-                  <p className="fan-card-desc">{card.desc}</p>
-                </div>
-
-                <div style={{ width: '100%', height: '100px', borderRadius: '14px', overflow: 'hidden', marginTop: '14px', border: '1px solid #e2e8f0' }}>
-                  <img
-                    src={card.image}
-                    alt={card.heading}
-                    onError={(e) => {
-                      const target = e.currentTarget;
-                      if ('fallbackImage' in card && card.fallbackImage && target.src !== card.fallbackImage) {
-                        target.src = card.fallbackImage as string;
-                      }
-                    }}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  />
-                </div>
-              </div>
-            ))}
           </div>
         </section>
       </ScrollAnimateSection>
