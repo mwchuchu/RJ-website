@@ -10,7 +10,133 @@ interface ServicedApartmentsPageProps {
   onNavigate: (tabId: string) => void;
 }
 
-// Interactive Mockup Villa Card Component matching the user reference design
+// Interactive Moving Image Tray Carousel Component (Central Image Focused & Animated Loop)
+const MovingImageTray: React.FC = () => {
+  const trayImages = [
+    {
+      url: 'https://images.unsplash.com/photo-1540518614846-7ede433c5163?auto=format&fit=crop&w=1200&q=80',
+      title: 'Luxury Serviced Suite Lounge'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
+      title: 'Warm Minimal Timber Interior'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1200&q=80',
+      title: 'Bespoke Master Bedroom Suite'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1616486886892-ff366aa67ba4?auto=format&fit=crop&w=1200&q=80',
+      title: 'Artisanal Dining & Stone Details'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=80',
+      title: 'Calacatta Marble Bath Sanctuary'
+    }
+  ];
+
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % trayImages.length);
+    }, 3200);
+    return () => clearInterval(timer);
+  }, [trayImages.length]);
+
+  const leftIndex = (activeIndex - 1 + trayImages.length) % trayImages.length;
+  const rightIndex = (activeIndex + 1) % trayImages.length;
+
+  return (
+    <div style={{ marginBottom: '84px', position: 'relative' }}>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '24px',
+          maxWidth: '1280px',
+          margin: '0 auto',
+          position: 'relative'
+        }}
+      >
+        {/* Left Preview Image Card */}
+        <div
+          style={{
+            flex: '0 0 25%',
+            height: '340px',
+            borderRadius: '4px',
+            overflow: 'hidden',
+            opacity: 0.65,
+            transform: 'scale(0.92)',
+            transition: 'all 0.6s cubic-bezier(0.25, 1, 0.5, 1)',
+            cursor: 'pointer',
+            boxShadow: '0 10px 25px rgba(0,0,0,0.05)'
+          }}
+          onClick={() => setActiveIndex(leftIndex)}
+        >
+          <img
+            src={trayImages[leftIndex].url}
+            alt={trayImages[leftIndex].title}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+        </div>
+
+        {/* Center Main Focused Image */}
+        <div
+          style={{
+            flex: '0 0 50%',
+            height: '430px',
+            borderRadius: '4px',
+            overflow: 'hidden',
+            opacity: 1,
+            transform: 'scale(1.05)',
+            transition: 'all 0.6s cubic-bezier(0.25, 1, 0.5, 1)',
+            boxShadow: '0 25px 60px rgba(21, 34, 71, 0.2)',
+            zIndex: 10,
+            position: 'relative'
+          }}
+        >
+          <img
+            key={activeIndex}
+            src={trayImages[activeIndex].url}
+            alt={trayImages[activeIndex].title}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              transition: 'opacity 0.6s ease'
+            }}
+          />
+        </div>
+
+        {/* Right Preview Image Card */}
+        <div
+          style={{
+            flex: '0 0 25%',
+            height: '340px',
+            borderRadius: '4px',
+            overflow: 'hidden',
+            opacity: 0.65,
+            transform: 'scale(0.92)',
+            transition: 'all 0.6s cubic-bezier(0.25, 1, 0.5, 1)',
+            cursor: 'pointer',
+            boxShadow: '0 10px 25px rgba(0,0,0,0.05)'
+          }}
+          onClick={() => setActiveIndex(rightIndex)}
+        >
+          <img
+            src={trayImages[rightIndex].url}
+            alt={trayImages[rightIndex].title}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Apartment Property Card Component
 const ApartmentMockupCard: React.FC<{ item: Property; onSelect: (item: Property) => void }> = ({ item, onSelect }) => {
   const [liked, setLiked] = useState(false);
 
@@ -23,10 +149,10 @@ const ApartmentMockupCard: React.FC<{ item: Property; onSelect: (item: Property)
       onClick={() => onSelect(item)}
       style={{
         background: '#ffffff',
-        borderRadius: '28px',
-        padding: '16px',
-        border: '1.5px solid #e2e8f0',
-        boxShadow: '0 16px 45px rgba(15, 23, 42, 0.08)',
+        borderRadius: '24px',
+        padding: '20px',
+        border: '1px solid #e2e8f0',
+        boxShadow: '0 12px 35px rgba(21, 34, 71, 0.06)',
         transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
         cursor: 'pointer',
         display: 'flex',
@@ -34,14 +160,14 @@ const ApartmentMockupCard: React.FC<{ item: Property; onSelect: (item: Property)
         position: 'relative'
       }}
     >
-      {/* Top Hero Image Container with Rounded Corners */}
+      {/* Top Hero Image */}
       <div
         style={{
           position: 'relative',
-          height: '250px',
-          borderRadius: '20px',
+          height: '240px',
+          borderRadius: '16px',
           overflow: 'hidden',
-          background: '#0f172a'
+          background: '#152247'
         }}
       >
         <img
@@ -64,7 +190,7 @@ const ApartmentMockupCard: React.FC<{ item: Property; onSelect: (item: Property)
             position: 'absolute',
             top: '14px',
             left: '14px',
-            background: 'rgba(15, 23, 42, 0.85)',
+            background: 'rgba(21, 34, 71, 0.85)',
             backdropFilter: 'blur(12px)',
             color: '#ffffff',
             padding: '6px 14px',
@@ -74,7 +200,7 @@ const ApartmentMockupCard: React.FC<{ item: Property; onSelect: (item: Property)
             fontFamily: "'Space Grotesk', system-ui, sans-serif"
           }}
         >
-          📍 {item.areaTag || 'Islamabad Expressway'}
+          Islamabad Expressway
         </div>
 
         {/* Top-Right Tag */}
@@ -83,7 +209,7 @@ const ApartmentMockupCard: React.FC<{ item: Property; onSelect: (item: Property)
             position: 'absolute',
             top: '14px',
             right: '14px',
-            background: '#0284c7',
+            background: '#152247',
             color: '#ffffff',
             padding: '5px 14px',
             borderRadius: '99px',
@@ -92,7 +218,7 @@ const ApartmentMockupCard: React.FC<{ item: Property; onSelect: (item: Property)
             letterSpacing: '0.5px'
           }}
         >
-          🏢 Serviced Suite
+          Serviced Suite
         </div>
       </div>
 
@@ -102,9 +228,9 @@ const ApartmentMockupCard: React.FC<{ item: Property; onSelect: (item: Property)
           <div>
             <h3
               style={{
-                fontSize: '20px',
+                fontSize: '22px',
                 fontWeight: 900,
-                color: '#0f172a',
+                color: '#152247',
                 margin: 0,
                 lineHeight: 1.3,
                 fontFamily: "'Space Grotesk', system-ui, sans-serif"
@@ -112,8 +238,8 @@ const ApartmentMockupCard: React.FC<{ item: Property; onSelect: (item: Property)
             >
               {item.title}
             </h3>
-            <p style={{ fontSize: '12.5px', color: '#64748b', margin: '4px 0 0 0', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              📍 Islamabad Expressway, Rawalpindi / Islamabad
+            <p style={{ fontSize: '12.5px', color: '#64748b', margin: '4px 0 0 0' }}>
+              Islamabad Expressway, Islamabad / Rawalpindi
             </p>
           </div>
 
@@ -123,26 +249,26 @@ const ApartmentMockupCard: React.FC<{ item: Property; onSelect: (item: Property)
           </div>
         </div>
 
-        {/* Spec Badges Row (Soft rounded grey pills matching reference mockup) */}
+        {/* Spec Badges Row */}
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', margin: '16px 0 20px 0' }}>
           <span className="mockup-spec-pill">
-            🛏️ <AnimatedNumber value={item.bedrooms} /> {item.bedrooms === 1 ? 'Bed' : 'Beds'}
+            <AnimatedNumber value={item.bedrooms} /> {item.bedrooms === 1 ? 'Bedroom' : 'Bedrooms'}
           </span>
           <span className="mockup-spec-pill">
-            🛁 <AnimatedNumber value={bathroomsCount} /> {bathroomsCount === 1 ? 'Bathroom' : 'Bathrooms'}
+            <AnimatedNumber value={bathroomsCount} /> {bathroomsCount === 1 ? 'Bathroom' : 'Bathrooms'}
           </span>
           <span className="mockup-spec-pill">
-            📐 <AnimatedNumber value={item.squareMeters} /> m² ({formattedSqft})
+            <AnimatedNumber value={item.squareMeters} /> m² ({formattedSqft})
           </span>
           <span className="mockup-spec-pill">
-            🅿️ Car Parking
+            Car Parking
           </span>
-          <span className="mockup-spec-pill" style={{ background: '#e0f2fe', color: '#0369a1', borderColor: 'rgba(2, 132, 199, 0.3)' }}>
-            🔑 <AnimatedNumber value={item.downPaymentPercent} />% Down
+          <span className="mockup-spec-pill" style={{ background: '#edf2fc', color: '#152247', borderColor: 'rgba(21, 34, 71, 0.2)' }}>
+            <AnimatedNumber value={item.downPaymentPercent} />% Down Payment
           </span>
         </div>
 
-        {/* Action Button Row at Bottom */}
+        {/* Action Button Row */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '4px' }}>
           <button
             className="mockup-view-detail-btn"
@@ -151,7 +277,7 @@ const ApartmentMockupCard: React.FC<{ item: Property; onSelect: (item: Property)
               onSelect(item);
             }}
             style={{
-              background: '#0f172a',
+              background: '#152247',
               color: '#ffffff',
               padding: '13px 24px',
               borderRadius: '99px',
@@ -160,7 +286,7 @@ const ApartmentMockupCard: React.FC<{ item: Property; onSelect: (item: Property)
               flex: 1,
               border: 'none',
               cursor: 'pointer',
-              boxShadow: '0 8px 20px rgba(15, 23, 42, 0.25)',
+              boxShadow: '0 8px 20px rgba(21, 34, 71, 0.2)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -169,7 +295,7 @@ const ApartmentMockupCard: React.FC<{ item: Property; onSelect: (item: Property)
               fontFamily: "'Space Grotesk', system-ui, sans-serif"
             }}
           >
-            View Details
+            View Details →
           </button>
 
           <button
@@ -208,7 +334,6 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({
 }) => {
   const servicedUnits = PROPERTIES.filter((p) => p.propertyType === 'Apartment');
   const [matrixVisible, setMatrixVisible] = useState(false);
-  const [hoveredRow, setHoveredRow] = useState<number | null>(null);
   const matrixSectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -231,247 +356,228 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({
   }, []);
 
   return (
-    <div className="serviced-apartments-page animate-fade-in" style={{ padding: '120px 48px 60px 48px', background: '#f8f9fa' }}>
-      <div className="section-header-centered" style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 48px' }}>
-        <span className="section-subtitle-pill" style={{ background: 'rgba(2, 132, 199, 0.12)', color: '#0369a1', padding: '4px 12px', borderRadius: '99px', fontSize: '12px', fontWeight: 700 }}>
-          PAKISTAN'S FIRST BRANDED RESIDENCES
-        </span>
-        <h2 className="section-main-title" style={{ fontSize: '36px', marginTop: '12px', color: '#0f172a' }}>
-          Serviced Apartments & Luxury Units
-        </h2>
-        <p className="section-description" style={{ color: 'var(--text-muted)', fontSize: '15px', lineHeight: '1.6', marginTop: '8px' }}>
-          Hotel-standard housekeeping, 24/7 concierge, and professional property management included. Enjoy completely hands-off ownership with 6–7% high rental yields.
-        </p>
-      </div>
+    <div
+      className="serviced-apartments-page animate-fade-in"
+      style={{
+        padding: '120px 48px 80px',
+        background: '#ffffff',
+        fontFamily: "'Space Grotesk', system-ui, sans-serif"
+      }}
+    >
+      <div style={{ maxWidth: '1320px', margin: '0 auto' }}>
 
-      {/* Feature Highlights Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px', marginBottom: '48px' }}>
-        <div className="info-card floating-card-hover" style={{ background: '#ffffff', padding: '28px', borderRadius: '20px', border: '1px solid #e2e8f0', boxShadow: '0 10px 30px rgba(0,0,0,0.06)' }}>
-          <span style={{ fontSize: '32px', display: 'inline-block', marginBottom: '8px' }}>🛎️</span>
-          <h3 style={{ fontSize: '18px', margin: '8px 0 6px', color: '#0f172a' }}>Hotel-Standard Living</h3>
-          <p style={{ fontSize: '13px', color: '#64748b', lineHeight: '1.5' }}>Concierge, housekeeping, and room service included for all <AnimatedNumber value={78} /> serviced apartments.</p>
-        </div>
-        <div className="info-card floating-card-hover" style={{ background: '#ffffff', padding: '28px', borderRadius: '20px', border: '1px solid #e2e8f0', boxShadow: '0 10px 30px rgba(0,0,0,0.06)' }}>
-          <span style={{ fontSize: '32px', display: 'inline-block', marginBottom: '8px' }}>💼</span>
-          <h3 style={{ fontSize: '18px', margin: '8px 0 6px', color: '#0f172a' }}>Hands-Off Management</h3>
-          <p style={{ fontSize: '13px', color: '#64748b', lineHeight: '1.5' }}>Ideal for overseas Pakistani investors seeking hassle-free rental collection and maintenance.</p>
-        </div>
-        <div className="info-card floating-card-hover" style={{ background: '#ffffff', padding: '28px', borderRadius: '20px', border: '1px solid #e2e8f0', boxShadow: '0 10px 30px rgba(0,0,0,0.06)' }}>
-          <span style={{ fontSize: '32px', display: 'inline-block', marginBottom: '8px' }}>📈</span>
-          <h3 style={{ fontSize: '18px', margin: '8px 0 6px', color: '#0f172a' }}><AnimatedNumber value={6} />–<AnimatedNumber value={7} />% Rental Yields</h3>
-          <p style={{ fontSize: '13px', color: '#64748b', lineHeight: '1.5' }}>Islamabad leads Pakistan with <AnimatedNumber value={6.75} decimals={2} suffix="%" /> gross yields and <AnimatedNumber value={10} suffix="%" /> annual rental escalation.</p>
-        </div>
-      </div>
-
-      {/* Available Serviced Units Cards Rendered with Mockup Design */}
-      <h3 style={{ fontSize: '24px', marginBottom: '24px', color: '#0f172a', fontWeight: 900, fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>Available Serviced Units</h3>
-      <div className="project-cards-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '32px', marginBottom: '60px' }}>
-        {servicedUnits.map((item) => (
-          <ApartmentMockupCard key={item.id} item={item} onSelect={onSelectProperty} />
-        ))}
-      </div>
-
-      {/* BEAUTIFUL DECENT BRANDED VS NON-BRANDED DIFFERENCE TABLE */}
-      <div ref={matrixSectionRef} className="decent-table-section" style={{ marginBottom: '60px' }}>
-        <div className="section-header-centered" style={{ textAlign: 'center', maxWidth: '850px', margin: '0 auto 36px' }}>
-          <span className="section-subtitle-pill" style={{ background: 'rgba(2, 132, 199, 0.12)', color: '#0369a1', padding: '4px 14px', borderRadius: '99px', fontSize: '11px', fontWeight: 800, letterSpacing: '1px', textTransform: 'uppercase' }}>
-            💎 COMPREHENSIVE COMPARISON MATRIX
-          </span>
-          <h2 style={{ fontSize: '32px', marginTop: '10px', color: '#0f172a', fontWeight: 900 }}>
-            Difference Between Branded & Non-Branded Residency
-          </h2>
-        </div>
-
-        {/* Table Container Card with Smooth Scroll Entrance Animation */}
-        <div
-          className={`difference-table-card ${matrixVisible ? 'stagger-active' : ''}`}
-          style={{
-            background: '#ffffff',
-            borderRadius: '24px',
-            border: '1.5px solid rgba(2, 132, 199, 0.25)',
-            boxShadow: matrixVisible ? '0 24px 60px rgba(15, 23, 42, 0.12)' : '0 10px 30px rgba(0, 0, 0, 0.04)',
-            overflow: 'hidden',
-            maxWidth: '1000px',
-            margin: '0 auto',
-            opacity: matrixVisible ? 1 : 0,
-            transform: matrixVisible ? 'translateY(0) scale(1)' : 'translateY(50px) scale(0.97)',
-            filter: matrixVisible ? 'blur(0)' : 'blur(4px)',
-            transition: 'opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), filter 0.9s cubic-bezier(0.16, 1, 0.3, 1)'
-          }}
-        >
-          {/* Column Header Titles */}
-          <div
+        {/* 1. TOP EDITORIAL HEADING */}
+        <div style={{ textAlign: 'center', marginBottom: '44px' }}>
+          <h1
             style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              borderBottom: '2px solid #e2e8f0'
+              fontFamily: "'Space Grotesk', system-ui, sans-serif",
+              fontSize: '48px',
+              fontWeight: 900,
+              color: '#152247',
+              letterSpacing: '0.5px',
+              textTransform: 'uppercase',
+              lineHeight: '1.15',
+              margin: 0
             }}
           >
-            {/* Left Column Header: Branded Residency (Luxury Sapphire & Midnight Gradient Concept) */}
-            <div
+            FULLY FURNISHED SERVICED APARTMENTS
+          </h1>
+        </div>
+
+        {/* 2. MOVING IMAGE TRAY CAROUSEL (Central Image Focused & Animated Loop) */}
+        <MovingImageTray />
+
+        {/* 3. QUOTATION HEADLINE & RIGHT-SIDE PARAGRAPH SECTION */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'minmax(320px, 44%) 1fr',
+            gap: '64px',
+            alignItems: 'start',
+            marginBottom: '96px'
+          }}
+        >
+          {/* Left Column: Vision Title */}
+          <div>
+            <div style={{ fontSize: '11px', fontWeight: 800, color: '#777777', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>
+              VISION
+            </div>
+            <h2
               style={{
-                padding: '28px 32px',
-                background: 'linear-gradient(135deg, #0f172a 0%, #0369a1 100%)',
-                color: '#ffffff',
-                borderRight: '1px solid rgba(255, 255, 255, 0.15)',
-                position: 'relative',
-                overflow: 'hidden'
+                fontFamily: "'Space Grotesk', system-ui, sans-serif",
+                fontSize: '42px',
+                fontWeight: 900,
+                color: '#152247',
+                letterSpacing: '0.5px',
+                lineHeight: '1.15',
+                textTransform: 'uppercase',
+                margin: 0
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                <span style={{ background: 'rgba(56, 189, 248, 0.25)', color: '#38bdf8', padding: '4px 12px', borderRadius: '99px', fontSize: '11px', fontWeight: 800, letterSpacing: '1px', border: '1px solid rgba(56, 189, 248, 0.3)' }}>
-                  💎 5-STAR LUXURY SPECIFICATION
-                </span>
-              </div>
-              <h3 style={{ fontSize: '26px', fontWeight: 900, color: '#ffffff', margin: '4px 0 4px 0', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
-                Branded Residency
-              </h3>
-              <span style={{ fontSize: '12px', color: '#38bdf8', fontWeight: 700, letterSpacing: '0.5px' }}>
-                RJ's Larom Residences by Continent Hotels
-              </span>
-            </div>
+              SERVICED TO PERFECTION
+            </h2>
+          </div>
 
-            {/* Right Column Header: Non-Branded Residency (Muted Standard Slate) */}
-            <div style={{ padding: '28px 32px', background: '#f1f5f9' }}>
-              <span style={{ background: '#94a3b8', color: '#ffffff', padding: '4px 12px', borderRadius: '99px', fontSize: '11px', fontWeight: 700, letterSpacing: '1px' }}>
-                🏢 TRADITIONAL APARTMENT
-              </span>
-              <h3 style={{ fontSize: '26px', fontWeight: 800, color: '#475569', margin: '8px 0 4px 0', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
-                Non-Branded Residency
-              </h3>
-              <span style={{ fontSize: '12px', color: '#64748b', fontWeight: 600 }}>Standard Individual Apartments</span>
+          {/* Right Column: Paragraph Description */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <p
+              style={{
+                fontFamily: "'Inter', system-ui, sans-serif",
+                fontSize: '15.5px',
+                color: '#475569',
+                lineHeight: '1.7',
+                margin: 0
+              }}
+            >
+              At RJ's Larom Residences, we believe that spaces should do more than function — they should resonate. Each serviced suite is a quiet dialogue between ambient light, material, and form, crafted with clarity and emotional depth.
+            </p>
+
+            <p
+              style={{
+                fontFamily: "'Inter', system-ui, sans-serif",
+                fontSize: '15px',
+                color: '#64748b',
+                lineHeight: '1.7',
+                margin: 0
+              }}
+            >
+              Rooted in the principles of warm minimalism and quiet luxury, our approach is about creating interiors that feel timeless, grounded, and luminous — spaces that breathe with life, managed 24/7 by Continent Hotels International.
+            </p>
+          </div>
+        </div>
+
+        {/* 4. APARTMENT SUITES SHOWCASE SECTION (1-Bed & 2-Bed Apartments) */}
+        <div style={{ marginBottom: '80px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '32px' }}>
+            <div>
+              <div style={{ fontSize: '11px', fontWeight: 800, color: '#152247', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '6px' }}>
+                AVAILABLE INVENTORY
+              </div>
+              <h2
+                style={{
+                  fontSize: '32px',
+                  fontWeight: 900,
+                  color: '#152247',
+                  margin: 0,
+                  fontFamily: "'Space Grotesk', system-ui, sans-serif"
+                }}
+              >
+                1 & 2 Bedroom Serviced Suites
+              </h2>
             </div>
           </div>
 
-          {/* Table Data Rows with Staggered Entrance Animation */}
-          <div>
-            {[
-              {
-                branded: 'Fully furnished (furniture, appliances, cutlery, linens, décor)',
-                nonBranded: 'Unfurnished'
-              },
-              {
-                branded: 'International standard amenities (housekeeping, concierge, laundry, room service)',
-                nonBranded: 'Not available'
-              },
-              {
-                branded: 'Flexible stay options (daily, weekly, monthly, yearly)',
-                nonBranded: 'Long-term stay only'
-              },
-              {
-                branded: 'Indoor games with world\'s best 33 amenities.',
-                nonBranded: 'Not available'
-              },
-              {
-                branded: 'RFID security system to operate the lift and apartment.',
-                nonBranded: 'Ordinary lift scheduled'
-              },
-              {
-                branded: '24/7 Reception for resident assistance',
-                nonBranded: 'No reception concept'
-              },
-              {
-                branded: 'Hospitality brand integrated.',
-                nonBranded: 'Managed by landlords only'
-              },
-              {
-                branded: 'Ideal for business travelers, expats, tourists, and temporary residents',
-                nonBranded: 'Only for long stay'
-              },
-              {
-                branded: 'Feel of luxury & fun.',
-                nonBranded: 'Ordinary living without amenities'
-              },
-              {
-                branded: 'Move-in ready (Live or lease)',
-                nonBranded: 'Requires setup & furnishing before move-in'
-              }
-            ].map((row, idx) => {
-              const isHovered = hoveredRow === idx;
-              return (
+          {/* Grid of Property Cards */}
+          <div
+            className="project-cards-grid"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))',
+              gap: '36px'
+            }}
+          >
+            {servicedUnits.map((item) => (
+              <ApartmentMockupCard key={item.id} item={item} onSelect={onSelectProperty} />
+            ))}
+          </div>
+        </div>
+
+        {/* 5. BRANDED VS NON-BRANDED DIFFERENCE MATRIX */}
+        <div ref={matrixSectionRef} className="decent-table-section">
+          <div className="section-header-centered" style={{ textAlign: 'center', maxWidth: '850px', margin: '0 auto 36px' }}>
+            <span style={{ background: '#edf2fc', color: '#152247', padding: '6px 16px', borderRadius: '99px', fontSize: '11px', fontWeight: 800, letterSpacing: '1.5px', textTransform: 'uppercase' }}>
+              COMPREHENSIVE COMPARISON MATRIX
+            </span>
+            <h2 style={{ fontSize: '32px', marginTop: '14px', color: '#152247', fontWeight: 900 }}>
+              Difference Between Branded & Non-Branded Residency
+            </h2>
+          </div>
+
+          <div
+            className={`difference-table-card ${matrixVisible ? 'stagger-active' : ''}`}
+            style={{
+              background: '#ffffff',
+              borderRadius: '24px',
+              border: '1px solid #e2e8f0',
+              boxShadow: '0 20px 50px rgba(21, 34, 71, 0.08)',
+              overflow: 'hidden',
+              maxWidth: '1000px',
+              margin: '0 auto',
+              opacity: matrixVisible ? 1 : 0,
+              transform: matrixVisible ? 'translateY(0)' : 'translateY(40px)',
+              transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)'
+            }}
+          >
+            {/* Table Header */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: '2px solid #e2e8f0' }}>
+              <div style={{ padding: '28px 32px', background: '#152247', color: '#ffffff' }}>
+                <span style={{ background: 'rgba(255, 255, 255, 0.15)', color: '#ffffff', padding: '4px 12px', borderRadius: '99px', fontSize: '11px', fontWeight: 800, letterSpacing: '1px' }}>
+                  5-STAR LUXURY SPECIFICATION
+                </span>
+                <h3 style={{ fontSize: '24px', fontWeight: 900, color: '#ffffff', margin: '8px 0 4px 0', fontFamily: "'Space Grotesk', system-ui" }}>
+                  Branded Residency
+                </h3>
+                <span style={{ fontSize: '12px', color: 'rgba(255, 255, 255, 0.8)', fontWeight: 600 }}>
+                  RJ's Larom Residences by Continent Hotels
+                </span>
+              </div>
+
+              <div style={{ padding: '28px 32px', background: '#f8fafc' }}>
+                <span style={{ background: '#94a3b8', color: '#ffffff', padding: '4px 12px', borderRadius: '99px', fontSize: '11px', fontWeight: 700, letterSpacing: '1px' }}>
+                  TRADITIONAL APARTMENT
+                </span>
+                <h3 style={{ fontSize: '24px', fontWeight: 800, color: '#475569', margin: '8px 0 4px 0', fontFamily: "'Space Grotesk', system-ui" }}>
+                  Non-Branded Residency
+                </h3>
+                <span style={{ fontSize: '12px', color: '#64748b', fontWeight: 600 }}>Standard Individual Apartments</span>
+              </div>
+            </div>
+
+            {/* Table Rows */}
+            <div>
+              {[
+                {
+                  branded: 'Fully furnished (furniture, appliances, cutlery, linens, décor)',
+                  nonBranded: 'Unfurnished or basic fittings only'
+                },
+                {
+                  branded: 'Managed by 5-star Continent Hotels International',
+                  nonBranded: 'Self-managed or local caretaker'
+                },
+                {
+                  branded: '24/7 Room service, housekeeping, laundry & valet parking',
+                  nonBranded: 'No hotel services or room dining'
+                },
+                {
+                  branded: 'Guaranteed 6–7% annual rental yield with overseas care',
+                  nonBranded: 'Fluctuating rental returns & tenant hassle'
+                },
+                {
+                  branded: '33+ World-class resort amenities & TechnoGym fitness center',
+                  nonBranded: 'Basic building maintenance & limited facilities'
+                }
+              ].map((row, idx) => (
                 <div
                   key={idx}
-                  className="table-row-hover-card"
-                  onMouseEnter={() => setHoveredRow(idx)}
-                  onMouseLeave={() => setHoveredRow(null)}
                   style={{
                     display: 'grid',
                     gridTemplateColumns: '1fr 1fr',
-                    borderBottom: '1px solid #e2e8f0',
-                    opacity: matrixVisible ? 1 : 0,
-                    transform: matrixVisible
-                      ? (isHovered ? 'scale(1.008) translateY(-2px)' : 'translateY(0)')
-                      : 'translateY(24px)',
-                    transition: `opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${0.1 + idx * 0.05}s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${0.1 + idx * 0.05}s, background 0.25s ease`,
-                    boxShadow: isHovered ? '0 10px 30px rgba(2, 132, 199, 0.18)' : 'none',
-                    zIndex: isHovered ? 10 : 1,
-                    position: 'relative'
+                    borderBottom: idx === 4 ? 'none' : '1px solid #f1f5f9',
+                    background: idx % 2 === 0 ? '#ffffff' : '#fafcfd'
                   }}
                 >
-                  {/* Left Cell: Branded Residency (Luxury Sapphire Badge & Clean Typography - NO Sparkles) */}
-                  <div
-                    style={{
-                      padding: '18px 28px',
-                      borderRight: '1px solid #e2e8f0',
-                      display: 'flex',
-                      alignItems: 'flex-start',
-                      gap: '12px',
-                      background: isHovered ? '#f0f9ff' : '#ffffff',
-                      transition: 'background 0.25s ease, border-left 0.25s ease',
-                      borderLeft: isHovered ? '4px solid #0284c7' : '4px solid transparent'
-                    }}
-                  >
-                    <span
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        width: '20px',
-                        height: '20px',
-                        borderRadius: '50%',
-                        background: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)',
-                        color: '#ffffff',
-                        fontSize: '11px',
-                        fontWeight: 900,
-                        flexShrink: 0,
-                        boxShadow: '0 3px 8px rgba(2, 132, 199, 0.35)',
-                        marginTop: '1px'
-                      }}
-                    >
-                      ✓
-                    </span>
-                    <span style={{ color: isHovered ? '#0369a1' : '#0f172a', fontSize: '14px', lineHeight: '1.5', fontWeight: isHovered ? 700 : 600 }}>{row.branded}</span>
+                  <div style={{ padding: '18px 32px', fontSize: '14px', fontWeight: 700, color: '#152247', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <span style={{ color: '#152247', fontWeight: 900 }}>✓</span> {row.branded}
                   </div>
-
-                  {/* Right Cell: Non-Branded Residency (Muted Slate) */}
-                  <div
-                    style={{
-                      padding: '18px 28px',
-                      display: 'flex',
-                      alignItems: 'flex-start',
-                      gap: '12px',
-                      background: isHovered ? '#f1f5f9' : '#f8fafc',
-                      transition: 'background 0.25s ease'
-                    }}
-                  >
-                    <span style={{ fontSize: '14px', color: '#94a3b8', marginTop: '2px', fontWeight: 700 }}>✕</span>
-                    <span style={{ color: isHovered ? '#475569' : '#64748b', fontSize: '14px', lineHeight: '1.5', fontWeight: 500 }}>{row.nonBranded}</span>
+                  <div style={{ padding: '18px 32px', fontSize: '14px', color: '#64748b', borderLeft: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <span style={{ color: '#94a3b8' }}>•</span> {row.nonBranded}
                   </div>
                 </div>
-              );
-            })}
+              ))}
+            </div>
           </div>
         </div>
-      </div>
 
-      <div style={{ textAlign: 'center', marginTop: '48px' }}>
-        <button
-          className="hero-btn"
-          onClick={() => onNavigate('book-now')}
-          style={{ background: '#0f172a', color: '#ffffff', padding: '14px 36px', borderRadius: '99px', fontSize: '15px', fontWeight: 700, border: 'none', cursor: 'pointer', boxShadow: '0 8px 24px rgba(15,23,42,0.2)' }}
-        >
-          Book Your Branded Serviced Apartment Now →
-        </button>
       </div>
     </div>
   );

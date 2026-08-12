@@ -21,31 +21,46 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
       id: 0,
       name: 'Down Payment',
       percentage: 25,
-      color: '#0284c7', // Sky Blue
-      hoverColor: '#38bdf8',
+      color: '#152247', // Primary Navy
+      hoverColor: '#1F3063',
       description: 'Immediate booking & suite allocation upon 25% down payment.',
       detailKey: 'downPayment' as const,
-      icon: '💎'
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#152247" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+      )
     },
     {
       id: 1,
       name: 'Easy Installments',
       percentage: 60,
-      color: '#0369a1', // Sapphire Blue
-      hoverColor: '#0284c7',
+      color: '#1F3063', // Primary Light / Hover Navy
+      hoverColor: '#152247',
       description: '60% spread over 3.5 years (42 monthly or 14 quarterly installments).',
       detailKey: 'monthly' as const,
-      icon: '📅'
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F3063" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+      )
     },
     {
       id: 2,
       name: 'On Possession',
       percentage: 15,
-      color: '#0c4a6e', // Midnight Navy Blue
-      hoverColor: '#0369a1',
-      description: '15% final payment upon key handover & possession in June 2027.',
+      color: '#0C142B', // Deep Navy Dark
+      hoverColor: '#1F3063',
+      description: '15% final payment due upon key handover (June 2027).',
       detailKey: 'possession' as const,
-      icon: '🔑'
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0C142B" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.778-7.778zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+        </svg>
+      )
     }
   ];
 
@@ -81,9 +96,7 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
         padding: '80px 32px',
         position: 'relative',
         overflow: 'hidden',
-        fontFamily: "'Space Grotesk', system-ui, sans-serif",
-        borderTop: '1px solid #e2e8f0',
-        borderBottom: '1px solid #e2e8f0'
+        fontFamily: "'Space Grotesk', system-ui, sans-serif"
       }}
     >
       {/* Keyframe animations */}
@@ -149,13 +162,7 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
       <div style={{ maxWidth: '1280px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
         {/* Section Header */}
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: '#e0f2fe', border: '1px solid rgba(2, 132, 199, 0.25)', padding: '6px 18px', borderRadius: '99px', marginBottom: '14px' }}>
-            <span style={{ color: '#0284c7', fontSize: '12px' }}>📊</span>
-            <span style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '1.5px', color: '#0284c7', textTransform: 'uppercase' }}>
-              3.5-YEAR PAYMENT SCHEDULE
-            </span>
-          </div>
-
+          
           <h2 style={{ fontSize: '40px', fontWeight: 900, color: '#0f172a', margin: '0 0 12px 0', letterSpacing: '-0.5px' }}>
             Investor Payment Plan & Structure
           </h2>
@@ -378,10 +385,10 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
               {/* Center Donut Hole Hub Content (No hovered stage line) */}
               <circle cx="140" cy="140" r="58" fill="#ffffff" stroke="#e2e8f0" strokeWidth="3" />
               
-              <text x="140" y="136" textAnchor="middle" fill="#0284c7" fontSize="24" fontWeight="900" fontFamily="Space Grotesk">
+              <text x="140" y="136" textAnchor="middle" fill="#152247" fontSize="24" fontWeight="900" fontFamily="Space Grotesk">
                 {activeSegment !== null ? `${segments[activeSegment].percentage}%` : '100%'}
               </text>
-              <text x="140" y="156" textAnchor="middle" fill="#0f172a" fontSize="12" fontWeight="700">
+              <text x="140" y="156" textAnchor="middle" fill="#152247" fontSize="12" fontWeight="700">
                 {activeSegment !== null ? segments[activeSegment].name : "RJ's Larom"}
               </text>
             </svg>

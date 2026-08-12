@@ -139,7 +139,7 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
           {activeTab === '03' && (
             <div className="tab-characteristics animate-fade-in">
               <div className="characteristics-header" style={{ marginBottom: '20px' }}>
-                <h3 className="section-sub-title" style={{ fontSize: '22px', fontWeight: 800, color: '#0f172a' }}>
+                <h3 className="section-sub-title" style={{ fontSize: '22px', fontWeight: 800, color: '#152247' }}>
                   Property Amenities & Characteristics
                 </h3>
                 <p style={{ fontSize: '13px', color: '#64748b', marginTop: '4px' }}>
@@ -156,7 +156,7 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
                       className="animated-amenity-card"
                       style={{ animationDelay: `${index * 0.04}s` }}
                     >
-                      <span className="amenity-card-icon">{amenity.icon}</span>
+                      {amenity.icon ? <span className="amenity-card-icon">{amenity.icon}</span> : null}
                       <span className="amenity-card-name">{amenity.name}</span>
                       {isIncluded && <span className="amenity-card-check">✓</span>}
                     </div>
@@ -175,7 +175,7 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
               </div>
               <div className="gallery-grid">
                 {property.exteriorGallery.map((imgUrl, idx) => {
-                  const exteriorLabels = ['🏛️ LUXURY HALLWAY', '🅿️ BASEMENT PARKING', '🏋️‍♂️ FITNESS GYM'];
+                  const exteriorLabels = ['LUXURY HALLWAY', 'BASEMENT PARKING', 'FITNESS GYM'];
                   const fallbacks = [
                     'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80',
                     'https://images.unsplash.com/photo-1506521781263-d8422e82f27a?auto=format&fit=crop&w=1200&q=80',
@@ -210,8 +210,8 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
               <div className="gallery-grid">
                 {property.interiorGallery.map((imgUrl, idx) => {
                   const roomLabels = property.interiorGallery.length === 4
-                    ? ['🛋️ LIVING ROOM', '🛏️ MASTER BEDROOM (BED 1)', '🛏️ EXECUTIVE BEDROOM (BED 2)', '🛁 LUXURY WASHROOM']
-                    : ['🛋️ LIVING ROOM', '🛏️ MASTER BEDROOM', '🛁 LUXURY WASHROOM'];
+                    ? ['LIVING ROOM', 'MASTER BEDROOM (BED 1)', 'EXECUTIVE BEDROOM (BED 2)', 'LUXURY WASHROOM']
+                    : ['LIVING ROOM', 'MASTER BEDROOM', 'LUXURY WASHROOM'];
                   const fallbacks = [
                     'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=80',
                     'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1200&q=80',
@@ -242,7 +242,7 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
             <div className="tab-layout-modern animate-fade-in">
               <div className="layout-left-pane-modern">
                 <div className="layout-badge-row">
-                  <span className="layout-badge-pill">📐 3D FLOORPLAN</span>
+                  <span className="layout-badge-pill">3D FLOORPLAN</span>
                   <span className="layout-area-badge">Total Area: <strong>{property.layoutSpecs.totalArea}</strong></span>
                 </div>
 
@@ -256,7 +256,6 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
 
                 <div className="modern-specs-grid">
                   <div className="modern-spec-card">
-                    <span className="spec-card-icon">🛏️</span>
                     <div className="spec-card-info">
                       <span className="spec-card-label">Bedrooms</span>
                       <strong className="spec-card-val"><AnimatedNumber value={property.layoutSpecs.bedroomsCount} /> Master Suite</strong>
@@ -264,7 +263,6 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
                   </div>
 
                   <div className="modern-spec-card">
-                    <span className="spec-card-icon">🛁</span>
                     <div className="spec-card-info">
                       <span className="spec-card-label">Bathrooms</span>
                       <strong className="spec-card-val"><AnimatedNumber value={property.layoutSpecs.bathroomsCount} /> Luxury Bath</strong>
@@ -284,7 +282,7 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose 
                     }}
                   />
                   <div className="floorplan-overlay-tag">
-                    🔍 Architectural Layout Plan
+                    Architectural Layout Plan
                   </div>
                 </div>
               </div>

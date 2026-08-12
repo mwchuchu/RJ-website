@@ -44,18 +44,18 @@ function getTopRoundedPath(x: number, y: number, w: number, h: number, r: number
 
 // Donut slices data
 const donutSlices = [
-  { label: 'Luxury Serviced Apartment', share: '31%', start: 0, end: 111.6, color: '#0284c7' },
-  { label: 'Mid-Range Serviced Apartments', share: '22%', start: 111.6, end: 190.8, color: '#0369a1' },
-  { label: 'Budget Serviced Apartment', share: '18%', start: 190.8, end: 255.6, color: '#38bdf8' },
-  { label: 'Boutique Serviced Apartment', share: '15%', start: 255.6, end: 309.6, color: '#0f172a' },
-  { label: 'Extended Stay Hotels', share: '14%', start: 309.6, end: 360, color: '#bae6fd' }
+  { label: 'Luxury Serviced Apartment', share: '31%', start: 0, end: 111.6, color: '#152247' },
+  { label: 'Mid-Range Serviced Apartments', share: '22%', start: 111.6, end: 190.8, color: '#1F3063' },
+  { label: 'Budget Serviced Apartment', share: '18%', start: 190.8, end: 255.6, color: '#2D437F' },
+  { label: 'Boutique Serviced Apartment', share: '15%', start: 255.6, end: 309.6, color: '#0C142B' },
+  { label: 'Extended Stay Hotels', share: '14%', start: 309.6, end: 360, color: 'rgba(21, 34, 71, 0.25)' }
 ];
 
 // Pie slices data
 const pieSlices = [
-  { label: 'Direct Booking', share: '33%', start: 0, end: 118.8, color: '#0284c7' },
-  { label: 'Corporate Contracts', share: '42%', start: 118.8, end: 270, color: '#0369a1' },
-  { label: 'Online Travel Agencies', share: '25%', start: 270, end: 360, color: '#38bdf8' }
+  { label: 'Direct Booking', share: '33%', start: 0, end: 118.8, color: '#152247' },
+  { label: 'Corporate Contracts', share: '42%', start: 118.8, end: 270, color: '#1F3063' },
+  { label: 'Online Travel Agencies', share: '25%', start: 270, end: 360, color: '#2D437F' }
 ];
 
 // Homepage-Style Scroll Animate Section Component
@@ -305,32 +305,34 @@ export const WhyToInvestPage: React.FC<WhyToInvestPageProps> = ({ onNavigate }) 
                 fontWeight: 800,
                 background: selectedMetric === 'price' ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)' : '#ffffff',
                 color: selectedMetric === 'price' ? '#ffffff' : '#475569',
-                border: selectedMetric === 'price' ? '1px solid #0f172a' : '1px solid #cbd5e1',
-                boxShadow: selectedMetric === 'price' ? '0 6px 20px rgba(15, 23, 42, 0.25)' : 'none',
+                padding: '8px 18px',
+                borderRadius: '99px',
+                fontSize: '12px',
+                fontWeight: 800,
+                background: selectedMetric === 'price' ? '#152247' : '#ffffff',
+                color: selectedMetric === 'price' ? '#ffffff' : '#64748b',
+                border: selectedMetric === 'price' ? '1px solid #152247' : '1px solid #cbd5e1',
                 cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                fontFamily: "'Space Grotesk', system-ui, sans-serif"
+                transition: 'all 0.25s ease'
               }}
             >
-              Price per Sqft
+              5-Year Capital Growth (%)
             </button>
             <button
               onClick={() => setSelectedMetric('escalation')}
               style={{
-                padding: '10px 20px',
+                padding: '8px 18px',
                 borderRadius: '99px',
-                fontSize: '13px',
+                fontSize: '12px',
                 fontWeight: 800,
-                background: selectedMetric === 'escalation' ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)' : '#ffffff',
-                color: selectedMetric === 'escalation' ? '#ffffff' : '#475569',
-                border: selectedMetric === 'escalation' ? '1px solid #0f172a' : '1px solid #cbd5e1',
-                boxShadow: selectedMetric === 'escalation' ? '0 6px 20px rgba(15, 23, 42, 0.25)' : 'none',
+                background: selectedMetric === 'escalation' ? '#152247' : '#ffffff',
+                color: selectedMetric === 'escalation' ? '#ffffff' : '#64748b',
+                border: selectedMetric === 'escalation' ? '1px solid #152247' : '1px solid #cbd5e1',
                 cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                fontFamily: "'Space Grotesk', system-ui, sans-serif"
+                transition: 'all 0.25s ease'
               }}
             >
-              Annual Escalation
+              Annual Rent Escalation (%)
             </button>
           </div>
         </div>
@@ -344,11 +346,11 @@ export const WhyToInvestPage: React.FC<WhyToInvestPageProps> = ({ onNavigate }) 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
                 <div className="market-bar-row highlighted-larom">
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '14px', fontWeight: 800, marginBottom: '8px' }}>
-                    <span style={{ color: '#0f172a' }}>RJ's Larom Serviced Apartments (Islamabad)</span>
-                    <span className="market-metric-badge" style={{ background: 'rgba(2, 132, 199, 0.15)', color: '#0369a1' }}>6.75% Gross Yield</span>
+                    <span style={{ color: '#152247' }}>RJ's Larom Serviced Apartments (Islamabad)</span>
+                    <span className="market-metric-badge" style={{ background: 'rgba(21, 34, 71, 0.08)', color: '#152247' }}>6.75% Gross Yield</span>
                   </div>
                   <div className="market-bar-track">
-                    <div className="animate-bar-grow market-bar-fill" style={{ width: '85%', background: 'linear-gradient(90deg, #0284c7 0%, #0369a1 50%, #0f172a 100%)' }}></div>
+                    <div className="animate-bar-grow market-bar-fill" style={{ width: '85%', background: '#152247' }}></div>
                   </div>
                 </div>
 
@@ -377,15 +379,15 @@ export const WhyToInvestPage: React.FC<WhyToInvestPageProps> = ({ onNavigate }) 
 
           {selectedMetric === 'price' && (
             <div>
-              <h4 style={{ fontSize: '17px', fontWeight: 800, marginBottom: '24px', color: '#0f172a', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>Forecasted Capital Growth (5-Year Horizon)</h4>
+              <h4 style={{ fontSize: '17px', fontWeight: 800, marginBottom: '24px', color: '#152247', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>Forecasted Capital Growth (5-Year Horizon)</h4>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
                 <div className="market-bar-row highlighted-larom">
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '14px', fontWeight: 800, marginBottom: '8px' }}>
-                    <span style={{ color: '#0f172a' }}>Larom Bahria Expressway Location</span>
-                    <span className="market-metric-badge" style={{ background: 'rgba(2, 132, 199, 0.15)', color: '#0369a1' }}>+65% Projected Value Growth</span>
+                    <span style={{ color: '#152247' }}>Larom Bahria Expressway Location</span>
+                    <span className="market-metric-badge" style={{ background: 'rgba(21, 34, 71, 0.08)', color: '#152247' }}>+65% Projected Value Growth</span>
                   </div>
                   <div className="market-bar-track">
-                    <div className="animate-bar-grow market-bar-fill" style={{ width: '85%', background: 'linear-gradient(90deg, #0284c7 0%, #0369a1 100%)' }}></div>
+                    <div className="animate-bar-grow market-bar-fill" style={{ width: '85%', background: '#152247' }}></div>
                   </div>
                 </div>
                 <div className="market-bar-row">
@@ -403,15 +405,15 @@ export const WhyToInvestPage: React.FC<WhyToInvestPageProps> = ({ onNavigate }) 
 
           {selectedMetric === 'escalation' && (
             <div>
-              <h4 style={{ fontSize: '17px', fontWeight: 800, marginBottom: '24px', color: '#0f172a', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>Annual Rental Value Escalation (% YoY)</h4>
+              <h4 style={{ fontSize: '17px', fontWeight: 800, marginBottom: '24px', color: '#152247', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>Annual Rental Value Escalation (% YoY)</h4>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
                 <div className="market-bar-row highlighted-larom">
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '14px', fontWeight: 800, marginBottom: '8px' }}>
-                    <span style={{ color: '#0f172a' }}>Islamabad Branded Residences Rental Index</span>
-                    <span className="market-metric-badge" style={{ background: 'rgba(2, 132, 199, 0.15)', color: '#0369a1' }}>10.0% Annual Escalation</span>
+                    <span style={{ color: '#152247' }}>Islamabad Branded Residences Rental Index</span>
+                    <span className="market-metric-badge" style={{ background: 'rgba(21, 34, 71, 0.08)', color: '#152247' }}>10.0% Annual Escalation</span>
                   </div>
                   <div className="market-bar-track">
-                    <div className="animate-bar-grow market-bar-fill" style={{ width: '90%', background: 'linear-gradient(90deg, #0284c7 0%, #0f172a 100%)' }}></div>
+                    <div className="animate-bar-grow market-bar-fill" style={{ width: '90%', background: '#152247' }}></div>
                   </div>
                 </div>
                 <div className="market-bar-row">

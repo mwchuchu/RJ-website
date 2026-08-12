@@ -76,14 +76,12 @@ export const AmenitiesPage: React.FC<AmenitiesPageProps> = ({ onNavigate }) => {
   };
 
   return (
-    <div className="pastel-amenities-page animate-fade-in">
+    <div className="pastel-amenities-page animate-fade-in" style={{ background: '#ffffff', color: '#152247' }}>
       {/* Header Section */}
       <ScrollAnimateSection>
         <div className="section-header-centered" style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto' }}>
-          <span className="section-subtitle-pill" style={{ background: 'rgba(2, 132, 199, 0.12)', color: '#0284c7', padding: '4px 14px', borderRadius: '99px', fontSize: '12px', fontWeight: 800, letterSpacing: '1px' }}>
-            WORLD-CLASS CONVENIENCE
-          </span>
-          <h2 className="section-main-title" style={{ fontSize: '38px', marginTop: '12px', color: '#0f172a', fontWeight: 900 }}>
+          
+          <h2 className="section-main-title" style={{ fontSize: '38px', marginTop: '12px', color: '#152247', fontWeight: 900 }}>
             Amenities & Hotel Features
           </h2>
           <p className="section-description" style={{ color: '#64748b', fontSize: '15px', lineHeight: '1.6', marginTop: '8px' }}>
@@ -113,7 +111,6 @@ export const AmenitiesPage: React.FC<AmenitiesPageProps> = ({ onNavigate }) => {
               {/* Section Header Banner with Badge Tag & Count Pill */}
               <div className="pastel-section-header-banner">
                 <div className="pastel-section-title-group">
-                  <span className="pastel-section-icon">{catSection.icon}</span>
                   <h3 className="pastel-section-title">{catSection.category}</h3>
                   <span className={`pastel-section-badge-pill ${getBadgeClass(catSection.category)}`}>
                     {catSection.badge}
@@ -132,16 +129,11 @@ export const AmenitiesPage: React.FC<AmenitiesPageProps> = ({ onNavigate }) => {
                       {/* Full-bleed Photo Wrapper */}
                       <div className="pastel-card-img-wrapper">
                         <img src={amenity.image} alt={amenity.name} className="pastel-card-img-element" />
-                        <span className="pastel-card-category-badge">
-                          <span>{amenity.icon}</span>
-                          <span>{catSection.category}</span>
-                        </span>
                       </div>
 
                       {/* Bottom Content Panel with Hover Detail Reveal */}
                       <div className="pastel-card-details-panel">
                         <h4 className="pastel-card-name">{amenity.name}</h4>
-                        <span className="pastel-card-tag-sub">{catSection.category}</span>
                         <p className="pastel-card-description-text">
                           {amenity.desc || 'Included luxury amenity for residents & guests at RJ\'s Larom Residences.'}
                         </p>
@@ -157,15 +149,15 @@ export const AmenitiesPage: React.FC<AmenitiesPageProps> = ({ onNavigate }) => {
 
       {/* Footer Callout Highlights Box */}
       <ScrollAnimateSection delay={200}>
-        <div style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', color: '#ffffff', padding: '44px', borderRadius: '28px', textAlign: 'center', maxWidth: '900px', margin: '60px auto 0', border: '1px solid rgba(2, 132, 199, 0.35)', boxShadow: '0 20px 50px rgba(15, 23, 42, 0.2)' }}>
-          <h3 style={{ fontSize: '26px', fontWeight: 900, marginBottom: '12px', color: '#38bdf8', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>Everything You Need, All in One Place</h3>
+        <div style={{ background: '#152247', color: '#ffffff', padding: '44px', borderRadius: '28px', textAlign: 'center', maxWidth: '900px', margin: '60px auto 0', boxShadow: '0 20px 50px rgba(21, 34, 71, 0.2)' }}>
+          <h3 style={{ fontSize: '26px', fontWeight: 900, marginBottom: '12px', color: '#ffffff', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>Everything You Need, All in One Place</h3>
           <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.85)', maxWidth: '650px', margin: '0 auto 28px', lineHeight: '1.6' }}>
             From 20 active commercial kiosks driving retail income to rooftop pool relaxation and round-the-clock housekeeping.
           </p>
           <button
             className="hero-btn"
             onClick={() => onNavigate('book-now')}
-            style={{ background: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)', color: '#ffffff', padding: '14px 36px', borderRadius: '99px', fontWeight: 800, fontSize: '15px', border: 'none', cursor: 'pointer', boxShadow: '0 8px 24px rgba(2, 132, 199, 0.4)' }}
+            style={{ background: '#ffffff', color: '#152247', padding: '14px 36px', borderRadius: '99px', fontWeight: 800, fontSize: '15px', border: 'none', cursor: 'pointer', boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)', transition: 'all 0.3s ease' }}
           >
             Book Your Unit Today
           </button>

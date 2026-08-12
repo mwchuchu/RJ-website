@@ -2,61 +2,61 @@ import type { Property, TeamMember, InsightArticle, Testimonial, Amenity } from 
 import { ONE_BEDROOM_FLOORPLAN, TWO_BEDROOM_FLOORPLAN } from './floorplanAssets';
 
 export const GUEST_ROOM_AMENITIES: Amenity[] = [
-  { id: 'guest-1', name: 'Fully furnished room (bed, desk, seating area)', icon: '🛋️', image: 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=800&q=80', desc: 'Elegantly furnished luxury bedroom suite with bespoke Italian seating & workstation.' },
-  { id: 'guest-2', name: 'Smart TV with international channels', icon: '📺', image: 'https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=800&q=80', desc: '55" Ultra HD 4K Smart TV with premium global satellite channels & streaming apps.' },
-  { id: 'guest-3', name: 'High-speed Wi-Fi / LAN connectivity', icon: '🌐', image: 'https://images.unsplash.com/photo-1516044734145-07ca8eef8731?q=80&w=1173&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?auto=format&fit=crop&w=800&q=80', desc: 'Gigabit fiber Wi-Fi and dedicated high-speed optical LAN ports.' },
-  { id: 'guest-4', name: 'In-room safe', icon: '🔒', image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80', desc: 'Digital biometric electronic safe for laptop, valuables & confidential documents.' },
-  { id: 'guest-5', name: 'Mini-bar / fridge', icon: '🍷', image: 'https://images.unsplash.com/photo-1540961403310-79825242906e?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?auto=format&fit=crop&w=800&q=80', desc: 'Stocked mini-bar refrigerator with gourmet beverages & refreshments.' },
-  { id: 'guest-6', name: 'Tea & coffee maker', icon: '☕', image: 'https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=800&q=80', desc: 'Italian Nespresso machine and gourmet herbal tea kettle setup.' },
-  { id: 'guest-7', name: 'Iron & ironing board', icon: '👔', image: 'https://images.unsplash.com/photo-1489274495757-95c7c837b101?auto=format&fit=crop&w=800&q=80', desc: 'Steam garment press and full-size professional ironing station.' },
-  { id: 'guest-8', name: 'Room service (24/7 or limited hours)', icon: '🍽️', image: 'https://images.unsplash.com/photo-1576354302919-96748cb8299e?q=80&w=629&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?auto=format&fit=crop&w=800&q=80', desc: 'Round-the-clock in-room dining menu curated by Turkish hotel chefs.' },
-  { id: 'guest-9', name: 'Terrace & Balcony', icon: '🌅', image: 'https://images.unsplash.com/photo-1616593969747-4797dc75033e?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?auto=format&fit=crop&w=800&q=80', desc: 'Private glass balcony with panoramic views of Margalla Hills & Expressway.' },
-  { id: 'guest-10', name: 'Climate control / Heating and cooling', icon: '❄️', image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80', desc: 'Individual digital VRF thermostat heating & central air conditioning.' },
-  { id: 'guest-11', name: 'En-suite bathroom with walk-in shower', icon: '🛁', image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80', desc: 'Marble bathroom equipped with rain showerhead & designer sanitary ware.' },
-  { id: 'guest-12', name: 'Luxury toiletries', icon: '🧴', image: 'https://images.unsplash.com/photo-1711060001575-2cfa3c5a2bfa?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?auto=format&fit=crop&w=800&q=80', desc: 'Premium organic Turkish spa lotions, shampoos & skincare amenities.' },
-  { id: 'guest-13', name: 'Towels, bathrobes, slippers', icon: '🧖‍♂️', image: 'https://images.unsplash.com/photo-1616663717839-2fea42e1a1f6?q=80&w=736&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?auto=format&fit=crop&w=800&q=80', desc: 'Plush Egyptian cotton bathrobes, hotel towels & plush indoor slippers.' }
+  { id: 'guest-1', name: 'Fully furnished room (bed, desk, seating area)', icon: '', image: 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=800&q=80', desc: 'Elegantly furnished luxury bedroom suite with bespoke Italian seating & workstation.' },
+  { id: 'guest-2', name: 'Smart TV with international channels', icon: '', image: 'https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=800&q=80', desc: '55" Ultra HD 4K Smart TV with premium global satellite channels & streaming apps.' },
+  { id: 'guest-3', name: 'High-speed Wi-Fi / LAN connectivity', icon: '', image: 'https://images.unsplash.com/photo-1516044734145-07ca8eef8731?q=80&w=1173&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?auto=format&fit=crop&w=800&q=80', desc: 'Gigabit fiber Wi-Fi and dedicated high-speed optical LAN ports.' },
+  { id: 'guest-4', name: 'In-room safe', icon: '', image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80', desc: 'Digital biometric electronic safe for laptop, valuables & confidential documents.' },
+  { id: 'guest-5', name: 'Mini-bar / fridge', icon: '', image: 'https://images.unsplash.com/photo-1540961403310-79825242906e?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?auto=format&fit=crop&w=800&q=80', desc: 'Stocked mini-bar refrigerator with gourmet beverages & refreshments.' },
+  { id: 'guest-6', name: 'Tea & coffee maker', icon: '', image: 'https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=800&q=80', desc: 'Italian Nespresso machine and gourmet herbal tea kettle setup.' },
+  { id: 'guest-7', name: 'Iron & ironing board', icon: '', image: 'https://images.unsplash.com/photo-1489274495757-95c7c837b101?auto=format&fit=crop&w=800&q=80', desc: 'Steam garment press and full-size professional ironing station.' },
+  { id: 'guest-8', name: 'Room service (24/7 or limited hours)', icon: '', image: 'https://images.unsplash.com/photo-1576354302919-96748cb8299e?q=80&w=629&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?auto=format&fit=crop&w=800&q=80', desc: 'Round-the-clock in-room dining menu curated by Turkish hotel chefs.' },
+  { id: 'guest-9', name: 'Terrace & Balcony', icon: '', image: 'https://images.unsplash.com/photo-1616593969747-4797dc75033e?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?auto=format&fit=crop&w=800&q=80', desc: 'Private glass balcony with panoramic views of Margalla Hills & Expressway.' },
+  { id: 'guest-10', name: 'Climate control / Heating and cooling', icon: '', image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80', desc: 'Individual digital VRF thermostat heating & central air conditioning.' },
+  { id: 'guest-11', name: 'En-suite bathroom with walk-in shower', icon: '', image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80', desc: 'Marble bathroom equipped with rain showerhead & designer sanitary ware.' },
+  { id: 'guest-12', name: 'Luxury toiletries', icon: '', image: 'https://images.unsplash.com/photo-1711060001575-2cfa3c5a2bfa?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?auto=format&fit=crop&w=800&q=80', desc: 'Premium organic Turkish spa lotions, shampoos & skincare amenities.' },
+  { id: 'guest-13', name: 'Towels, bathrobes, slippers', icon: '', image: 'https://images.unsplash.com/photo-1616663717839-2fea42e1a1f6?q=80&w=736&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?auto=format&fit=crop&w=800&q=80', desc: 'Plush Egyptian cotton bathrobes, hotel towels & plush indoor slippers.' }
 ];
 
 export const CORPORATE_AMENITIES: Amenity[] = [
-  { id: 'corp-1', name: 'Conference room', icon: '🧑🏾‍💻', image: 'https://images.unsplash.com/photo-1431540015161-0bf868a2d407?auto=format&fit=crop&w=800&q=80', desc: 'Fully equipped 20-seat executive conference center with video conferencing.' },
-  { id: 'corp-2', name: 'Meeting room', icon: '📊', image: 'https://images.unsplash.com/photo-1517502884422-41eaead166d4?auto=format&fit=crop&w=800&q=80', desc: 'Private soundproof meeting pods for client presentations & corporate discussions.' },
-  { id: 'corp-3', name: 'LED Board room service', icon: '💻', image: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=800&q=80', desc: 'Interactive 4K smart presentation display boards & tech support.' },
-  { id: 'corp-4', name: 'Hi tea for meetings', icon: '🍵', image: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80', desc: 'Gourmet artisan tea & patisserie catering service during business meetings.' },
-  { id: 'corp-5', name: 'Printer and scanner', icon: '🖨️', image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&w=800&q=80', desc: 'High-speed wireless laser printing, scanning & document binding station.' }
+  { id: 'corp-1', name: 'Conference room', icon: '', image: 'https://images.unsplash.com/photo-1431540015161-0bf868a2d407?auto=format&fit=crop&w=800&q=80', desc: 'Fully equipped 20-seat executive conference center with video conferencing.' },
+  { id: 'corp-2', name: 'Meeting room', icon: '', image: 'https://images.unsplash.com/photo-1517502884422-41eaead166d4?auto=format&fit=crop&w=800&q=80', desc: 'Private soundproof meeting pods for client presentations & corporate discussions.' },
+  { id: 'corp-3', name: 'LED Board room service', icon: '', image: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=800&q=80', desc: 'Interactive 4K smart presentation display boards & tech support.' },
+  { id: 'corp-4', name: 'Hi tea for meetings', icon: '', image: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80', desc: 'Gourmet artisan tea & patisserie catering service during business meetings.' },
+  { id: 'corp-5', name: 'Printer and scanner', icon: '', image: 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&w=800&q=80', desc: 'High-speed wireless laser printing, scanning & document binding station.' }
 ];
 
 export const GENERAL_AMENITIES: Amenity[] = [
-  { id: 'gen-1', name: 'Dedicated car parking', icon: '🅿️', image: 'https://images.unsplash.com/photo-1506521781263-d8422e82f27a?auto=format&fit=crop&w=800&q=80', desc: 'Multi-level secure basement parking with reserved bays.' },
-  { id: 'gen-2', name: 'Prayer Room', icon: '🕌', image: 'https://images.unsplash.com/photo-1744521671527-758060770cf5?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?auto=format&fit=crop&w=800&q=80', desc: 'Serene air-conditioned Musalla & ablution facility for daily prayers.' },
-  { id: 'gen-3', name: '24/7 Security, CCTV Surveillance', icon: '📹', image: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=800&q=80', desc: 'Tier-1 security guards, smart access control & 24/7 HD CCTV monitoring.' },
-  { id: 'gen-4', name: '24/7 Reception', icon: '🛎️', image: 'https://plus.unsplash.com/premium_photo-1676320103087-4aec0a09088f?q=80&w=1228&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?auto=format&fit=crop&w=800&q=80', desc: 'Multi-lingual hotel reception lobby welcoming residents & international guests.' },
-  { id: 'gen-5', name: 'Room cleaning services', icon: '🧹', image: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80', desc: 'Daily professional hotel housekeeping, linen change & sanitization.' },
-  { id: 'gen-6', name: 'Online booking portal', icon: '🌐', image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?auto=format&fit=crop&w=800&q=80', desc: 'Integrated digital guest booking app for automated rental income payout.' },
-  { id: 'gen-7', name: 'Valet parking', icon: '🚘', image: 'https://images.unsplash.com/photo-1637245057252-ba70fa548d33?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?auto=format&fit=crop&w=800&q=80', desc: 'Express white-glove valet service for residents & commercial visitors.' },
-  { id: 'gen-8', name: 'Grocery Shop', icon: '🛒', image: 'https://images.unsplash.com/photo-1578916171728-46686eac8d58?auto=format&fit=crop&w=800&q=80', desc: 'On-site convenience superstore for fresh produce & daily household needs.' },
-  { id: 'gen-9', name: 'Barber Shop & Salon', icon: '💈', image: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=800&q=80', desc: 'Executive grooming salon offering haircut, styling & spa treatments.' },
-  { id: 'gen-10', name: 'Gym & Fitness Center', icon: '🏋️‍♂️', image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80', desc: 'State-of-the-art TechnoGym cardio & strength training equipment.' },
-  { id: 'gen-11', name: 'Swimming Pool', icon: '🏊‍♂️', image: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800&q=80', desc: 'Rooftop temperature-controlled infinity swimming pool & sun lounge deck.' },
-  { id: 'gen-12', name: 'Lobby Café & Lounge', icon: '☕', image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80', desc: 'Artisan espresso bar & luxury lounge for casual meetups & high tea.' },
-  { id: 'gen-13', name: 'Concierge Services', icon: '👔', image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80', desc: 'Personalized airport transfer booking, laundry dispatch & event reservations.' }
+  { id: 'gen-1', name: 'Dedicated car parking', icon: '', image: 'https://images.unsplash.com/photo-1506521781263-d8422e82f27a?auto=format&fit=crop&w=800&q=80', desc: 'Multi-level secure basement parking with reserved bays.' },
+  { id: 'gen-2', name: 'Prayer Room', icon: '', image: 'https://images.unsplash.com/photo-1744521671527-758060770cf5?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?auto=format&fit=crop&w=800&q=80', desc: 'Serene air-conditioned Musalla & ablution facility for daily prayers.' },
+  { id: 'gen-3', name: '24/7 Security, CCTV Surveillance', icon: '', image: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=800&q=80', desc: 'Tier-1 security guards, smart access control & 24/7 HD CCTV monitoring.' },
+  { id: 'gen-4', name: '24/7 Reception', icon: '', image: 'https://plus.unsplash.com/premium_photo-1676320103087-4aec0a09088f?q=80&w=1228&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?auto=format&fit=crop&w=800&q=80', desc: 'Multi-lingual hotel reception lobby welcoming residents & international guests.' },
+  { id: 'gen-5', name: 'Room cleaning services', icon: '', image: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=800&q=80', desc: 'Daily professional hotel housekeeping, linen change & sanitization.' },
+  { id: 'gen-6', name: 'Online booking portal', icon: '', image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?auto=format&fit=crop&w=800&q=80', desc: 'Integrated digital guest booking app for automated rental income payout.' },
+  { id: 'gen-7', name: 'Valet parking', icon: '', image: 'https://images.unsplash.com/photo-1637245057252-ba70fa548d33?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?auto=format&fit=crop&w=800&q=80', desc: 'Express white-glove valet service for residents & commercial visitors.' },
+  { id: 'gen-8', name: 'Grocery Shop', icon: '', image: 'https://images.unsplash.com/photo-1578916171728-46686eac8d58?auto=format&fit=crop&w=800&q=80', desc: 'On-site convenience superstore for fresh produce & daily household needs.' },
+  { id: 'gen-9', name: 'Barber Shop & Salon', icon: '', image: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=800&q=80', desc: 'Executive grooming salon offering haircut, styling & spa treatments.' },
+  { id: 'gen-10', name: 'Gym & Fitness Center', icon: '', image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80', desc: 'State-of-the-art TechnoGym cardio & strength training equipment.' },
+  { id: 'gen-11', name: 'Swimming Pool', icon: '', image: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800&q=80', desc: 'Rooftop temperature-controlled infinity swimming pool & sun lounge deck.' },
+  { id: 'gen-12', name: 'Lobby Café & Lounge', icon: '', image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80', desc: 'Artisan espresso bar & luxury lounge for casual meetups & high tea.' },
+  { id: 'gen-13', name: 'Concierge Services', icon: '', image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80', desc: 'Personalized airport transfer booking, laundry dispatch & event reservations.' }
 ];
 
 export const CATEGORIZED_AMENITIES = [
   {
     category: 'Guest Room Amenities',
-    icon: '🛋️',
+    icon: '',
     badge: 'LUXURY LIVING',
     items: GUEST_ROOM_AMENITIES
   },
   {
     category: 'Corporate Amenities',
-    icon: '💼',
+    icon: '',
     badge: 'BUSINESS SUITE',
     items: CORPORATE_AMENITIES
   },
   {
     category: 'General Amenities',
-    icon: '🏛️',
+    icon: '',
     badge: 'HOTEL FACILITIES',
     items: GENERAL_AMENITIES
   }

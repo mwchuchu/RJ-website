@@ -55,7 +55,7 @@ export const ModernPriceDisplay: React.FC<ModernPriceDisplayProps> = ({
         </div>
         <div className="downpayment-chip">
           <span className="dp-label">15% Possession:</span>
-          <strong className="dp-val" style={{ color: '#1d4ed8' }}>PKR <AnimatedNumber value={parseFloat(possessionVal)} decimals={2} />M</strong>
+          <strong className="dp-val" style={{ color: '#152247' }}>PKR <AnimatedNumber value={parseFloat(possessionVal)} decimals={2} />M</strong>
         </div>
         <div>
           <span className="delivery-date-chip">Handover Jun 2027</span>

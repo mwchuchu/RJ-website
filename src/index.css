@@ -1,31 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400..700;1,400..700&family=Inter:wght@300..800&family=Outfit:wght@300..800&family=Space+Grotesk:wght@300..700&display=swap');
+
 :root {
+  --primary: 224 54% 18%; /* HSL for #152247 */
+  --primary-hex: #152247;
+  --primary-hover: #1F3063;
+  --primary-dark: #0C142B;
+  --primary-light: rgba(21, 34, 71, 0.06);
+
+  --primary-foreground: 0 0% 100%;
+  --background: 0 0% 100%;
+  --foreground: 224 54% 18%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 224 54% 18%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 224 54% 18%;
+
+  --muted: 224 20% 96%;
+  --muted-foreground: 224 30% 40%;
+
+  --border: 224 25% 90%;
+  --ring: 224 54% 18%;
+
+  --font-display: 'Space Grotesk', 'Outfit', 'Inter', system-ui, sans-serif;
+  --font-accent: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Space Grotesk', 'Outfit', 'Inter', system-ui, sans-serif;
+
+  --tracking-tight-display: 0.5px;
+  --tracking-wide-caps: 1px;
+
   --bg-main: #ffffff;
   --bg-card: #ffffff;
-  --bg-card-dark: #0a1128;
-  --bg-card-glass: rgba(10, 17, 40, 0.08);
-  --text-dark: #0a1128;
-  --text-muted: #475569;
+  --bg-card-dark: #152247;
+  --bg-card-glass: rgba(21, 34, 71, 0.06);
+  --text-dark: #152247;
+  --text-muted: rgba(21, 34, 71, 0.7);
   --text-light: #ffffff;
-  --accent-gold: #1d4ed8;
-  --accent-gold-dark: #1e3a8a;
-  --navy-deep: #060c1e;
-  --navy-main: #0a1128;
-  --navy-royal: #1c2541;
-  --blue-vibrant: #1d4ed8;
-  --blue-sky: #2563eb;
-  --blue-ice: #eff6ff;
-  --accent-red: #dc2626;
-  --pill-bg: #0a1128;
+  --accent-gold: #152247;
+  --accent-gold-dark: #1F3063;
+  --navy-deep: #0C142B;
+  --navy-main: #152247;
+  --navy-royal: #1F3063;
+  --blue-vibrant: #152247;
+  --blue-sky: #1F3063;
+  --blue-ice: rgba(21, 34, 71, 0.06);
+  --pill-bg: #152247;
   --pill-text: #ffffff;
-  --border-light: rgba(10, 17, 40, 0.08);
+  --border-light: rgba(21, 34, 71, 0.12);
   --border-dark: rgba(255, 255, 255, 0.15);
   --radius-lg: 24px;
   --radius-md: 16px;
   --radius-sm: 8px;
   --radius-pill: 9999px;
-  --shadow-sm: 0 4px 12px rgba(10, 17, 40, 0.05);
-  --shadow-md: 0 10px 30px rgba(10, 17, 40, 0.08);
-  --shadow-lg: 0 20px 40px rgba(10, 17, 40, 0.15);
+  --shadow-sm: 0 4px 12px rgba(21, 34, 71, 0.05);
+  --shadow-md: 0 10px 30px rgba(21, 34, 71, 0.08);
+  --shadow-lg: 0 20px 40px rgba(21, 34, 71, 0.15);
   --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
@@ -33,25 +63,28 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Space Grotesk', 'Outfit', 'Inter', -apple-system, sans-serif;
+  font-family: 'Space Grotesk', 'Outfit', 'Inter', system-ui, sans-serif;
 }
 
 body {
-  font-family: 'Space Grotesk', 'Outfit', 'Inter', -apple-system, sans-serif !important;
-  background-color: #0a1128;
+  font-family: 'Space Grotesk', 'Outfit', 'Inter', system-ui, sans-serif !important;
+  background-color: #152247;
   color: var(--text-dark);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6, p, span, a, button, input, select, textarea, div {
-  font-family: 'Space Grotesk', 'Outfit', 'Inter', -apple-system, sans-serif;
+h1, h2, h3, h4, h5, h6, .font-display, .display-title, .hero-title, .section-main-title {
+  font-family: 'Space Grotesk', 'Outfit', 'Inter', system-ui, sans-serif;
+}
+
+.font-body, p, span, button, input, select, textarea, div {
+  font-family: 'Space Grotesk', 'Outfit', 'Inter', system-ui, sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
-  letter-spacing: -0.02em;
 }
 
 button {
@@ -150,7 +183,7 @@ input, select, textarea {
 .navbar-container a,
 .navbar-container span,
 .navbar-container div {
-  font-family: 'Space Grotesk', 'Outfit', 'Inter', -apple-system, sans-serif !important;
+  font-family: var(--font-body);
 }
 
 .navbar-container {
@@ -164,7 +197,7 @@ input, select, textarea {
   top: 0;
   z-index: 100;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  font-family: 'Space Grotesk', 'Outfit', 'Inter', -apple-system, sans-serif !important;
+  font-family: var(--font-body);
 }
 
 .navbar-logo {
@@ -1589,7 +1622,7 @@ input, select, textarea {
 .footer-container a,
 .footer-container span,
 .footer-container div {
-  font-family: 'Space Grotesk', 'Outfit', 'Inter', -apple-system, sans-serif !important;
+  font-family: var(--font-body);
 }
 
 .footer-container {
@@ -1597,7 +1630,7 @@ input, select, textarea {
   color: #ffffff;
   padding: 60px 40px 30px;
   border-top: 1px solid rgba(255,255,255,0.08);
-  font-family: 'Space Grotesk', 'Outfit', 'Inter', -apple-system, sans-serif !important;
+  font-family: var(--font-body);
 }
 
 .footer-top {

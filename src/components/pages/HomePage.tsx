@@ -151,7 +151,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           style={{
             background: '#ffffff',
             padding: '100px 48px',
-            borderBottom: '1px solid #e2e8f0',
             position: 'relative',
             overflow: 'hidden'
           }}
@@ -159,22 +158,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           <div style={{ maxWidth: '1240px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(480px, 1fr))', gap: '60px', alignItems: 'center' }}>
             {/* Left Column: Headline with Blue Wavy Underline, Single Explore More Button, & 3 Stat Cards */}
             <div>
-              <span
-                style={{
-                  background: 'rgba(2, 132, 199, 0.12)',
-                  color: '#0369a1',
-                  padding: '5px 16px',
-                  borderRadius: '99px',
-                  fontSize: '11px',
-                  fontWeight: 800,
-                  letterSpacing: '1.5px',
-                  textTransform: 'uppercase',
-                  display: 'inline-block',
-                  marginBottom: '16px'
-                }}
-              >
-                ⭐ WORLD'S BEST 33+ AMENITIES
-              </span>
+              
               <h2
                 style={{
                   fontSize: '44px',
@@ -190,7 +174,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                   style={{
                     position: 'relative',
                     display: 'inline-block',
-                    color: '#0284c7'
+                    color: '#152247'
                   }}
                 >
                   Amenities
@@ -208,7 +192,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     <path
                       d="M0 10 Q 25 20, 50 10 T 100 10"
                       fill="none"
-                      stroke="#0284c7"
+                      stroke="#152247"
                       strokeWidth="4"
                       strokeLinecap="round"
                     />
@@ -226,7 +210,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                   className="stadium-explore-btn"
                   onClick={() => onNavigate('amenities')}
                   style={{
-                    background: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)',
+                    background: '#152247',
                     color: '#ffffff',
                     padding: '16px 44px',
                     borderRadius: '99px',
@@ -256,8 +240,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     boxShadow: '0 4px 15px rgba(0, 0, 0, 0.03)'
                   }}
                 >
-                  <div style={{ fontSize: '20px', fontWeight: 900, color: '#0f172a', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
-                    33+ <span style={{ fontSize: '14px', color: '#0284c7' }}>→</span>
+                  <div style={{ fontSize: '20px', fontWeight: 900, color: '#152247', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
+                    33+ <span style={{ fontSize: '14px', color: '#152247' }}>→</span>
                   </div>
                   <div style={{ fontSize: '11px', color: '#64748b', fontWeight: 700, marginTop: '2px' }}>
                     World-Class Amenities
@@ -273,8 +257,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     boxShadow: '0 4px 15px rgba(0, 0, 0, 0.03)'
                   }}
                 >
-                  <div style={{ fontSize: '20px', fontWeight: 900, color: '#0f172a', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
-                    100% <span style={{ fontSize: '14px', color: '#0284c7' }}>→</span>
+                  <div style={{ fontSize: '20px', fontWeight: 900, color: '#152247', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
+                    100% <span style={{ fontSize: '14px', color: '#152247' }}>→</span>
                   </div>
                   <div style={{ fontSize: '11px', color: '#64748b', fontWeight: 700, marginTop: '2px' }}>
                     Hotel Managed
@@ -290,8 +274,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     boxShadow: '0 4px 15px rgba(0, 0, 0, 0.03)'
                   }}
                 >
-                  <div style={{ fontSize: '20px', fontWeight: 900, color: '#0f172a', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
-                    6–7% <span style={{ fontSize: '14px', color: '#0284c7' }}>→</span>
+                  <div style={{ fontSize: '20px', fontWeight: 900, color: '#152247', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
+                    6–7% <span style={{ fontSize: '14px', color: '#152247' }}>→</span>
                   </div>
                   <div style={{ fontSize: '11px', color: '#64748b', fontWeight: 700, marginTop: '2px' }}>
                     Rental Yield
