@@ -43,7 +43,7 @@ export const BookNowPage: React.FC = () => {
         <div className="info-card floating-card-hover" style={{ background: '#f8fafc', padding: '28px', borderRadius: '20px', border: '1px solid #e2e8f0', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}>
           <span style={{ fontSize: '12px', fontWeight: 700, color: '#0369a1', letterSpacing: '0.05em' }}>FLEXIBLE SCHEDULE</span>
           <h3 style={{ fontSize: '20px', margin: '6px 0 8px', color: '#0f172a' }}>25% Down Payment</h3>
-          <p style={{ fontSize: '13px', color: '#64748b', lineHeight: '1.5' }}>Convenient 3-year quarterly installment plan through completion (June 2027).</p>
+          <p style={{ fontSize: '12px', color: '#64748b', lineHeight: '1.5' }}>Convenient 3-year quarterly installment plan through completion (June 2027).</p>
         </div>
 
         <div className="info-card floating-card-hover" style={{ background: '#f8fafc', padding: '28px', borderRadius: '20px', border: '1px solid #e2e8f0', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}>
