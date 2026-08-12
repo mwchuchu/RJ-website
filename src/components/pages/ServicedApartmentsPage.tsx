@@ -576,6 +576,8 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({
               ))}
             </div>
           </div>
+        </div>
+
         {/* Bottom Booking CTA Banner */}
         <div style={{ textAlign: 'center', marginTop: '64px' }}>
           <button
