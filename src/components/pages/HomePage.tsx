@@ -60,9 +60,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const [isVisible, setIsVisible] = React.useState(false);
   const sectionRef = React.useRef<HTMLDivElement>(null);
 
-  const [isAmenitiesVisible, setIsAmenitiesVisible] = React.useState(false);
-  const amenitiesSectionRef = React.useRef<HTMLElement>(null);
-
   React.useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -82,29 +79,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
     return () => {
       if (sectionRef.current) {
         observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
-
-  React.useEffect(() => {
-    const amenitiesObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsAmenitiesVisible(true);
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-
-    if (amenitiesSectionRef.current) {
-      amenitiesObserver.observe(amenitiesSectionRef.current);
-    }
-
-    return () => {
-      if (amenitiesSectionRef.current) {
-        amenitiesObserver.unobserve(amenitiesSectionRef.current);
       }
     };
   }, []);
@@ -185,74 +159,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       desc: '20 standalone retail & service kiosks offering coffee bars, boutique goods, and interactive terminals across the ground-floor promenade.',
       image: 'https://images.unsplash.com/photo-1687969962129-dd77e13b95b7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8a2lvc2t8ZW58MHx8MHx8fDA%3D',
       actionTab: 'book-now'
-    }
-  ];
-
-  const [scrollProgress, setScrollProgress] = React.useState(0);
-  const servicedSectionRef = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    const handleScroll = () => {
-      if (!servicedSectionRef.current) return;
-      const rect = servicedSectionRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-
-      const sectionCenter = rect.top + rect.height / 2;
-      const viewportCenter = windowHeight / 2;
-      const distanceFromCenter = Math.abs(sectionCenter - viewportCenter);
-      const maxDistance = windowHeight * 0.7;
-
-      const rawProgress = 1 - Math.min(distanceFromCenter / maxDistance, 1);
-      const clamped = Math.max(0, Math.min(1, rawProgress));
-      setScrollProgress(clamped);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const servicedApartmentCards = [
-    {
-      id: 1,
-      badge: '5-STAR HOSPITALITY',
-      title: 'Hotel Managed Services',
-      desc: 'Housekeeping, 24/7 reception, room service, & laundry powered by Continent Hotels.',
-      image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80',
-      icon: '🛎️'
-    },
-    {
-      id: 2,
-      badge: 'TURNKEY DECOR',
-      title: 'Fully Furnished Suites',
-      desc: 'Designer furniture, smart appliances, luxury cutlery, linens, & high-end interiors.',
-      image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80',
-      icon: '🛋️'
-    },
-    {
-      id: 3,
-      badge: '33 AMENITIES',
-      title: 'World-Class Lifestyle',
-      desc: 'Rooftop infinity pool, RFID lift security, indoor gaming, spa, & fine dining.',
-      image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80',
-      icon: '🏊'
-    },
-    {
-      id: 4,
-      badge: '6–7% YIELD',
-      title: 'Hands-Off Investment',
-      desc: 'High guaranteed rental yields with professional overseas property management.',
-      image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80',
-      icon: '📈'
-    },
-    {
-      id: 5,
-      badge: 'EXPRESSWAY HUB',
-      title: 'Prime Capital Location',
-      desc: 'Located directly on Islamabad Expressway opposite IMARAT Downtown & Monal.',
-      image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80',
-      icon: '📍'
     }
   ];
 

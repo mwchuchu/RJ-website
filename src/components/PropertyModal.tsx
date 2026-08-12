@@ -11,7 +11,6 @@ interface PropertyModalProps {
 
 export const PropertyModal: React.FC<PropertyModalProps> = ({ property, onClose }) => {
   const [activeTab, setActiveTab] = useState<'01' | '02' | '03' | '04' | '05' | '06'>('01');
-  const [floorTab, setFloorTab] = useState<'ground' | 'first'>('ground');
 
   if (!property) return null;
 

@@ -6,7 +6,6 @@ interface BrandedResidencyShowcaseProps {
 
 export const BrandedResidencyShowcase: React.FC<BrandedResidencyShowcaseProps> = ({ onNavigate }) => {
   const [activeSlide, setActiveSlide] = useState(0);
-  const [scrollAngle, setScrollAngle] = useState(0);
   const [hasTriggered, setHasTriggered] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
@@ -100,19 +99,6 @@ export const BrandedResidencyShowcase: React.FC<BrandedResidencyShowcaseProps> =
         observer.unobserve(sectionRef.current);
       }
     };
-  }, []);
-
-  // Scroll listener for mouse-scroll sensitive star
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPos = window.scrollY || document.documentElement.scrollTop;
-      const calculatedAngle = (scrollPos * 0.35) % 360;
-      setScrollAngle(calculatedAngle);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const currentItem = characteristics[activeSlide];

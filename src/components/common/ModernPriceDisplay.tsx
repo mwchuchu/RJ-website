@@ -13,7 +13,7 @@ export const ModernPriceDisplay: React.FC<ModernPriceDisplayProps> = ({
   size = 'lg'
 }) => {
   const priceInMillions = (price / 1000000).toFixed(2);
-  const downPaymentVal = ((price * 0.25) / 1000000).toFixed(2);
+  const downPaymentVal = ((price * (downPaymentPercent / 100)) / 1000000).toFixed(2);
   const possessionVal = ((price * 0.15) / 1000000).toFixed(2);
 
   if (size === 'sm') {
@@ -50,7 +50,7 @@ export const ModernPriceDisplay: React.FC<ModernPriceDisplayProps> = ({
 
       <div className="downpayment-breakdown-bar" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'space-between' }}>
         <div className="downpayment-chip">
-          <span className="dp-label">25% Down Payment:</span>
+          <span className="dp-label">{downPaymentPercent}% Down Payment:</span>
           <strong className="dp-val">PKR <AnimatedNumber value={parseFloat(downPaymentVal)} decimals={2} />M</strong>
         </div>
         <div className="downpayment-chip">
