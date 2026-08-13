@@ -74,7 +74,7 @@ export const PaymentPlanPage: React.FC<PaymentPlanPageProps> = ({ onNavigate }) 
             onClick={() => setSelectedSuiteType('1bed')}
             style={{
               padding: '12px 28px',
-              borderRadius: '99px',
+              borderRadius: '0px',
               fontWeight: 800,
               fontSize: '14px',
               border: selectedSuiteType === '1bed' ? '2px solid #152247' : '1px solid #cbd5e1',
@@ -91,7 +91,7 @@ export const PaymentPlanPage: React.FC<PaymentPlanPageProps> = ({ onNavigate }) 
             onClick={() => setSelectedSuiteType('2bed')}
             style={{
               padding: '12px 28px',
-              borderRadius: '99px',
+              borderRadius: '0px',
               fontWeight: 800,
               fontSize: '14px',
               border: selectedSuiteType === '2bed' ? '2px solid #152247' : '1px solid #cbd5e1',
@@ -152,7 +152,7 @@ export const PaymentPlanPage: React.FC<PaymentPlanPageProps> = ({ onNavigate }) 
                 background: '#152247',
                 color: '#ffffff',
                 padding: '16px 40px',
-                borderRadius: '99px',
+                borderRadius: '0px',
                 fontSize: '16px',
                 fontWeight: 800,
                 border: 'none',

@@ -52,6 +52,46 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = ({ onNavigate }) =>
   const [isClosing, setIsClosing] = useState(false);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
+  const laromEditorialSectionRef = useRef<HTMLDivElement>(null);
+  const [isLaromSectionVisible, setIsLaromSectionVisible] = useState(false);
+
+  const regionsSectionRef = useRef<HTMLDivElement>(null);
+  const [isRegionsVisible, setIsRegionsVisible] = useState(false);
+
+  const servicesSectionRef = useRef<HTMLDivElement>(null);
+  const [isServicesVisible, setIsServicesVisible] = useState(false);
+
+  const ceremonySectionRef = useRef<HTMLDivElement>(null);
+  const [isCeremonyVisible, setIsCeremonyVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.target === laromEditorialSectionRef.current && entry.isIntersecting) {
+            setIsLaromSectionVisible(true);
+          }
+          if (entry.target === regionsSectionRef.current && entry.isIntersecting) {
+            setIsRegionsVisible(true);
+          }
+          if (entry.target === servicesSectionRef.current && entry.isIntersecting) {
+            setIsServicesVisible(true);
+          }
+          if (entry.target === ceremonySectionRef.current && entry.isIntersecting) {
+            setIsCeremonyVisible(true);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    if (laromEditorialSectionRef.current) observer.observe(laromEditorialSectionRef.current);
+    if (regionsSectionRef.current) observer.observe(regionsSectionRef.current);
+    if (servicesSectionRef.current) observer.observe(servicesSectionRef.current);
+    if (ceremonySectionRef.current) observer.observe(ceremonySectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   const [activeGalleryIndex, setActiveGalleryIndex] = useState(0);
   const [activeFilter, setActiveFilter] = useState('All Moments');
 
@@ -152,684 +192,871 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = ({ onNavigate }) =>
 
   return (
     <div className="larom-hotel-page animate-fade-in" style={{ padding: '120px 48px 60px 48px', background: '#f8f9fa' }}>
-      {/* TEMPLATE MATCHING SECTION: FIND PERFECT SPACE - BUILT FOR LIFESTYLE (EXACT MATCH TO TEMPLATE IMAGE) */}
+      {/* EDITORIAL PARTNER SHOWCASE SECTION (EXACT MATCH TO REFERENCE MOCKUP UI) */}
       <div
-        className="larom-partner-template-section"
+        ref={laromEditorialSectionRef}
+        className="larom-editorial-partner-section"
         style={{
-          background: '#ffffff',
-          borderRadius: '32px',
-          padding: '56px 48px',
-          boxShadow: '0 24px 70px rgba(15, 23, 42, 0.07)',
-          border: '1px solid #e5e7eb',
-          marginBottom: '60px'
+          position: 'relative',
+          borderRadius: '0px',
+          overflow: 'hidden',
+          minHeight: '600px',
+          padding: '64px 32px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginBottom: '60px',
+          background: '#12141a',
+          boxShadow: '0 30px 80px rgba(0, 0, 0, 0.35)'
         }}
       >
-        {/* Top Header Row matching Template Image */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start', justifyContent: 'space-between', gap: '28px', marginBottom: '40px' }}>
-          <div style={{ maxWidth: '800px' }}>
-            <h2
-              style={{
-                fontSize: '48px',
-                fontWeight: 900,
-                color: '#0a0a0a',
-                lineHeight: 1.12,
-                margin: 0,
-                fontFamily: "'Space Grotesk', system-ui, sans-serif",
-                letterSpacing: '-1px'
-              }}
-            >
-              FIND PERFECT SPACE{' '}
-              <button
-                onClick={() => window.open('https://laromhotelresidences.com/', '_blank')}
-                style={{
-                  background: '#0284c7',
-                  color: '#ffffff',
-                  border: 'none',
-                  borderRadius: '99px',
-                  padding: '8px 24px',
-                  fontSize: '14px',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  verticalAlign: 'middle',
-                  margin: '0 10px',
-                  boxShadow: '0 8px 20px rgba(2, 132, 199, 0.25)',
-                  transition: 'all 0.3s ease'
-                }}
-              >
-                <span
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '20px',
-                    height: '20px',
-                    borderRadius: '50%',
-                    background: '#ffffff',
-                    color: '#0284c7',
-                    fontSize: '11px',
-                    fontWeight: 900
-                  }}
-                >
-                  ↗
-                </span>
-                Explore Partner
-              </button>{' '}
-              — BUILT FOR LIFESTYLE
-            </h2>
-          </div>
-          <div style={{ maxWidth: '320px' }}>
-            <p style={{ color: '#4b5563', fontSize: '14px', lineHeight: 1.6, margin: 0, fontWeight: 500 }}>
-              Explore beautifully crafted 5-star hotel suites, branded residences, and serviced apartments designed for modern living.
-            </p>
-          </div>
-        </div>
-
-        {/* Main Feature Container: Single Rectangle Boundary matching Template Image */}
+        {/* Full-Bleed Dark Architectural Canvas Background */}
         <div
           style={{
-            background: '#ffffff',
-            borderRadius: '24px',
-            overflow: 'hidden',
-            border: '1.5px solid #e2e8f0',
-            boxShadow: '0 20px 45px rgba(15, 23, 42, 0.06)',
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
-            marginBottom: '52px'
+            position: 'absolute',
+            inset: 0,
+            backgroundImage: `url('/images/larom-building image.png'), url('/images/buildingimage.png')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'top center',
+            filter: 'brightness(0.32) contrast(1.1) blur(2px)',
+            transform: 'scale(1.05)'
           }}
-        >
-          {/* Left: Single Image of LAROM Hotel */}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'radial-gradient(circle at center, rgba(18, 20, 26, 0.4) 0%, rgba(18, 20, 26, 0.85) 100%)'
+          }}
+        />
+
+        {/* Outer Content Layout (Relative z-index 5) */}
+        <div style={{ position: 'relative', zIndex: 5, width: '100%', maxWidth: '1100px', textAlign: 'center' }}>
+          {/* Top Category Label */}
+          <div
+            style={{
+              fontSize: '11px',
+              fontWeight: 800,
+              letterSpacing: '3px',
+              color: 'rgba(255, 255, 255, 0.75)',
+              textTransform: 'uppercase',
+              marginBottom: '10px'
+            }}
+          >
+            OUR PARTNER
+          </div>
+
+          {/* Main Editorial Headline */}
+          <h2
+            style={{
+              fontFamily: "'Space Grotesk', system-ui, sans-serif",
+              fontSize: '48px',
+              fontWeight: 900,
+              color: '#ffffff',
+              letterSpacing: '-0.02em',
+              textTransform: 'uppercase',
+              margin: '0 0 44px 0',
+              lineHeight: 1.1
+            }}
+          >
+            LAROM HOTEL & RESIDENCES
+          </h2>
+
+          {/* Center Elevated White Card with Curtain Drop Animation */}
           <div
             style={{
               position: 'relative',
-              minHeight: '380px',
-              overflow: 'hidden'
+              maxWidth: '460px',
+              margin: '0 auto',
+              borderRadius: '0px',
+              overflow: 'hidden',
+              boxShadow: '0 30px 80px rgba(0, 0, 0, 0.5)'
             }}
           >
-            <img
-              src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80"
-              onError={(e) => handleImgError(e, ['/images/buildingimage.png', 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80'])}
-              alt="LAROM Sophisticated Urban Architecture"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            {/* Curtain Drop Overlay Animation on Scroll */}
+            <div
+              className={`larom-card-curtain-overlay ${isLaromSectionVisible ? 'curtain-drop' : ''}`}
             />
-            {/* Bottom Counter Pill in Blue Shade */}
+
             <div
               style={{
-                position: 'absolute',
-                bottom: '24px',
-                left: '24px',
-                background: '#0284c7',
-                color: '#ffffff',
-                padding: '8px 20px',
-                borderRadius: '99px',
-                fontSize: '12px',
-                fontWeight: 700,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-                boxShadow: '0 8px 24px rgba(2, 132, 199, 0.35)'
+                background: '#ffffff',
+                padding: '24px 24px 32px 24px',
+                textAlign: 'center'
               }}
             >
-              <span style={{ cursor: 'pointer' }}>←</span>
-              <span>01 / 05</span>
-              <span style={{ cursor: 'pointer' }}>→</span>
-            </div>
-          </div>
+              {/* Center Image */}
+              <div
+                style={{
+                  width: '100%',
+                  height: '260px',
+                  borderRadius: '0px',
+                  overflow: 'hidden',
+                  marginBottom: '24px',
+                  background: '#f4f4f4'
+                }}
+              >
+                <img
+                  src="/images/larom-building image.png"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (!target.src.includes('buildingimage.png')) {
+                      target.src = '/images/buildingimage.png';
+                    }
+                  }}
+                  alt="LAROM Hotel & Residences Building"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center' }}
+                />
+              </div>
 
-          {/* Right: Informational Content without internal border */}
-          <div
-            style={{
-              padding: '44px 40px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              background: '#ffffff'
-            }}
-          >
-            <div>
-              <span style={{ fontSize: '12px', fontWeight: 800, color: '#0284c7', textTransform: 'uppercase', letterSpacing: '1px', display: 'block', marginBottom: '12px' }}>
-                • ABOUT PROJECT
-              </span>
-              <h3 style={{ fontSize: '36px', fontWeight: 900, color: '#0f172a', margin: '0 0 16px 0', lineHeight: 1.2, fontFamily: "'Space Grotesk', system-ui" }}>
-                Sophisticated Urban Living
+              {/* Card Title */}
+              <h3
+                style={{
+                  fontFamily: "'Space Grotesk', system-ui, sans-serif",
+                  fontSize: '17px',
+                  fontWeight: 900,
+                  color: '#0f172a',
+                  textTransform: 'uppercase',
+                  letterSpacing: '1px',
+                  margin: '0 0 12px 0'
+                }}
+              >
+                GLOBAL HOSPITALITY BRAND
               </h3>
-              <p style={{ color: '#475569', fontSize: '15px', lineHeight: 1.7, margin: '0 0 28px 0', fontWeight: 400 }}>
-                LAROM is a global luxury hospitality & branded residence concept blending 5-star hotel comfort with the privacy of premium residential living. Operating 180+ properties across 6 worldwide regions.
+
+              {/* Card Description */}
+              <p
+                style={{
+                  fontFamily: "'Inter', system-ui, sans-serif",
+                  fontSize: '13.5px',
+                  lineHeight: '1.65',
+                  color: '#475569',
+                  margin: 0,
+                  fontWeight: 400
+                }}
+              >
+                LAROM is a global luxury hospitality & branded residence concept blending 5-star hotel comfort with the privacy of premium residential living. Operating 180+ properties across 6 worldwide regions. It is powered by world-class service and architectural excellence
               </p>
             </div>
-
-            <div>
-              <div style={{ fontSize: '13.5px', color: '#64748b', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
-                <span style={{ color: '#0284c7' }}>📍</span> Islamabad Expressway, Islamabad
-              </div>
-              <a
-                href="https://laromhotelresidences.com/wp-content/uploads/2026/02/Larom-FRANCHISING-BUSINESS.pdf"
-                target="_blank"
-                rel="noreferrer"
-                style={{
-                  fontSize: '14px',
-                  fontWeight: 800,
-                  color: '#0284c7',
-                  textDecoration: 'none',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px'
-                }}
-              >
-                Request Quote ↗
-              </a>
-            </div>
           </div>
         </div>
 
-        {/* 3 Animated Stat Counters Row matching Template Image */}
+        {/* Left Side Label */}
         <div
           style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '28px',
-            textAlign: 'center',
-            padding: '36px 0',
-            borderTop: '1px solid #e2e8f0',
-            borderBottom: '1px solid #e2e8f0',
-            marginBottom: '48px'
+            position: 'absolute',
+            left: '32px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            fontSize: '12px',
+            fontWeight: 700,
+            letterSpacing: '1.5px',
+            color: 'rgba(255, 255, 255, 0.65)',
+            textTransform: 'uppercase',
+            pointerEvents: 'none',
+            whiteSpace: 'nowrap'
           }}
         >
-          <div>
-            <div style={{ fontSize: '54px', fontWeight: 900, color: '#0284c7', fontFamily: "'Space Grotesk', system-ui", lineHeight: 1 }}>
-              <AnimatedCounter target={180} suffix="+" />
-            </div>
-            <div style={{ fontSize: '12px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px', marginTop: '8px' }}>
-              Properties & Developments
-            </div>
-          </div>
-
-          <div>
-            <div style={{ fontSize: '54px', fontWeight: 900, color: '#0284c7', fontFamily: "'Space Grotesk', system-ui", lineHeight: 1 }}>
-              <AnimatedCounter target={250} suffix="M+" />
-            </div>
-            <div style={{ fontSize: '12px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px', marginTop: '8px' }}>
-              Total Portfolio Value
-            </div>
-          </div>
-
-          <div>
-            <div style={{ fontSize: '54px', fontWeight: 900, color: '#0284c7', fontFamily: "'Space Grotesk', system-ui", lineHeight: 1 }}>
-              <AnimatedCounter target={20} suffix="Y+" />
-            </div>
-            <div style={{ fontSize: '12px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px', marginTop: '8px' }}>
-              Global Experience
-            </div>
-          </div>
+          hospitality at glance
         </div>
 
-        {/* Lower Container: Our Properties (Soft Beige/Tan Canvas matching Template Image) */}
+        {/* Right Side Label */}
         <div
           style={{
-            background: '#f4f3ef',
-            borderRadius: '24px',
-            padding: '40px 36px'
+            position: 'absolute',
+            right: '32px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            fontSize: '12px',
+            fontWeight: 700,
+            letterSpacing: '1.5px',
+            color: 'rgba(255, 255, 255, 0.65)',
+            textTransform: 'uppercase',
+            pointerEvents: 'none',
+            whiteSpace: 'nowrap'
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '28px' }}>
-            <h3 style={{ fontSize: '30px', fontWeight: 900, color: '#0a0a0a', margin: 0, fontFamily: "'Space Grotesk', system-ui" }}>
-              Our Properties
-            </h3>
-            <a
-              href="https://laromhotelresidences.com/hotel/"
-              target="_blank"
-              rel="noreferrer"
-              style={{ fontSize: '13px', fontWeight: 700, color: '#4b5563', textDecoration: 'none' }}
-            >
-              View All Properties ↗
-            </a>
-          </div>
-
-          {/* 2 Split Property Showcase Cards matching Template Image */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '28px' }}>
-            {[
-              {
-                title: '5-Star Hotel Suites & Serviced Living',
-                location: 'Islamabad Expressway • Continent Worldwide',
-                desc: 'Curated 5-star dining, 24/7 concierge, housekeeping, and executive room service.',
-                image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1000&q=80'
-              },
-              {
-                title: 'Branded Residences & Penthouses',
-                location: 'Islamabad Expressway • Turnkey Decor',
-                desc: 'Turnkey fully furnished apartments with keyless RFID access and private hotel amenities.',
-                image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1000&q=80'
-              }
-            ].map((item, idx) => (
-              <div
-                key={idx}
-                style={{
-                  background: '#ffffff',
-                  borderRadius: '20px',
-                  overflow: 'hidden',
-                  border: '1.5px solid #e5e7eb',
-                  boxShadow: '0 12px 30px rgba(0, 0, 0, 0.05)',
-                  transition: 'all 0.3s ease'
-                }}
-              >
-                <div style={{ height: '240px', overflow: 'hidden', position: 'relative' }}>
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  />
-                </div>
-                <div style={{ padding: '24px 28px' }}>
-                  <span style={{ fontSize: '11px', fontWeight: 700, color: '#0284c7', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                    {item.location}
-                  </span>
-                  <h4 style={{ fontSize: '20px', fontWeight: 800, color: '#0a0a0a', margin: '6px 0 8px 0' }}>
-                    {item.title}
-                  </h4>
-                  <p style={{ fontSize: '13.5px', color: '#4b5563', lineHeight: 1.55, margin: 0 }}>
-                    {item.desc}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-   
+          Scroll to explore ↓
         </div>
       </div>
 
-      {/* Hero Header Section */}
-      <div className="section-header-centered" style={{ textAlign: 'center', maxWidth: '900px', margin: '0 auto 48px' }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(2, 132, 199, 0.12)', border: '1px solid rgba(2, 132, 199, 0.3)', padding: '6px 16px', borderRadius: '99px', marginBottom: '16px' }}>
-          <span style={{ fontSize: '16px' }}>🇹🇷</span>
-          <span style={{ color: '#0369a1', fontSize: '12px', fontWeight: 800, letterSpacing: '1px', textTransform: 'uppercase' }}>
-            TURKISH HOSPITALITY BRAND • CONTINENT WORLDWIDE GROUP 🇵🇰
-          </span>
-        </div>
-
-        <h2 className="section-main-title" style={{ fontSize: '38px', marginTop: '8px', color: '#0f172a', fontWeight: 900, lineHeight: 1.2 }}>
-          LAROM Hotel & Residences by Continent
-        </h2>
-        <p className="section-description" style={{ color: '#64748b', fontSize: '16px', lineHeight: '1.7', marginTop: '12px' }}>
-          Turkey’s premier hospitality brand LAROM has officially entered the Pakistani market through a landmark franchise agreement awarded to <strong>RJ Developers</strong> for their flagship multi-tower development on Islamabad Expressway.
-        </p>
-      </div>
-
-      {/* Franchise Ceremony Executive Banner */}
-      <div className="executive-ceremony-banner" style={{ background: 'linear-gradient(135deg, #0b0f19 0%, #1a2234 100%)', color: '#ffffff', borderRadius: '28px', padding: '40px', border: '1px solid rgba(2, 132, 199, 0.4)', boxShadow: '0 20px 50px rgba(11, 15, 25, 0.3)', marginBottom: '56px', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', top: '-40%', right: '-10%', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(2, 132, 199, 0.15) 0%, transparent 70%)', pointerEvents: 'none' }} />
-
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '36px', alignItems: 'center' }}>
-          <div>
-            <span style={{ background: 'rgba(2, 132, 199, 0.2)', color: '#38bdf8', padding: '4px 12px', borderRadius: '99px', fontSize: '11px', fontWeight: 800, letterSpacing: '1px' }}>
-              🤝 LANDMARK FRANCHISE AGREEMENT
-            </span>
-            <h3 style={{ fontSize: '28px', fontWeight: 800, margin: '14px 0', lineHeight: 1.3, color: '#ffffff', fontFamily: 'Space Grotesk, system-ui' }}>
-              Franchise Award Ceremony Held at Islamabad Club
-            </h3>
-            <p style={{ color: '#cbd5e1', fontSize: '14.5px', lineHeight: '1.6', margin: '0 0 20px 0' }}>
-              In a grand ceremony attended by distinguished guests, business leaders, and real estate stakeholders, the agreement was officially executed between <strong>Khurram Hussain</strong> (Executive Director, LAROM & Continent Worldwide) and <strong>Jawad Arif</strong> (Developer & Owner of RJ Developers).
-            </p>
-
-            <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-              <div style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', padding: '12px 18px', borderRadius: '14px' }}>
-                <span style={{ fontSize: '11px', color: '#38bdf8', fontWeight: 700, display: 'block' }}>BRAND EXECUTIVE DIRECTOR</span>
-                <strong style={{ fontSize: '14px', color: '#ffffff' }}>Khurram Hussain</strong>
-              </div>
-              <div style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', padding: '12px 18px', borderRadius: '14px' }}>
-                <span style={{ fontSize: '11px', color: '#38bdf8', fontWeight: 700, display: 'block' }}>PROJECT OWNER & DEVELOPER</span>
-                <strong style={{ fontSize: '14px', color: '#ffffff' }}>Jawad Arif</strong>
-              </div>
-            </div>
-          </div>
-
-          <div style={{ position: 'relative', borderRadius: '20px', overflow: 'hidden', border: '2px solid rgba(2, 132, 199, 0.4)', boxShadow: '0 15px 40px rgba(0,0,0,0.5)' }}>
-            <img
-              src="/images/agreementsigining1.jpg"
-              alt="Franchise Signing Ceremony Islamabad Club"
-              onError={(e) => handleImgError(e, signingPhotos[0].altSources)}
-              style={{ width: '100%', height: '320px', objectFit: 'cover', display: 'block' }}
-            />
-            <div style={{ position: 'absolute', bottom: 0, inset: 'auto 0 0 0', background: 'linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 100%)', padding: '16px 20px' }}>
-              <span style={{ fontSize: '12px', fontWeight: 700, color: '#38bdf8' }}>📍 ISLAMABAD CLUB CEREMONY</span>
-              <p style={{ fontSize: '12px', color: '#ffffff', margin: '2px 0 0 0' }}>Signing between Khurram Hussain & Jawad Arif</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* AGREEMENT SIGNING PHOTO GALLERY SECTION DESIGNED MATCHING THE TEMPLATE IMAGE */}
+      {/* STRONG PRESENCE • ANIMATED TYPOGRAPHY WALL & BUILDING CARD (EXACT MATCH TO REFERENCE MOCKUP UI) */}
       <div
-        className="signing-gallery-section"
+        className="larom-strong-presence-section"
         style={{
-          background: 'linear-gradient(135deg, #ffffff 0%, #f4f8fc 100%)',
-          borderRadius: '32px',
-          border: '1.5px solid rgba(2, 132, 199, 0.2)',
-          boxShadow: '0 30px 80px rgba(15, 23, 42, 0.08)',
-          padding: '56px 40px 60px 40px',
-          marginBottom: '64px',
+          background: 'transparent',
+          borderRadius: '0px',
+          border: 'none',
+          padding: '40px 0',
+          marginBottom: '30px',
+          boxShadow: 'none',
           overflow: 'hidden',
           position: 'relative'
         }}
       >
-        {/* Centered Gallery Header matching Template */}
-        <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 36px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 340px', gap: '32px', alignItems: 'center' }}>
+          {/* Left Column: Animated Marquee Typography Wall */}
+          <div style={{ position: 'relative', overflow: 'hidden', padding: '16px 0' }}>
+            {/* Subtitle / Category Label */}
+            <div style={{ marginBottom: '20px' }}>
+              <span
+                style={{
+                  fontSize: '11px',
+                  fontWeight: 800,
+                  letterSpacing: '2.5px',
+                  color: '#64748b',
+                  textTransform: 'uppercase',
+                  display: 'block'
+                }}
+              >
+                STRONG PRESENCE
+              </span>
+            </div>
+
+            {/* Stacked Marquee Text Rows */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              {/* Row 1: GLOBAL HOSPITALITY (Animates Left to Right, Dim Pulse 1) */}
+              <div style={{ overflow: 'hidden', width: '100%', whiteSpace: 'nowrap' }}>
+                <div className="marquee-track scroll-left-dim-1">
+                  <span
+                    style={{
+                      fontFamily: "'Space Grotesk', system-ui, sans-serif",
+                      fontSize: '32px',
+                      fontWeight: 900,
+                      letterSpacing: '2px',
+                      color: '#64748b',
+                      textTransform: 'uppercase'
+                    }}
+                  >
+                    A TURKISH HOSPITALITY BRAND &nbsp;&nbsp;•&nbsp;&nbsp; A TURKISH HOSPITALITY BRAND &nbsp;&nbsp;•&nbsp;&nbsp; A TURKISH HOSPITALITY BRAND&nbsp;&nbsp;•&nbsp;&nbsp; A TURKISH HOSPITALITY BRAND &nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "'Space Grotesk', system-ui, sans-serif",
+                      fontSize: '32px',
+                      fontWeight: 900,
+                      letterSpacing: '2px',
+                      color: '#64748b',
+                      textTransform: 'uppercase'
+                    }}
+                  >
+                    A TURKISH HOSPITALITY BRAND &nbsp;&nbsp;•&nbsp;&nbsp; A TURKISH HOSPITALITY BRAND &nbsp;&nbsp;•&nbsp;&nbsp; A TURKISH HOSPITALITY BRAND&nbsp;&nbsp;•&nbsp;&nbsp; A TURKISH HOSPITALITY BRAND &nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;
+                  </span>
+                </div>
+              </div>
+
+              {/* Row 2: INTERNATIONAL PRESENCE (Animates Right to Left, Dim Pulse 2) */}
+              <div style={{ overflow: 'hidden', width: '100%', whiteSpace: 'nowrap' }}>
+                <div className="marquee-track scroll-right-dim-2">
+                  <span
+                    style={{
+                      fontFamily: "'Space Grotesk', system-ui, sans-serif",
+                      fontSize: '34px',
+                      fontWeight: 900,
+                      letterSpacing: '2px',
+                      color: '#475569',
+                      textTransform: 'uppercase'
+                    }}
+                  >
+                    FIRST TIME IN PAKISTAN &nbsp;&nbsp;•&nbsp;&nbsp; FIRST TIME IN PAKISTAN &nbsp;&nbsp;•&nbsp;&nbsp; FIRST TIME IN PAKISTAN &nbsp;&nbsp;•&nbsp;&nbsp; FIRST TIME IN PAKISTAN &nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "'Space Grotesk', system-ui, sans-serif",
+                      fontSize: '34px',
+                      fontWeight: 900,
+                      letterSpacing: '2px',
+                      color: '#475569',
+                      textTransform: 'uppercase'
+                    }}
+                  >
+                     FIRST TIME IN PAKISTAN &nbsp;&nbsp;•&nbsp;&nbsp; FIRST TIME IN PAKISTAN &nbsp;&nbsp;•&nbsp;&nbsp; FIRST TIME IN PAKISTAN &nbsp;&nbsp;•&nbsp;&nbsp; FIRST TIME IN PAKISTAN &nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;
+                  </span>
+                </div>
+              </div>
+
+              {/* Row 3: ACROSS THE GLOBE (Main Highlighted Sharp Text Row, Animates Left to Right) */}
+              <div style={{ overflow: 'hidden', width: '100%', whiteSpace: 'nowrap' }}>
+                <div className="marquee-track scroll-left-highlight">
+                  <span
+                    style={{
+                      fontFamily: "'Space Grotesk', system-ui, sans-serif",
+                      fontSize: '38px',
+                      fontWeight: 900,
+                      letterSpacing: '1.5px',
+                      color: '#0f172a',
+                      textTransform: 'uppercase'
+                    }}
+                  >
+                    ACROSS THE GLOBE &nbsp;&nbsp;•&nbsp;&nbsp; ACROSS THE GLOBE &nbsp;&nbsp;•&nbsp;&nbsp; ACROSS THE GLOBE &nbsp;&nbsp;•&nbsp;&nbsp; ACROSS THE GLOBE &nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "'Space Grotesk', system-ui, sans-serif",
+                      fontSize: '38px',
+                      fontWeight: 900,
+                      letterSpacing: '1.5px',
+                      color: '#0f172a',
+                      textTransform: 'uppercase'
+                    }}
+                  >
+                    ACROSS THE GLOBE &nbsp;&nbsp;•&nbsp;&nbsp; ACROSS THE GLOBE &nbsp;&nbsp;•&nbsp;&nbsp; ACROSS THE GLOBE &nbsp;&nbsp;•&nbsp;&nbsp; ACROSS THE GLOBE &nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;
+                  </span>
+                </div>
+              </div>
+
+              {/* Row 4: GLOBALLY RECOGNIZED (Animates Right to Left, Dim Pulse 3) */}
+              <div style={{ overflow: 'hidden', width: '100%', whiteSpace: 'nowrap' }}>
+                <div className="marquee-track scroll-right-dim-3">
+                  <span
+                    style={{
+                      fontFamily: "'Space Grotesk', system-ui, sans-serif",
+                      fontSize: '32px',
+                      fontWeight: 900,
+                      letterSpacing: '2px',
+                      color: '#64748b',
+                      textTransform: 'uppercase'
+                    }}
+                  >
+                    GLOBALLY RECOGNIZED &nbsp;&nbsp;•&nbsp;&nbsp; GLOBALLY RECOGNIZED &nbsp;&nbsp;•&nbsp;&nbsp; GLOBALLY RECOGNIZED &nbsp;&nbsp;•&nbsp;&nbsp; GLOBALLY RECOGNIZED &nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "'Space Grotesk', system-ui, sans-serif",
+                      fontSize: '32px',
+                      fontWeight: 900,
+                      letterSpacing: '2px',
+                      color: '#64748b',
+                      textTransform: 'uppercase'
+                    }}
+                  >
+                    GLOBALLY RECOGNIZED &nbsp;&nbsp;•&nbsp;&nbsp; GLOBALLY RECOGNIZED &nbsp;&nbsp;•&nbsp;&nbsp; GLOBALLY RECOGNIZED &nbsp;&nbsp;•&nbsp;&nbsp; GLOBALLY RECOGNIZED &nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Architectural Photo Card Squeezed to Right (Matching Reference Image) */}
+          <div
+            style={{
+              position: 'relative',
+              height: '460px',
+              width: '100%',
+              maxWidth: '340px',
+              justifySelf: 'end',
+              borderRadius: '0px',
+              overflow: 'hidden',
+              boxShadow: '0 25px 60px rgba(15, 23, 42, 0.15)',
+              border: '1px solid #e2e8f0'
+            }}
+          >
+            <img
+              src="/images/larom-building image.png"
+              onError={(e) => {
+                const target = e.currentTarget;
+                if (!target.src.includes('buildingimage.png')) {
+                  target.src = '/images/buildingimage.png';
+                }
+              }}
+              alt="LAROM Building Architecture"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                objectPosition: 'top center'
+              }}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* GLOBAL REGIONS STAGGERED GALLERY (ASIA, EUROPE, MIDDLE EAST, UNITED STATES - EXACT MATCH TO REFERENCE MOCKUP UI) */}
+      <div
+        ref={regionsSectionRef}
+        className="larom-global-regions-section"
+        style={{
+          background: 'transparent',
+          borderRadius: '0px',
+          padding: '40px 0',
+          marginBottom: '60px',
+          border: 'none',
+          boxShadow: 'none',
+          position: 'relative'
+        }}
+      >
+        {/* Editorial Section Header */}
+        <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 56px' }}>
           <span
             style={{
               fontSize: '11px',
               fontWeight: 800,
-              letterSpacing: '2px',
+              letterSpacing: '3px',
               color: '#64748b',
               textTransform: 'uppercase',
               display: 'block',
-              marginBottom: '8px'
+              marginBottom: '10px'
             }}
           >
-            GALLERY
+            GLOBAL PORTFOLIO
           </span>
-          <h3
+          <h2
             style={{
-              fontSize: '36px',
-              color: '#0f172a',
+              fontFamily: "'Space Grotesk', system-ui, sans-serif",
+              fontSize: '44px',
               fontWeight: 900,
-              margin: '0 0 10px 0',
-              fontFamily: "'Space Grotesk', system-ui, sans-serif"
+              color: '#0f172a',
+              textTransform: 'uppercase',
+              letterSpacing: '-0.02em',
+              margin: 0
             }}
           >
-            Agreement Signing Ceremony Photo Gallery
-          </h3>
-          <p style={{ color: '#64748b', fontSize: '14.5px', lineHeight: 1.6, margin: 0 }}>
-            See history through our lens — capturing the landmark franchise partnership between Continent Worldwide & RJ Developers.
-          </p>
+            WORLDWIDE REGIONS OF LAROM
+          </h2>
         </div>
 
-        {/* Filter Pill Bar matching Template */}
+        {/* 4-Card Staggered Architectural Grid matching Reference Image */}
         <div
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '10px',
-            flexWrap: 'wrap',
-            marginBottom: '48px'
+            display: 'grid',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: '28px',
+            alignItems: 'start'
           }}
         >
-          {categories.map((cat) => {
-            const isActive = activeFilter === cat;
-            return (
-              <button
-                key={cat}
-                onClick={() => {
-                  setActiveFilter(cat);
-                  setActiveGalleryIndex(0);
-                }}
-                style={{
-                  background: isActive ? '#0f172a' : '#ffffff',
-                  color: isActive ? '#ffffff' : '#475569',
-                  border: isActive ? '1px solid #0f172a' : '1px solid #cbd5e1',
-                  borderRadius: '99px',
-                  padding: '8px 20px',
-                  fontSize: '12.5px',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  boxShadow: isActive ? '0 8px 20px rgba(15, 23, 42, 0.25)' : 'none',
-                  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
-                }}
-              >
-                {cat}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* 3D Overlapping Coverflow Carousel Display matching Template */}
-        <div
-          style={{
-            position: 'relative',
-            height: '460px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            perspective: '1200px',
-            marginBottom: '36px'
-          }}
-        >
-          {filteredPhotos.map((photo, index) => {
-            const offset = index - safeIndex;
-            
-            const isCenter = offset === 0;
-
-            // Calculate 3D Overlapping Coverflow Layout transforms
-            let transform = 'translateX(0) scale(1) translateZ(0)';
-            let zIndex = 1;
-            let opacity = 0;
-            let filterBlur = 'none';
-
-            if (isCenter) {
-              transform = 'translateX(0) scale(1.15) translateZ(60px)';
-              zIndex = 10;
-              opacity = 1;
-            } else if (offset === -1) {
-              transform = 'translateX(-220px) scale(0.88) rotateY(18deg) translateZ(-40px)';
-              zIndex = 5;
-              opacity = 0.85;
-              filterBlur = 'blur(1px)';
-            } else if (offset === 1) {
-              transform = 'translateX(220px) scale(0.88) rotateY(-18deg) translateZ(-40px)';
-              zIndex = 5;
-              opacity = 0.85;
-              filterBlur = 'blur(1px)';
-            } else if (offset <= -2) {
-              transform = 'translateX(-380px) scale(0.7) rotateY(32deg) translateZ(-120px)';
-              zIndex = 2;
-              opacity = 0.45;
-              filterBlur = 'blur(2.5px)';
-            } else if (offset >= 2) {
-              transform = 'translateX(380px) scale(0.7) rotateY(-32deg) translateZ(-120px)';
-              zIndex = 2;
-              opacity = 0.45;
-              filterBlur = 'blur(2.5px)';
+          {[
+            {
+              title: 'ASIA',
+              sub: 'Luxury urban retreats & beachfront resorts across 8 countries',
+              height: '380px',
+              marginTop: '0px',
+              image: 'https://images.unsplash.com/photo-1522547902298-51566e4fb383?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YXNpYXxlbnwwfHwwfHx8MA%3D%3D'
+            },
+            {
+              title: 'EUROPE',
+              sub: 'Heritage boutique suites & Mediterranean branded residences',
+              height: '280px',
+              marginTop: '0px',
+              image: 'https://images.unsplash.com/photo-1485081669829-bacb8c7bb1f3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZXVyb3BlfGVufDB8fDB8fHww'
+            },
+            {
+              title: 'MIDDLE EAST',
+              sub: 'Flagship high-rise developments & executive penthouses',
+              height: '280px',
+              marginTop: '60px',
+              image: 'https://images.unsplash.com/photo-1546412414-8035e1776c9a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWlkZGxlJTIwZWFzdHxlbnwwfHwwfHx8MA%3D%3D'
+            },
+            {
+              title: 'UNITED STATES',
+              sub: 'Metropolitan luxury towers & keyless residential suites',
+              height: '380px',
+              marginTop: '0px',
+              image: 'https://images.unsplash.com/photo-1576606970009-7ddc4229ced7?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8VVNBfGVufDB8fDB8fHww'
             }
-
-            return (
+          ].map((item, idx) => (
+            <div key={idx} style={{ marginTop: item.marginTop }}>
+              {/* Image Box with Top-to-Bottom Curtain Drop Animation on Scroll */}
               <div
-                key={photo.id || index}
-                ref={(el) => {
-                  cardRefs.current[index] = el;
-                }}
-                onClick={() => {
-                  if (!isCenter) {
-                    setActiveGalleryIndex(index);
-                  } else {
-                    handleOpenSharedLayout(index);
-                  }
-                }}
                 style={{
-                  position: 'absolute',
-                  width: '320px',
-                  height: '380px',
-                  borderRadius: '24px',
+                  position: 'relative',
+                  height: item.height,
+                  width: '100%',
+                  borderRadius: '0px',
                   overflow: 'hidden',
-                  background: '#ffffff',
-                  boxShadow: isCenter
-                    ? '0 30px 70px rgba(15, 23, 42, 0.35)'
-                    : '0 15px 35px rgba(15, 23, 42, 0.12)',
-                  border: isCenter ? '2px solid rgba(2, 132, 199, 0.5)' : '1px solid rgba(203, 213, 225, 0.6)',
-                  cursor: 'pointer',
-                  transform,
-                  zIndex,
-                  opacity,
-                  filter: filterBlur,
-                  transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
-                  transformStyle: 'preserve-3d'
+                  boxShadow: '0 16px 40px rgba(15, 23, 42, 0.12)',
+                  border: 'none',
+                  marginBottom: '16px'
                 }}
               >
-                {/* Photo Image */}
-                <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-                  <img
-                    src={photo.src}
-                    alt={photo.caption}
-                    onError={(e) => handleImgError(e, photo.altSources)}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      transition: 'transform 0.6s ease'
-                    }}
-                  />
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    transition: 'transform 0.6s ease'
+                  }}
+                />
+                {/* Curtain Drop Overlay Animation on Scroll */}
+                <div
+                  className={`prime-location-curtain-overlay ${isRegionsVisible ? 'curtain-drop' : ''}`}
+                  style={{ transitionDelay: `${idx * 150}ms` }}
+                />
+              </div>
 
-                  {/* Dark Vignette Overlay for Title Text */}
-                  <div
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      background: 'linear-gradient(to top, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.2) 60%, transparent 100%)',
-                      padding: '24px',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'flex-end'
-                    }}
-                  >
-                    <span
+              {/* Card Label & Subtext */}
+              <div>
+                <h4
+                  style={{
+                    fontFamily: "'Space Grotesk', system-ui, sans-serif",
+                    fontSize: '15px',
+                    fontWeight: 900,
+                    color: '#0f172a',
+                    textTransform: 'uppercase',
+                    letterSpacing: '1px',
+                    margin: '0 0 6px 0'
+                  }}
+                >
+                  {item.title}
+                </h4>
+                <p
+                  style={{
+                    fontFamily: "'Inter', system-ui, sans-serif",
+                    fontSize: '12.5px',
+                    lineHeight: '1.5',
+                    color: '#64748b',
+                    margin: 0
+                  }}
+                >
+                  {item.sub}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* SERVICES & ACCOMMODATIONS STAGGERED GALLERY (GENERAL ROOM, DELUXE ROOM, EXECUTIVE SUITES, PRESIDENTIAL SUITES) */}
+      <div
+        ref={servicesSectionRef}
+        className="larom-services-accommodations-section"
+        style={{
+          background: 'transparent',
+          borderRadius: '0px',
+          padding: '40px 0',
+          marginBottom: '60px',
+          border: 'none',
+          boxShadow: 'none',
+          position: 'relative'
+        }}
+      >
+        {/* Editorial Section Header */}
+        <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 56px' }}>
+          <span
+            style={{
+              fontSize: '11px',
+              fontWeight: 800,
+              letterSpacing: '3px',
+              color: '#64748b',
+              textTransform: 'uppercase',
+              display: 'block',
+              marginBottom: '10px'
+            }}
+          >
+            SERVICES & ACCOMMODATIONS
+          </span>
+          <h2
+            style={{
+              fontFamily: "'Space Grotesk', system-ui, sans-serif",
+              fontSize: '44px',
+              fontWeight: 900,
+              color: '#0f172a',
+              textTransform: 'uppercase',
+              letterSpacing: '-0.02em',
+              margin: 0
+            }}
+          >
+            LUXURY SUITES & ROOM CATEGORIES
+          </h2>
+        </div>
+
+        {/* 4-Card Staggered Architectural Grid matching Reference Image */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: '28px',
+            alignItems: 'start'
+          }}
+        >
+          {[
+            {
+              title: 'General Room',
+              sub: 'Smart automated climate control, plush bedding, and high-speed fiber Wi-Fi',
+              height: '380px',
+              marginTop: '0px',
+              image: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+              title: 'Deluxe Room',
+              sub: 'Expanded floor plan, designer lounge seating, and complimentary breakfast',
+              height: '280px',
+              marginTop: '0px',
+              image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+              title: 'Executive Suites',
+              sub: 'Separate living & workspace area, 24/7 butler service, and private dining',
+              height: '280px',
+              marginTop: '60px',
+              image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80'
+            },
+            {
+              title: 'Presidential Suites',
+              sub: 'Top-floor penthouse, private terrace with jacuzzi, and dedicated concierge',
+              height: '380px',
+              marginTop: '0px',
+              image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=800&q=80'
+            }
+          ].map((item, idx) => (
+            <div key={idx} style={{ marginTop: item.marginTop }}>
+              {/* Image Box with Top-to-Bottom Curtain Drop Animation on Scroll */}
+              <div
+                style={{
+                  position: 'relative',
+                  height: item.height,
+                  width: '100%',
+                  borderRadius: '0px',
+                  overflow: 'hidden',
+                  boxShadow: '0 16px 40px rgba(15, 23, 42, 0.12)',
+                  border: 'none',
+                  marginBottom: '16px'
+                }}
+              >
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    transition: 'transform 0.6s ease'
+                  }}
+                />
+                {/* Curtain Drop Overlay Animation on Scroll */}
+                <div
+                  className={`prime-location-curtain-overlay ${isServicesVisible ? 'curtain-drop' : ''}`}
+                  style={{ transitionDelay: `${idx * 150}ms` }}
+                />
+              </div>
+
+              {/* Card Label & Subtext */}
+              <div>
+                <h4
+                  style={{
+                    fontFamily: "'Space Grotesk', system-ui, sans-serif",
+                    fontSize: '15px',
+                    fontWeight: 900,
+                    color: '#0f172a',
+                    textTransform: 'uppercase',
+                    letterSpacing: '1px',
+                    margin: '0 0 6px 0'
+                  }}
+                >
+                  {item.title}
+                </h4>
+                <p
+                  style={{
+                    fontFamily: "'Inter', system-ui, sans-serif",
+                    fontSize: '12.5px',
+                    lineHeight: '1.5',
+                    color: '#64748b',
+                    margin: 0
+                  }}
+                >
+                  {item.sub}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* OUR PARTNERSHIP SECTION (SLATE/NAVY CARD WITH ISLAMABAD CLUB CEREMONY PHOTOS & CURTAIN ANIMATION) */}
+      <div
+        ref={ceremonySectionRef}
+        className="larom-signing-ceremony-section"
+        style={{
+          position: 'relative',
+          borderRadius: '0px',
+          overflow: 'hidden',
+          background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.94) 0%, rgba(30, 41, 59, 0.96) 100%), url("/images/agreementsigining1.jpg") center/cover no-repeat',
+          padding: '72px 56px',
+          marginBottom: '96px',
+          boxShadow: '0 24px 60px rgba(15, 23, 42, 0.35)',
+          color: '#ffffff'
+        }}
+      >
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'minmax(300px, 34%) 1fr',
+            gap: '56px',
+            alignItems: 'start'
+          }}
+        >
+          {/* Left Column: Heading & Paragraph */}
+          <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
+            <div>
+              <span
+                style={{
+                  fontSize: '11px',
+                  fontWeight: 800,
+                  letterSpacing: '3px',
+                  textTransform: 'uppercase',
+                  color: '#94a3b8',
+                  display: 'block',
+                  marginBottom: '16px'
+                }}
+              >
+                MILESTONE PARTNERSHIP
+              </span>
+
+              <h2
+                style={{
+                  fontFamily: "'Cormorant Garamond', 'Playfair Display', Georgia, serif",
+                  fontSize: '52px',
+                  fontWeight: 500,
+                  lineHeight: '1.05',
+                  color: '#ffffff',
+                  margin: '0 0 24px 0',
+                  letterSpacing: '0.5px',
+                  textTransform: 'uppercase'
+                }}
+              >
+                OUR<br />
+                <span style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontStyle: 'italic', fontWeight: 400, textTransform: 'capitalize', fontSize: '56px' }}>
+                  Partnership
+                </span>
+              </h2>
+
+              <p
+                style={{
+                  fontFamily: "'Inter', system-ui, sans-serif",
+                  fontSize: '14.5px',
+                  lineHeight: '1.75',
+                  color: '#cbd5e1',
+                  marginBottom: '36px',
+                  maxWidth: '380px'
+                }}
+              >
+                RJ Developers and Continent Worldwide Hotels celebrated the official signing of LAROM Hotel & Residences at the prestigious Islamabad Club ceremony.
+              </p>
+
+              <a
+                href="https://laromhotelresidences.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  background: '#ffffff',
+                  border: 'none',
+                  color: '#0f172a',
+                  padding: '14px 32px',
+                  borderRadius: '0px',
+                  fontSize: '13px',
+                  fontWeight: 800,
+                  letterSpacing: '1.5px',
+                  textTransform: 'uppercase',
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  boxShadow: '0 10px 25px rgba(0, 0, 0, 0.2)',
+                  transition: 'all 0.3s ease',
+                  fontFamily: "'Space Grotesk', system-ui, sans-serif",
+                  textDecoration: 'none'
+                }}
+              >
+                VISIT LAROM WEBSITE <span style={{ fontSize: '15px' }}>→</span>
+              </a>
+            </div>
+          </div>
+
+          {/* Right Column: 2x2 Grid of Ceremony Cards */}
+          <div>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: '24px'
+              }}
+            >
+              {[
+                {
+                  title: 'Signing Ceremony',
+                  image: '/images/agreementsigining1.jpg',
+                  alt: 'Islamabad Club Agreement Signing Ceremony'
+                },
+                {
+                  title: 'Document Exchange',
+                  image: '/images/agreementsigining2.jpg',
+                  alt: 'Official Franchise & Management Agreement Exchange'
+                },
+                {
+                  title: 'VIP Assembly',
+                  image: '/images/agreementsigining3.jpg',
+                  alt: 'Executive Board Members & Leadership Assembly'
+                },
+                {
+                  title: 'Closing Ceremony',
+                  image: '/images/agreementsigining4.jpg',
+                  alt: 'Islamabad Club Closing Ceremony & Celebration'
+                }
+              ].map((item, index) => (
+                <div
+                  key={index}
+                  style={{
+                    background: '#ffffff',
+                    borderRadius: '0px',
+                    padding: '20px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    height: '320px',
+                    boxShadow: '0 15px 40px rgba(0, 0, 0, 0.2)',
+                    border: '1px solid #f1f5f9',
+                    position: 'relative',
+                    overflow: 'hidden'
+                  }}
+                >
+                  <div style={{ position: 'relative', width: '100%', height: '220px', borderRadius: '0px', overflow: 'hidden' }}>
+                    <img
+                      src={item.image}
+                      alt={item.alt}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                    <div
+                      className={`prime-location-curtain-overlay ${isCeremonyVisible ? 'curtain-drop' : ''}`}
+                      style={{ transitionDelay: `${index * 150}ms` }}
+                    />
+                  </div>
+                  <div style={{ marginTop: '14px' }}>
+                    <h4
                       style={{
-                        fontSize: '10px',
+                        fontFamily: "'Space Grotesk', system-ui, sans-serif",
+                        fontSize: '13px',
                         fontWeight: 800,
-                        color: '#38bdf8',
+                        color: '#152247',
+                        letterSpacing: '0.8px',
                         textTransform: 'uppercase',
-                        letterSpacing: '1px',
-                        marginBottom: '4px'
+                        margin: 0
                       }}
                     >
-                      {photo.category}
-                    </span>
-                    <h4 style={{ fontSize: '15px', fontWeight: 800, color: '#ffffff', margin: '0 0 4px 0', lineHeight: 1.3 }}>
-                      {photo.caption}
+                      {item.title}
                     </h4>
-                    <p style={{ fontSize: '11.5px', color: '#cbd5e1', margin: 0, lineHeight: 1.4, opacity: 0.9 }}>
-                      {photo.subText}
-                    </p>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              ))}
+            </div>
 
-        {/* Circular Arrow Navigation Controls matching Template */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '16px'
-          }}
-        >
-          <button
-            onClick={() => setActiveGalleryIndex((prev) => (prev - 1 + filteredPhotos.length) % filteredPhotos.length)}
-            style={{
-              width: '46px',
-              height: '46px',
-              borderRadius: '50%',
-              border: '1.5px solid #cbd5e1',
-              background: '#ffffff',
-              color: '#0f172a',
-              fontSize: '16px',
-              fontWeight: 800,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
-              transition: 'all 0.25s ease'
-            }}
-            title="Previous Photo"
-          >
-            ←
-          </button>
-
-          <button
-            onClick={() => setActiveGalleryIndex((prev) => (prev + 1) % filteredPhotos.length)}
-            style={{
-              width: '46px',
-              height: '46px',
-              borderRadius: '50%',
-              border: '1.5px solid #cbd5e1',
-              background: '#ffffff',
-              color: '#0f172a',
-              fontSize: '16px',
-              fontWeight: 800,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
-              transition: 'all 0.25s ease'
-            }}
-            title="Next Photo"
-          >
-            →
-          </button>
-        </div>
-      </div>
-
-      {/* CONTINENT WORLDWIDE & TURKISH HOSPITALITY BRAND PROFILE */}
-      <div style={{ marginBottom: '60px' }}>
-        <div style={{ textAlign: 'center', marginBottom: '36px' }}>
-          <span style={{ background: 'rgba(2, 132, 199, 0.12)', color: '#0369a1', padding: '4px 14px', borderRadius: '99px', fontSize: '11px', fontWeight: 800, letterSpacing: '1px' }}>
-            🏢 BRAND PROFILE & LEGACY
-          </span>
-          <h3 style={{ fontSize: '28px', color: '#0f172a', fontWeight: 800, marginTop: '8px' }}>
-            Continent Worldwide Hospitality Group
-          </h3>
-        </div>
-
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '28px' }}>
-          <div className="profile-feature-card floating-card-hover" style={{ background: '#ffffff', padding: '32px', borderRadius: '24px', border: '1px solid #e2e8f0', boxShadow: '0 12px 35px rgba(0,0,0,0.06)' }}>
-            <span style={{ fontSize: '36px', display: 'inline-block', marginBottom: '12px' }}>🇹🇷</span>
-            <h4 style={{ fontSize: '20px', fontWeight: 800, color: '#0f172a', marginBottom: '10px' }}>Turkish Excellence</h4>
-            <p style={{ fontSize: '14px', color: '#64748b', lineHeight: 1.6, margin: 0 }}>
-              Recognized internationally for excellence in European and Middle Eastern hospitality, bringing global standards of service, architecture, and luxury living to Pakistan.
-            </p>
-          </div>
-
-          <div className="profile-feature-card floating-card-hover" style={{ background: '#ffffff', padding: '32px', borderRadius: '24px', border: '1px solid #e2e8f0', boxShadow: '0 12px 35px rgba(0,0,0,0.06)' }}>
-            <span style={{ fontSize: '36px', display: 'inline-block', marginBottom: '12px' }}>🏨</span>
-            <h4 style={{ fontSize: '20px', fontWeight: 800, color: '#0f172a', marginBottom: '10px' }}>Branded Residences</h4>
-            <p style={{ fontSize: '14px', color: '#64748b', lineHeight: 1.6, margin: 0 }}>
-              Introduces hotel-standard housekeeping, 24/7 concierge, room service, and hands-off property management for all 78 serviced apartments and 2 sky penthouses.
-            </p>
-          </div>
-
-          <div className="profile-feature-card floating-card-hover" style={{ background: '#ffffff', padding: '32px', borderRadius: '24px', border: '1px solid #e2e8f0', boxShadow: '0 12px 35px rgba(0,0,0,0.06)' }}>
-            <span style={{ fontSize: '36px', display: 'inline-block', marginBottom: '12px' }}>📈</span>
-            <h4 style={{ fontSize: '20px', fontWeight: 800, color: '#0f172a', marginBottom: '10px' }}>Investor Confidence</h4>
-            <p style={{ fontSize: '14px', color: '#64748b', lineHeight: 1.6, margin: 0 }}>
-              Strategic location opposite IMARAT Downtown and Monal Restaurant on main Islamabad Expressway, driving 6–7% rental yields for overseas Pakistani investors.
-            </p>
+            {/* Bottom Right Subtitle */}
+            <div style={{ textAlign: 'right', marginTop: '24px' }}>
+              <p
+                style={{
+                  fontSize: '13px',
+                  color: '#94a3b8',
+                  margin: 0,
+                  fontStyle: 'italic',
+                  fontFamily: "'Cormorant Garamond', Georgia, serif"
+                }}
+              >
+                Islamabad Club Official Partnership Ceremony • Continent Hotels & Resorts
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-
-      {/* INFORMATIONAL DISCLAIMER SECTION */}
-      <div style={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '20px', padding: '24px 32px', marginBottom: '40px' }}>
-        <h5 style={{ fontSize: '13px', fontWeight: 800, color: '#0f172a', textTransform: 'uppercase', letterSpacing: '1px', margin: '0 0 8px 0' }}>
-          ℹ️ OFFICIAL PRESS DISCLAIMER
-        </h5>
-        <p style={{ fontSize: '12.5px', color: '#64748b', lineHeight: 1.6, margin: 0 }}>
-          This information is based on publicly reported franchise announcements between Continent Worldwide Hospitality Group and RJ Developers. Property specifications, amenities, and handover dates remain governed by official buyer-seller contracts registered under CDA and Bahria Town guidelines.
-        </p>
-      </div>
-
-      {/* CTA Button */}
-      <div style={{ textAlign: 'center' }}>
-        <button
-          className="hero-btn"
-          onClick={() => onNavigate('serviced-apartments')}
-          style={{ background: '#0f172a', color: '#ffffff', padding: '14px 36px', borderRadius: '99px', fontSize: '15px', fontWeight: 700, border: 'none', cursor: 'pointer', boxShadow: '0 8px 24px rgba(15,23,42,0.2)' }}
-        >
-          Explore Serviced Apartments & Floorplans →
-        </button>
       </div>
 
       {/* SHARED LAYOUT MORPHING TRANSITION CONTAINER (FLIP ANIMATION) */}

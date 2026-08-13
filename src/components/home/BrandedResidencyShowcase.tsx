@@ -401,7 +401,7 @@ export const BrandedResidencyShowcase: React.FC<BrandedResidencyShowcaseProps> =
             onClick={() => onNavigate('serviced-apartments')}
             style={{
               padding: '16px 44px',
-              borderRadius: '99px',
+              borderRadius: '0px',
               fontSize: '14px',
               fontWeight: 800,
               background: '#152247',

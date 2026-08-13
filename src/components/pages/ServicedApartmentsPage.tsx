@@ -342,7 +342,7 @@ const CurtainUpCard: React.FC<{
       ref={cardRef}
       style={{
         background: '#ffffff',
-        borderRadius: '12px',
+        borderRadius: '0px',
         padding: '24px',
         display: 'flex',
         flexDirection: 'column',
@@ -361,7 +361,7 @@ const CurtainUpCard: React.FC<{
             position: 'relative',
             width: '78%',
             height: '100%',
-            borderRadius: '6px',
+            borderRadius: '0px',
             overflow: 'hidden',
             background: isLayout ? '#ffffff' : '#f8fafc',
             border: isLayout ? '1px solid #e2e8f0' : 'none',
@@ -456,7 +456,7 @@ const WhatWeOfferSection: React.FC<{ onNavigate: (tabId: string) => void }> = ({
     <div
       style={{
         position: 'relative',
-        borderRadius: '24px',
+        borderRadius: '0px',
         overflow: 'hidden',
         background: 'linear-gradient(135deg, rgba(21, 34, 71, 0.88) 0%, rgba(15, 25, 55, 0.90) 100%), url("https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGFwYXJ0bWVudHxlbnwwfHwwfHx8MA%3D%3D?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat',
         padding: '72px 56px',
@@ -528,7 +528,7 @@ const WhatWeOfferSection: React.FC<{ onNavigate: (tabId: string) => void }> = ({
                 border: 'none',
                 color: '#152247',
                 padding: '14px 32px',
-                borderRadius: '99px',
+                borderRadius: '0px',
                 fontSize: '13px',
                 fontWeight: 800,
                 letterSpacing: '1.5px',
@@ -979,7 +979,7 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({
         {/* 5. EXTERIOR ARCHITECTURE & AMENITIES SECTION (Left Heading, Right Text & Amenity Cards) */}
         <ExteriorAmenitiesSection />
 
-        {/* 6. WHAT WE OFFER SECTION (Navy Blue Background, 1 & 2 Bed Interiors & Layouts) */}
+        {/* 6. WHAT WE OFFER SECTION */}
         <WhatWeOfferSection onNavigate={onNavigate} />
 
       </div>

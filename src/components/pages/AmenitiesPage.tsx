@@ -149,7 +149,7 @@ export const AmenitiesPage: React.FC<AmenitiesPageProps> = ({ onNavigate }) => {
 
       {/* Footer Callout Highlights Box */}
       <ScrollAnimateSection delay={200}>
-        <div style={{ background: '#152247', color: '#ffffff', padding: '44px', borderRadius: '28px', textAlign: 'center', maxWidth: '900px', margin: '60px auto 0', boxShadow: '0 20px 50px rgba(21, 34, 71, 0.2)' }}>
+        <div style={{ background: '#152247', color: '#ffffff', padding: '44px', borderRadius: '0px', textAlign: 'center', maxWidth: '900px', margin: '60px auto 0', boxShadow: '0 20px 50px rgba(21, 34, 71, 0.2)' }}>
           <h3 style={{ fontSize: '26px', fontWeight: 900, marginBottom: '12px', color: '#ffffff', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>Everything You Need, All in One Place</h3>
           <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.85)', maxWidth: '650px', margin: '0 auto 28px', lineHeight: '1.6' }}>
             From 20 active commercial kiosks driving retail income to rooftop pool relaxation and round-the-clock housekeeping.
@@ -157,7 +157,7 @@ export const AmenitiesPage: React.FC<AmenitiesPageProps> = ({ onNavigate }) => {
           <button
             className="hero-btn"
             onClick={() => onNavigate('book-now')}
-            style={{ background: '#ffffff', color: '#152247', padding: '14px 36px', borderRadius: '99px', fontWeight: 800, fontSize: '15px', border: 'none', cursor: 'pointer', boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)', transition: 'all 0.3s ease' }}
+            style={{ background: '#ffffff', color: '#152247', padding: '14px 36px', borderRadius: '0px', fontWeight: 800, fontSize: '15px', border: 'none', cursor: 'pointer', boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)', transition: 'all 0.3s ease' }}
           >
             Book Your Unit Today
           </button>

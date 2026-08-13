@@ -122,7 +122,7 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
         }
         .suite-pill-btn {
           padding: 10px 24px;
-          border-radius: 99px;
+          border-radius: 0px !important;
           font-family: 'Space Grotesk', system-ui, sans-serif;
           font-size: 14px;
           font-weight: 700;

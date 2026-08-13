@@ -65,7 +65,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               target.src = '/images/Larom-logo.jpg';
             }
           }}
-          style={{ height: '42px', width: 'auto', borderRadius: '6px', objectFit: 'contain' }}
+          style={{ height: '42px', width: 'auto', borderRadius: '0px', objectFit: 'contain' }}
         />
         <span className="logo-text">RJ's Larom<br /><strong className="logo-sub">Residences</strong></span>
       </div>

@@ -49,20 +49,21 @@
   --pill-text: #ffffff;
   --border-light: rgba(21, 34, 71, 0.12);
   --border-dark: rgba(255, 255, 255, 0.15);
-  --radius-lg: 24px;
-  --radius-md: 16px;
-  --radius-sm: 8px;
-  --radius-pill: 9999px;
+  --radius-lg: 0px;
+  --radius-md: 0px;
+  --radius-sm: 0px;
+  --radius-pill: 0px;
   --shadow-sm: 0 4px 12px rgba(21, 34, 71, 0.05);
   --shadow-md: 0 10px 30px rgba(21, 34, 71, 0.08);
   --shadow-lg: 0 20px 40px rgba(21, 34, 71, 0.15);
   --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-*, *::before, *::after {
+*, *::before, *::after, body, div, section, article, header, footer, button, input, select, textarea, img, span, a, iframe, form, label {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  border-radius: 0px !important;
   font-family: 'Space Grotesk', 'Outfit', 'Inter', system-ui, sans-serif;
 }
 
@@ -87,13 +88,20 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 
-button {
-  font-family: 'Inter', sans-serif;
+button, .hero-btn, .nav-tab-btn, .contact-cta-btn, .view-detail-btn, .pastel-filter-btn, .reset-filter-btn, .subscribe-btn, .filter-btn, .primary-btn, .secondary-btn, .submit-btn, a.btn {
+  font-family: 'Space Grotesk', 'Outfit', 'Inter', -apple-system, sans-serif !important;
+  border-radius: 0px !important;
+  font-weight: 800 !important;
+  letter-spacing: 1px !important;
+  text-transform: uppercase !important;
   cursor: pointer;
   border: none;
   outline: none;
-  background: none;
-  transition: var(--transition-smooth);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+button:hover, .hero-btn:hover, .nav-tab-btn:hover, .contact-cta-btn:hover, .view-detail-btn:hover, .pastel-filter-btn:hover, .subscribe-btn:hover {
+  transform: translateY(-2px);
 }
 
 @keyframes decentRowEntrance {
@@ -363,17 +371,20 @@ input, select, textarea {
   padding: 14px 32px;
   background: #ffffff;
   color: #121318;
-  border-radius: var(--radius-pill);
-  font-weight: 700;
-  font-size: 15px;
-  box-shadow: var(--shadow-lg);
+  border-radius: 0px !important;
+  font-weight: 800 !important;
+  font-size: 14px;
+  letter-spacing: 1.5px !important;
+  text-transform: uppercase !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   margin-bottom: 40px;
 }
 
 .hero-btn:hover {
-  background: var(--accent-gold);
+  background: #152247;
   color: #ffffff;
   transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.3);
 }
 
 .hero-stats {
@@ -1920,4 +1931,62 @@ button:active,
 .view-detail-btn:active {
   transform: scale(0.95) !important;
   transition: transform 0.1s ease !important;
+}
+
+/* MAXIMUM SPECIFICITY GLOBAL SHARP EDGES & BUTTON DESIGN SYSTEM */
+html body *,
+html body *::before,
+html body *::after,
+html body button,
+html body a,
+html body div,
+html body span,
+html body input,
+html body select,
+html body textarea,
+html body .hero-btn,
+html body .nav-tab-btn,
+html body .contact-cta-btn,
+html body .view-detail-btn,
+html body .pastel-filter-btn,
+html body .reset-filter-btn,
+html body .subscribe-btn,
+html body .filter-btn,
+html body .primary-btn,
+html body .secondary-btn,
+html body .submit-btn,
+html body .favorite-btn,
+html body .icon-btn,
+html body .room-cat-pill,
+html body .floorplan-tab-btn,
+html body .section-subtitle-pill,
+html body .room-type-badge,
+html body .filter-search-box,
+html body .tag-pill,
+html body .badge {
+  border-radius: 0px !important;
+}
+
+/* HOMEPAGE BUTTON DESIGN SYSTEM APPLIED SITE-WIDE TO ALL BUTTONS */
+html body button,
+html body .hero-btn,
+html body a.hero-btn,
+html body .nav-tab-btn,
+html body .contact-cta-btn,
+html body .view-detail-btn,
+html body .pastel-filter-btn,
+html body .reset-filter-btn,
+html body .subscribe-btn,
+html body .filter-btn,
+html body .primary-btn,
+html body .secondary-btn,
+html body .submit-btn,
+html body a.btn {
+  border-radius: 0px !important;
+  font-family: 'Space Grotesk', 'Outfit', 'Inter', -apple-system, sans-serif !important;
+  font-weight: 800 !important;
+  letter-spacing: 1px !important;
+  text-transform: uppercase !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  cursor: pointer !important;
 }

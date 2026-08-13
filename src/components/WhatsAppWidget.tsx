@@ -25,7 +25,7 @@ export const WhatsAppWidget: React.FC = () => {
           background: 'rgba(15, 23, 42, 0.92)',
           color: '#ffffff',
           padding: '8px 16px',
-          borderRadius: '99px',
+          borderRadius: '0px',
           fontSize: '13px',
           fontWeight: 700,
           fontFamily: "'Space Grotesk', 'Outfit', 'Inter', -apple-system, sans-serif",
@@ -53,7 +53,7 @@ export const WhatsAppWidget: React.FC = () => {
         style={{
           width: '60px',
           height: '60px',
-          borderRadius: '50%',
+          borderRadius: '0px',
           background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
           color: '#ffffff',
           display: 'flex',

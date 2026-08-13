@@ -130,10 +130,8 @@ export const WhyToInvestPage: React.FC<WhyToInvestPageProps> = ({ onNavigate }) 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.target === locationGridRef.current) {
-            setIsLocationVisible(entry.isIntersecting);
-          }
           if (entry.isIntersecting) {
+            if (entry.target === locationGridRef.current) setIsLocationVisible(true);
             if (entry.target === donutChartRef.current) setDonutAnimated(true);
             if (entry.target === pieChartRef.current) setPieAnimated(true);
             if (entry.target === barChartRef.current) setBarAnimated(true);
@@ -287,7 +285,7 @@ export const WhyToInvestPage: React.FC<WhyToInvestPageProps> = ({ onNavigate }) 
               onClick={() => setSelectedMetric('yield')}
               style={{
                 padding: '10px 20px',
-                borderRadius: '99px',
+                borderRadius: '0px',
                 fontSize: '13px',
                 fontWeight: 800,
                 background: selectedMetric === 'yield' ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)' : '#ffffff',
@@ -305,7 +303,7 @@ export const WhyToInvestPage: React.FC<WhyToInvestPageProps> = ({ onNavigate }) 
               onClick={() => setSelectedMetric('price')}
               style={{
                 padding: '8px 18px',
-                borderRadius: '99px',
+                borderRadius: '0px',
                 fontSize: '12px',
                 fontWeight: 800,
                 background: selectedMetric === 'price' ? '#152247' : '#ffffff',
@@ -321,7 +319,7 @@ export const WhyToInvestPage: React.FC<WhyToInvestPageProps> = ({ onNavigate }) 
               onClick={() => setSelectedMetric('escalation')}
               style={{
                 padding: '8px 18px',
-                borderRadius: '99px',
+                borderRadius: '0px',
                 fontSize: '12px',
                 fontWeight: 800,
                 background: selectedMetric === 'escalation' ? '#152247' : '#ffffff',
@@ -1044,7 +1042,7 @@ export const WhyToInvestPage: React.FC<WhyToInvestPageProps> = ({ onNavigate }) 
         <button
           className="hero-btn"
           onClick={() => onNavigate('book-now')}
-          style={{ background: '#121318', color: '#ffffff', padding: '14px 36px', borderRadius: '99px', fontSize: '15px', fontWeight: 700 }}
+          style={{ background: '#121318', color: '#ffffff', padding: '14px 36px', borderRadius: '0px', fontSize: '15px', fontWeight: 700 }}
         >
           Book Your Unit
         </button>

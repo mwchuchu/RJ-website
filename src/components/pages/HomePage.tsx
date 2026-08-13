@@ -213,7 +213,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     background: '#152247',
                     color: '#ffffff',
                     padding: '16px 44px',
-                    borderRadius: '99px',
+                    borderRadius: '0px',
                     fontSize: '15px',
                     fontWeight: 800,
                     border: 'none',
