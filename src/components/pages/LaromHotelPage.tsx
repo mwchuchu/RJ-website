@@ -9,44 +9,9 @@ interface SharedLayoutState {
   rect: DOMRect;
 }
 
-// Animated counter component for numerical values
-const AnimatedCounter: React.FC<{ target: number; suffix?: string; prefix?: string; duration?: number }> = ({
-  target,
-  suffix = '',
-  prefix = '',
-  duration = 2000
-}) => {
-  const [count, setCount] = useState(0);
 
-  useEffect(() => {
-    let startTimestamp: number | null = null;
-    let animationFrameId: number;
 
-    const step = (timestamp: number) => {
-      if (!startTimestamp) startTimestamp = timestamp;
-      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-      const easeOutProgress = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.floor(easeOutProgress * target));
-
-      if (progress < 1) {
-        animationFrameId = window.requestAnimationFrame(step);
-      }
-    };
-
-    animationFrameId = window.requestAnimationFrame(step);
-    return () => window.cancelAnimationFrame(animationFrameId);
-  }, [target, duration]);
-
-  return (
-    <span>
-      {prefix}
-      {count}
-      {suffix}
-    </span>
-  );
-};
-
-export const LaromHotelPage: React.FC<LaromHotelPageProps> = ({ onNavigate }) => {
+export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
   const [sharedLayout, setSharedLayout] = useState<SharedLayoutState | null>(null);
   const [isExpanding, setIsExpanding] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
@@ -92,9 +57,6 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = ({ onNavigate }) =>
     return () => observer.disconnect();
   }, []);
 
-  const [activeGalleryIndex, setActiveGalleryIndex] = useState(0);
-  const [activeFilter, setActiveFilter] = useState('All Moments');
-
   // Agreement Signing Photos with categories for filter pill bar
   const signingPhotos = [
     {
@@ -138,14 +100,6 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = ({ onNavigate }) =>
       subText: 'Celebrating foreign investment and hospitality excellence in Pakistan'
     }
   ];
-
-  const categories = ['All Moments', 'Signing Ceremony', 'Document Exchange', 'VIP Assembly', 'Architectural Model'];
-
-  const filteredPhotos = activeFilter === 'All Moments'
-    ? signingPhotos
-    : signingPhotos.filter((p) => p.category === activeFilter);
-
-  const safeIndex = activeGalleryIndex % filteredPhotos.length;
 
   const handleImgError = (e: React.SyntheticEvent<HTMLImageElement, Event>, altSources: string[]) => {
     const target = e.currentTarget;
@@ -997,6 +951,8 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = ({ onNavigate }) =>
               ].map((item, index) => (
                 <div
                   key={index}
+                  ref={(el) => { cardRefs.current[index] = el; }}
+                  onClick={() => handleOpenSharedLayout(index)}
                   style={{
                     background: '#ffffff',
                     borderRadius: '0px',
@@ -1008,7 +964,8 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = ({ onNavigate }) =>
                     boxShadow: '0 15px 40px rgba(0, 0, 0, 0.2)',
                     border: '1px solid #f1f5f9',
                     position: 'relative',
-                    overflow: 'hidden'
+                    overflow: 'hidden',
+                    cursor: 'pointer'
                   }}
                 >
                   <div style={{ position: 'relative', width: '100%', height: '220px', borderRadius: '0px', overflow: 'hidden' }}>
