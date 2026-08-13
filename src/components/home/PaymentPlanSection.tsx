@@ -21,12 +21,12 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
       id: 0,
       name: 'Down Payment',
       percentage: 25,
-      color: '#152247', // Primary Navy
-      hoverColor: '#1F3063',
+      color: '#2563EB', // High-Contrast Vibrant Royal Blue
+      hoverColor: '#1D4ED8',
       description: 'Immediate booking & suite allocation upon 25% down payment.',
       detailKey: 'downPayment' as const,
       icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#152247" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
         </svg>
       )
@@ -35,12 +35,12 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
       id: 1,
       name: 'Easy Installments',
       percentage: 60,
-      color: '#1F3063', // Primary Light / Hover Navy
-      hoverColor: '#152247',
+      color: '#152247', // Deep Primary Navy
+      hoverColor: '#1F3063',
       description: '60% spread over 3.5 years (42 monthly or 14 quarterly installments).',
       detailKey: 'monthly' as const,
       icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F3063" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#152247" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
           <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
           <line x1="16" y1="2" x2="16" y2="6"/>
           <line x1="8" y1="2" x2="8" y2="6"/>
@@ -52,12 +52,12 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
       id: 2,
       name: 'On Possession',
       percentage: 15,
-      color: '#0C142B', // Deep Navy Dark
-      hoverColor: '#1F3063',
+      color: '#0284c7', // Distinct Lighter Azure/Sky Blue
+      hoverColor: '#0369a1',
       description: '15% final payment due upon key handover (June 2027).',
       detailKey: 'possession' as const,
       icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0C142B" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0284c7" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.778-7.778zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
         </svg>
       )
@@ -123,19 +123,44 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
         .suite-pill-btn {
           padding: 10px 24px;
           border-radius: 99px;
+          font-family: 'Space Grotesk', system-ui, sans-serif;
           font-size: 14px;
           font-weight: 700;
           border: 1px solid #cbd5e1;
           background: #ffffff;
-          color: #64748b;
+          color: #152247;
           cursor: pointer;
-          transition: all 0.25s ease;
+          position: relative;
+          overflow: hidden;
+          z-index: 1;
+          transition: color 0.4s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .suite-pill-btn::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 0%;
+          background: #152247;
+          transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+          z-index: -1;
+          border-radius: inherit;
+        }
+        .suite-pill-btn:hover::before {
+          height: 100%;
+        }
+        .suite-pill-btn:hover {
+          color: #ffffff;
+          border-color: #152247;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(21, 34, 71, 0.25);
         }
         .suite-pill-btn.active {
-          background: #0284c7;
+          background: #152247;
           color: #ffffff;
-          border-color: #0284c7;
-          box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);
+          border-color: #152247;
+          box-shadow: 0 6px 18px rgba(21, 34, 71, 0.3);
         }
         .circle-poster-node {
           width: 135px;
@@ -190,18 +215,18 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
 
         {/* 3 Overlapping Feature Poster Circles (Pure White & Blue Palette) */}
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '16px', marginBottom: '50px' }}>
-          <div className="circle-poster-node" style={{ animation: 'floatCircle 6s ease-in-out infinite' }}>
-            <div style={{ fontSize: '26px', fontWeight: 900, color: '#0284c7', lineHeight: '1' }}>25%</div>
+          <div className="circle-poster-node" style={{ animation: 'floatCircle 6s ease-in-out infinite', borderColor: '#2563EB', background: '#ffffff' }}>
+            <div style={{ fontSize: '26px', fontWeight: 900, color: '#2563EB', lineHeight: '1' }}>25%</div>
             <div style={{ fontSize: '12px', fontWeight: 700, color: '#0f172a', marginTop: '4px' }}>Down Payment</div>
           </div>
 
-          <div className="circle-poster-node" style={{ zIndex: 2, transform: 'scale(1.12)', borderColor: '#0284c7', background: '#0284c7', animation: 'floatCircle 6s ease-in-out infinite 0.5s' }}>
+          <div className="circle-poster-node" style={{ zIndex: 2, transform: 'scale(1.12)', borderColor: '#152247', background: '#152247', animation: 'floatCircle 6s ease-in-out infinite 0.5s', boxShadow: '0 10px 25px rgba(21, 34, 71, 0.35)' }}>
             <div style={{ fontSize: '32px', fontWeight: 900, color: '#ffffff', lineHeight: '1' }}>60%</div>
-            <div style={{ fontSize: '12px', fontWeight: 800, color: '#e0f2fe', marginTop: '4px' }}>Easy Installments</div>
+            <div style={{ fontSize: '12px', fontWeight: 800, color: '#e2e8f0', marginTop: '4px' }}>Easy Installments</div>
           </div>
 
-          <div className="circle-poster-node" style={{ animation: 'floatCircle 6s ease-in-out infinite 1s' }}>
-            <div style={{ fontSize: '26px', fontWeight: 900, color: '#0369a1', lineHeight: '1' }}>15%</div>
+          <div className="circle-poster-node" style={{ animation: 'floatCircle 6s ease-in-out infinite 1s', borderColor: '#0284c7', background: '#ffffff' }}>
+            <div style={{ fontSize: '26px', fontWeight: 900, color: '#0284c7', lineHeight: '1' }}>15%</div>
             <div style={{ fontSize: '12px', fontWeight: 700, color: '#0f172a', marginTop: '4px' }}>On Possession</div>
           </div>
         </div>
@@ -212,9 +237,9 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
           {/* Left Column: Suite Pricing, Milestone Segment Cards & Explore Button */}
           <div>
             {/* Active Suite Total Price Display Banner */}
-            <div style={{ background: '#f0f9ff', border: '1px solid rgba(2, 132, 199, 0.25)', borderRadius: '16px', padding: '20px 24px', marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ background: '#f0f4ff', border: '1px solid rgba(37, 99, 235, 0.25)', borderRadius: '16px', padding: '20px 24px', marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
-                <div style={{ fontSize: '12px', fontWeight: 800, color: '#0284c7', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                <div style={{ fontSize: '12px', fontWeight: 800, color: '#2563EB', textTransform: 'uppercase', letterSpacing: '1px' }}>
                   {currentSuite.title}
                 </div>
                 <div style={{ fontSize: '26px', fontWeight: 900, color: '#0f172a', marginTop: '2px' }}>
@@ -223,7 +248,7 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
               </div>
               <div style={{ textAlign: 'right' }}>
                 <div style={{ fontSize: '11px', color: '#64748b', fontWeight: 600 }}>Estimated Handover</div>
-                <div style={{ fontSize: '14px', fontWeight: 800, color: '#0284c7' }}>June 2027 (Possession)</div>
+                <div style={{ fontSize: '14px', fontWeight: 800, color: '#2563EB' }}>June 2027 (Possession)</div>
               </div>
             </div>
 
@@ -239,8 +264,8 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
                     onMouseEnter={() => setActiveSegment(seg.id)}
                     onMouseLeave={() => setActiveSegment(null)}
                     style={{
-                      background: isHovered ? '#e0f2fe' : '#ffffff',
-                      border: isHovered ? '1.5px solid #0284c7' : '1px solid #e2e8f0',
+                      background: isHovered ? '#f0f4ff' : '#ffffff',
+                      border: isHovered ? `1.5px solid ${seg.color}` : '1px solid #e2e8f0',
                       borderRadius: '16px',
                       padding: '18px 22px',
                       display: 'flex',
@@ -248,7 +273,7 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
                       justifyContent: 'space-between',
                       transition: 'all 0.25s ease',
                       transform: isHovered ? 'translateX(6px)' : 'none',
-                      boxShadow: isHovered ? '0 8px 24px rgba(2, 132, 199, 0.15)' : '0 4px 12px rgba(15, 23, 42, 0.03)',
+                      boxShadow: isHovered ? `0 8px 24px ${seg.color}25` : '0 4px 12px rgba(15, 23, 42, 0.03)',
                       cursor: 'pointer'
                     }}
                   >
@@ -279,7 +304,7 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
                     </div>
 
                     <div style={{ textAlign: 'right', minWidth: '130px' }}>
-                      <div style={{ fontSize: '16px', fontWeight: 900, color: isHovered ? '#0284c7' : '#0f172a' }}>
+                      <div style={{ fontSize: '16px', fontWeight: 900, color: isHovered ? seg.color : '#0f172a' }}>
                         {valueText}
                       </div>
                       <div style={{ fontSize: '10px', color: '#64748b', fontWeight: 700, textTransform: 'uppercase' }}>
@@ -294,9 +319,10 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
             {/* Explore Payment Plan Button */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
               <button
+                className="home-curtain-btn"
                 onClick={() => onNavigate('payment-plan')}
                 style={{
-                  background: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)',
+                  background: '#152247',
                   color: '#ffffff',
                   fontSize: '16px',
                   fontWeight: 800,
@@ -304,29 +330,16 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
                   borderRadius: '99px',
                   border: 'none',
                   cursor: 'pointer',
-                  boxShadow: '0 10px 25px rgba(2, 132, 199, 0.3)',
-                  transition: 'all 0.3s ease',
+                  boxShadow: '0 10px 28px rgba(21, 34, 71, 0.3)',
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '10px',
                   letterSpacing: '0.5px'
                 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 14px 32px rgba(2, 132, 199, 0.45)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 10px 25px rgba(2, 132, 199, 0.3)';
-                }}
               >
                 <span>Explore Payment Plan</span>
                 <span style={{ fontSize: '18px' }}>→</span>
               </button>
-
-              <div style={{ fontSize: '13px', color: '#64748b', fontWeight: 600 }}>
-                ✓ Guaranteed 6–7% Annual ROI Dividend
-              </div>
             </div>
           </div>
 

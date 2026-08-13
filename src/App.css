@@ -2313,7 +2313,7 @@
   z-index: 3;
 }
 
-/* Mouse-Following Blue Spotlight Light Overlay */
+/* Mouse-Following Navy Blue Spotlight Light Overlay */
 .amenity-card-inner .cursor-blue-light,
 .amenity-photo-card .cursor-blue-light,
 .cursor-blue-light {
@@ -2326,8 +2326,8 @@
   pointer-events: none;
   background: radial-gradient(
     160px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(56, 189, 248, 0.45) 0%,
-    rgba(2, 132, 199, 0.25) 50%,
+    rgba(30, 58, 138, 0.5) 0%,
+    rgba(21, 34, 71, 0.3) 50%,
     transparent 85%
   );
   opacity: var(--light-opacity, 0);
@@ -3005,14 +3005,14 @@
 }
 
 .construction-badge-tag {
-  background: #e0f2fe;
-  color: #0284c7;
+  background: #f0f4ff;
+  color: #152247;
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 1.5px;
   padding: 4px 12px;
   border-radius: 99px;
-  border: 1px solid rgba(2, 132, 199, 0.3);
+  border: 1px solid rgba(21, 34, 71, 0.25);
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -3040,13 +3040,13 @@
 .roller-hazard-fill {
   position: relative;
   height: 100%;
-  background: repeating-linear-gradient(45deg, #0284c7 0 16px, #0f172a 16px 32px);
+  background: repeating-linear-gradient(45deg, #152247 0 16px, #2563EB 16px 32px);
   background-size: 45px 45px;
   animation: continuousHazardScroll 1.5s linear infinite;
   border-radius: 4px 0 0 4px;
   transition: width 0.1s linear;
   z-index: 2;
-  box-shadow: 3px 0 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 3px 0 12px rgba(21, 34, 71, 0.3);
   overflow: hidden;
 }
 
@@ -3153,15 +3153,15 @@
 }
 
 .gold-separator, .blue-separator {
-  color: #0284c7;
+  color: #152247;
 }
 
 .bold-wip {
-  color: #0284c7;
-  background: rgba(2, 132, 199, 0.12);
+  color: #152247;
+  background: #f0f4ff;
   padding: 2px 10px;
   border-radius: 99px;
-  border: 1px solid rgba(2, 132, 199, 0.3);
+  border: 1px solid rgba(21, 34, 71, 0.25);
 }
 
 
@@ -3182,7 +3182,7 @@
 }
 
 .progress-bar-label .percent-text {
-  color: #0284c7;
+  color: #152247;
   font-size: 18px;
   font-weight: 800;
 }
@@ -3190,7 +3190,7 @@
 
 .progress-track {
   height: 10px;
-  background: #e0f2fe;
+  background: #f0f4ff;
   border-radius: 99px;
   overflow: hidden;
 }
@@ -3198,7 +3198,7 @@
 .progress-fill {
   position: relative;
   height: 100%;
-  background: linear-gradient(90deg, #0284c7 0%, #38bdf8 100%);
+  background: linear-gradient(90deg, #152247 0%, #2563EB 100%);
   border-radius: 99px;
   transition: width 1.5s ease;
   overflow: hidden;
@@ -3242,20 +3242,20 @@
 }
 
 .highlight-milestone {
-  background: #f0f9ff !important;
-  border: 1px solid rgba(2, 132, 199, 0.4) !important;
-  box-shadow: 0 4px 15px rgba(2, 132, 199, 0.12);
+  background: #f0f4ff !important;
+  border: 1px solid rgba(21, 34, 71, 0.4) !important;
+  box-shadow: 0 4px 15px rgba(21, 34, 71, 0.12);
   animation: milestonePulse 3s infinite alternate;
 }
 
 @keyframes milestonePulse {
   0% {
-    border-color: rgba(2, 132, 199, 0.3);
-    box-shadow: 0 4px 15px rgba(2, 132, 199, 0.08);
+    border-color: rgba(21, 34, 71, 0.3);
+    box-shadow: 0 4px 15px rgba(21, 34, 71, 0.08);
   }
   100% {
-    border-color: rgba(2, 132, 199, 0.8);
-    box-shadow: 0 6px 20px rgba(2, 132, 199, 0.22);
+    border-color: rgba(21, 34, 71, 0.8);
+    box-shadow: 0 6px 20px rgba(21, 34, 71, 0.22);
   }
 }
 
@@ -3286,18 +3286,21 @@
 }
 
 .status-dot.completed {
-  background: rgba(212, 175, 55, 0.18);
-  color: var(--accent-gold-dark);
+  background: #f0f4ff;
+  color: #152247;
+  border: 1px solid rgba(21, 34, 71, 0.2);
 }
 
 .status-dot.in-progress {
-  background: #fef3c7;
-  color: #b45309;
+  background: #eff6ff;
+  color: #2563EB;
+  border: 1px solid rgba(37, 99, 235, 0.25);
 }
 
 .status-dot.pending {
-  background: #f1f5f9;
+  background: #f8fafc;
   color: #94a3b8;
+  border: 1px solid #e2e8f0;
 }
 
 /* SEQUENTIAL HORIZONTAL AMENITY SECTIONS & GRID OF SUB-CARDS */
@@ -3939,6 +3942,27 @@
   height: 100%;
   object-fit: cover;
   transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* PRIME LOCATION IMAGE CURTAIN DROP OVERLAY */
+.prime-location-curtain-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #152247;
+  z-index: 4;
+  pointer-events: none;
+  transform: translateY(0%);
+  opacity: 1;
+  transition: none;
+}
+
+.prime-location-curtain-overlay.curtain-drop {
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.85s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.4s ease 0.45s;
 }
 
 .location-event-card-item:hover .location-event-bg-img {
@@ -4701,11 +4725,51 @@
 }
 
 /* STADIUM CAPSULE AMENITIES SHOWCASE SECTION & EXPLORE BUTTONS */
+/* Uniform Curtain Drop Hover Animation for Home Page Buttons */
+.home-curtain-btn,
+.stadium-explore-btn {
+  position: relative !important;
+  overflow: hidden !important;
+  z-index: 1 !important;
+  font-family: 'Space Grotesk', 'Outfit', 'Inter', -apple-system, sans-serif !important;
+  font-weight: 800 !important;
+  border-radius: 99px !important;
+  background: #152247 !important;
+  color: #ffffff !important;
+  border: none !important;
+  cursor: pointer !important;
+  box-shadow: 0 10px 28px rgba(21, 34, 71, 0.25) !important;
+  transition: color 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+              box-shadow 0.4s ease,
+              transform 0.35s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+
+.home-curtain-btn::before,
+.stadium-explore-btn::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 0% !important;
+  background: #2563EB !important;
+  transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
+  z-index: -1 !important;
+  border-radius: inherit !important;
+}
+
+.home-curtain-btn:hover::before,
+.stadium-explore-btn:hover::before {
+  height: 100% !important;
+}
+
 .explore-more-btn:hover,
-.stadium-explore-btn:hover {
-  background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%) !important;
-  transform: translateY(-4px) scale(1.03) !important;
-  box-shadow: 0 20px 45px rgba(2, 132, 199, 0.55) !important;
+.stadium-explore-btn:hover,
+.home-curtain-btn:hover {
+  background: #152247 !important;
+  color: #ffffff !important;
+  transform: translateY(-4px) scale(1.02) !important;
+  box-shadow: 0 16px 36px rgba(37, 99, 235, 0.45) !important;
 }
 
 @keyframes blobFluidPulse {
@@ -4720,18 +4784,18 @@
 }
 
 .stadium-video-btn:hover {
-  color: #0284c7 !important;
+  color: #152247 !important;
 }
 
 .stadium-video-btn:hover span {
-  background: #0284c7 !important;
+  background: #152247 !important;
   color: #ffffff !important;
-  box-shadow: 0 0 0 6px rgba(2, 132, 199, 0.2) !important;
+  box-shadow: 0 0 0 6px rgba(21, 34, 71, 0.2) !important;
 }
 
 .stadium-capsule-card:hover {
   transform: translateY(-8px) scale(1.03) !important;
-  box-shadow: 0 35px 80px rgba(2, 132, 199, 0.4) !important;
+  box-shadow: 0 35px 80px rgba(21, 34, 71, 0.45) !important;
 }
 
 @media (max-width: 1024px) {

@@ -119,6 +119,7 @@ export const WhyToInvestPage: React.FC<WhyToInvestPageProps> = ({ onNavigate }) 
   const [donutAnimated, setDonutAnimated] = useState(false);
   const [pieAnimated, setPieAnimated] = useState(false);
   const [barAnimated, setBarAnimated] = useState(false);
+  const [isLocationVisible, setIsLocationVisible] = useState(false);
 
   const locationGridRef = useRef<HTMLDivElement>(null);
   const donutChartRef = useRef<HTMLDivElement>(null);
@@ -129,6 +130,9 @@ export const WhyToInvestPage: React.FC<WhyToInvestPageProps> = ({ onNavigate }) 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          if (entry.target === locationGridRef.current) {
+            setIsLocationVisible(entry.isIntersecting);
+          }
           if (entry.isIntersecting) {
             if (entry.target === donutChartRef.current) setDonutAnimated(true);
             if (entry.target === pieChartRef.current) setPieAnimated(true);
@@ -142,6 +146,7 @@ export const WhyToInvestPage: React.FC<WhyToInvestPageProps> = ({ onNavigate }) 
     if (donutChartRef.current) observer.observe(donutChartRef.current);
     if (pieChartRef.current) observer.observe(pieChartRef.current);
     if (barChartRef.current) observer.observe(barChartRef.current);
+    if (locationGridRef.current) observer.observe(locationGridRef.current);
 
     return () => observer.disconnect();
   }, []);
@@ -997,6 +1002,12 @@ export const WhyToInvestPage: React.FC<WhyToInvestPageProps> = ({ onNavigate }) 
                 >
                   {/* Full Bleed Background Image */}
                   <img src={item.image} alt={item.title} className="location-event-bg-img" />
+
+                  {/* Top-to-Bottom Curtain Drop Overlay Animation on Scroll */}
+                  <div
+                    className={`prime-location-curtain-overlay ${isLocationVisible ? 'curtain-drop' : ''}`}
+                    style={{ transitionDelay: `${idx * 120}ms` }}
+                  />
 
                   {/* Color Gradient Overlay */}
                   <div className="location-event-gradient-overlay" />

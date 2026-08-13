@@ -183,12 +183,29 @@ export const BrandedResidencyShowcase: React.FC<BrandedResidencyShowcaseProps> =
           align-items: center;
           justify-content: center;
           box-shadow: 0 6px 16px rgba(21, 34, 71, 0.25);
-          transition: all 0.25s ease;
+          transition: color 0.4s ease, transform 0.3s ease, box-shadow 0.3s ease;
+          position: relative;
+          overflow: hidden;
+          z-index: 1;
+        }
+        .nav-btn-navy::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 0%;
+          background: #2563EB;
+          transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+          z-index: -1;
+          border-radius: inherit;
+        }
+        .nav-btn-navy:hover::before {
+          height: 100%;
         }
         .nav-btn-navy:hover {
-          background: #1e3163;
           transform: translateY(-2px);
-          box-shadow: 0 8px 20px rgba(21, 34, 71, 0.35);
+          box-shadow: 0 10px 22px rgba(21, 34, 71, 0.4);
         }
       `}</style>
 
@@ -380,6 +397,7 @@ export const BrandedResidencyShowcase: React.FC<BrandedResidencyShowcaseProps> =
         {/* Bottom CTA Action Button */}
         <div style={{ textAlign: 'center', marginTop: '56px' }}>
           <button
+            className="home-curtain-btn"
             onClick={() => onNavigate('serviced-apartments')}
             style={{
               padding: '16px 44px',
@@ -391,8 +409,7 @@ export const BrandedResidencyShowcase: React.FC<BrandedResidencyShowcaseProps> =
               border: 'none',
               cursor: 'pointer',
               letterSpacing: '0.5px',
-              boxShadow: '0 8px 24px rgba(21, 34, 71, 0.2)',
-              transition: 'all 0.3s ease'
+              boxShadow: '0 8px 24px rgba(21, 34, 71, 0.25)'
             }}
           >
             Explore Serviced Apartments →

@@ -174,7 +174,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                   style={{
                     position: 'relative',
                     display: 'inline-block',
-                    color: '#152247'
+                    color: '#2563EB'
                   }}
                 >
                   Amenities
@@ -192,7 +192,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     <path
                       d="M0 10 Q 25 20, 50 10 T 100 10"
                       fill="none"
-                      stroke="#152247"
+                      stroke="#2563EB"
                       strokeWidth="4"
                       strokeLinecap="round"
                     />
@@ -207,7 +207,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               {/* Action Button */}
               <div style={{ marginBottom: '44px' }}>
                 <button
-                  className="stadium-explore-btn"
+                  className="stadium-explore-btn home-curtain-btn"
                   onClick={() => onNavigate('amenities')}
                   style={{
                     background: '#152247',
@@ -218,7 +218,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     fontWeight: 800,
                     border: 'none',
                     cursor: 'pointer',
-                    boxShadow: '0 12px 32px rgba(2, 132, 199, 0.35)',
+                    boxShadow: '0 12px 32px rgba(21, 34, 71, 0.35)',
                     transition: 'all 0.35s cubic-bezier(0.25, 1, 0.5, 1)',
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -229,56 +229,22 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 </button>
               </div>
 
-              {/* Bottom 3 Stat Cards Bar */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', maxWidth: '540px' }}>
+              {/* Single Highlight Stat Card */}
+              <div style={{ display: 'inline-flex', maxWidth: '300px' }}>
                 <div
                   style={{
                     background: '#f8fafc',
-                    border: '1px solid #e2e8f0',
+                    border: '1px solid #cbd5e1',
                     borderRadius: '16px',
-                    padding: '16px 20px',
-                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.03)'
+                    padding: '16px 24px',
+                    boxShadow: '0 4px 18px rgba(21, 34, 71, 0.06)'
                   }}
                 >
-                  <div style={{ fontSize: '20px', fontWeight: 900, color: '#152247', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
-                    33+ <span style={{ fontSize: '14px', color: '#152247' }}>→</span>
+                  <div style={{ fontSize: '22px', fontWeight: 900, color: '#152247', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
+                    33+ <span style={{ fontSize: '15px', color: '#1E3A8A' }}>→</span>
                   </div>
-                  <div style={{ fontSize: '11px', color: '#64748b', fontWeight: 700, marginTop: '2px' }}>
+                  <div style={{ fontSize: '12px', color: '#475569', fontWeight: 700, marginTop: '2px' }}>
                     World-Class Amenities
-                  </div>
-                </div>
-
-                <div
-                  style={{
-                    background: '#f8fafc',
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '16px',
-                    padding: '16px 20px',
-                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.03)'
-                  }}
-                >
-                  <div style={{ fontSize: '20px', fontWeight: 900, color: '#152247', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
-                    100% <span style={{ fontSize: '14px', color: '#152247' }}>→</span>
-                  </div>
-                  <div style={{ fontSize: '11px', color: '#64748b', fontWeight: 700, marginTop: '2px' }}>
-                    Hotel Managed
-                  </div>
-                </div>
-
-                <div
-                  style={{
-                    background: '#f8fafc',
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '16px',
-                    padding: '16px 20px',
-                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.03)'
-                  }}
-                >
-                  <div style={{ fontSize: '20px', fontWeight: 900, color: '#152247', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
-                    6–7% <span style={{ fontSize: '14px', color: '#152247' }}>→</span>
-                  </div>
-                  <div style={{ fontSize: '11px', color: '#64748b', fontWeight: 700, marginTop: '2px' }}>
-                    Rental Yield
                   </div>
                 </div>
               </div>
@@ -306,7 +272,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     borderRadius: '999px',
                     overflow: 'hidden',
                     border: '4px solid #ffffff',
-                    boxShadow: '0 20px 50px rgba(2, 132, 199, 0.2)',
+                    boxShadow: '0 20px 50px rgba(21, 34, 71, 0.25)',
                     transform: 'translateX(20px) scale(0.92)',
                     zIndex: 2,
                     transition: 'all 0.5s cubic-bezier(0.25, 1, 0.5, 1)'
@@ -328,7 +294,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     borderRadius: '999px',
                     overflow: 'hidden',
                     border: '6px solid #ffffff',
-                    boxShadow: '0 30px 70px rgba(2, 132, 199, 0.35)',
+                    boxShadow: '0 30px 70px rgba(21, 34, 71, 0.4)',
                     zIndex: 10,
                     position: 'relative',
                     transition: 'all 0.5s cubic-bezier(0.25, 1, 0.5, 1)'
@@ -351,7 +317,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     borderRadius: '999px',
                     overflow: 'hidden',
                     border: '4px solid #ffffff',
-                    boxShadow: '0 20px 50px rgba(2, 132, 199, 0.2)',
+                    boxShadow: '0 20px 50px rgba(21, 34, 71, 0.25)',
                     transform: 'translateX(-20px) scale(0.92)',
                     zIndex: 2,
                     transition: 'all 0.5s cubic-bezier(0.25, 1, 0.5, 1)'
@@ -376,10 +342,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                       width: activeAmenitySlide === dotIdx ? '28px' : '10px',
                       height: '10px',
                       borderRadius: '99px',
-                      background: activeAmenitySlide === dotIdx ? '#0284c7' : '#cbd5e1',
+                      background: activeAmenitySlide === dotIdx ? '#152247' : '#cbd5e1',
                       border: 'none',
                       cursor: 'pointer',
-                      boxShadow: activeAmenitySlide === dotIdx ? '0 0 12px rgba(2, 132, 199, 0.6)' : 'none',
+                      boxShadow: activeAmenitySlide === dotIdx ? '0 0 12px rgba(21, 34, 71, 0.6)' : 'none',
                       transition: 'all 0.35s cubic-bezier(0.25, 1, 0.5, 1)'
                     }}
                   />
@@ -409,33 +375,33 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     {/* Subtle Grid Background */}
                     <g opacity="0.25">
                       {[...Array(9)].map((_, i) => (
-                        <line key={`vgrid-${i}`} x1={i * 35} y1="0" x2={i * 35} y2="340" stroke="#0284c7" strokeWidth="0.8" strokeDasharray="3 3" />
+                        <line key={`vgrid-${i}`} x1={i * 35} y1="0" x2={i * 35} y2="340" stroke="#152247" strokeWidth="0.8" strokeDasharray="3 3" />
                       ))}
                       {[...Array(11)].map((_, i) => (
-                        <line key={`hgrid-${i}`} x1="0" y1={i * 34} x2="280" y2={i * 34} stroke="#0284c7" strokeWidth="0.8" strokeDasharray="3 3" />
+                        <line key={`hgrid-${i}`} x1="0" y1={i * 34} x2="280" y2={i * 34} stroke="#152247" strokeWidth="0.8" strokeDasharray="3 3" />
                       ))}
                     </g>
 
                     {/* Ground Base Axis Line */}
-                    <line x1="20" y1="315" x2="260" y2="315" stroke="#0284c7" strokeWidth="2.5" />
-                    <circle cx="20" cy="315" r="4" fill="#0284c7" />
-                    <circle cx="260" cy="315" r="4" fill="#0284c7" />
+                    <line x1="20" y1="315" x2="260" y2="315" stroke="#152247" strokeWidth="2.5" />
+                    <circle cx="20" cy="315" r="4" fill="#152247" />
+                    <circle cx="260" cy="315" r="4" fill="#152247" />
 
                     {/* Building Outer Frame */}
-                    <rect x="55" y="45" width="170" height="270" rx="8" stroke="#0284c7" strokeWidth="2.5" fill="#ffffff" />
+                    <rect x="55" y="45" width="170" height="270" rx="8" stroke="#152247" strokeWidth="2.5" fill="#ffffff" />
 
                     {/* 14-Storey Floor Dividers & Window Rows */}
                     {[...Array(14)].map((_, i) => {
                       const yPos = 45 + i * 19.2;
                       return (
                         <g key={`floor-${i}`}>
-                          <line x1="55" y1={yPos} x2="225" y2={yPos} stroke="rgba(2, 132, 199, 0.3)" strokeWidth="1" />
+                          <line x1="55" y1={yPos} x2="225" y2={yPos} stroke="rgba(21, 34, 71, 0.3)" strokeWidth="1" />
                           {/* Windows per floor */}
-                          <rect x="70" y={yPos + 4} width="22" height="11" rx="2" fill="rgba(2, 132, 199, 0.12)" stroke="rgba(2, 132, 199, 0.3)" strokeWidth="0.8" />
-                          <rect x="102" y={yPos + 4} width="22" height="11" rx="2" fill="rgba(2, 132, 199, 0.12)" stroke="rgba(2, 132, 199, 0.3)" strokeWidth="0.8" />
-                          <rect x="134" y={yPos + 4} width="22" height="11" rx="2" fill="rgba(2, 132, 199, 0.12)" stroke="rgba(2, 132, 199, 0.3)" strokeWidth="0.8" />
-                          <rect x="166" y={yPos + 4} width="22" height="11" rx="2" fill="rgba(2, 132, 199, 0.12)" stroke="rgba(2, 132, 199, 0.3)" strokeWidth="0.8" />
-                          <rect x="198" y={yPos + 4} width="16" height="11" rx="2" fill="rgba(2, 132, 199, 0.12)" stroke="rgba(2, 132, 199, 0.3)" strokeWidth="0.8" />
+                          <rect x="70" y={yPos + 4} width="22" height="11" rx="2" fill="rgba(21, 34, 71, 0.1)" stroke="rgba(21, 34, 71, 0.25)" strokeWidth="0.8" />
+                          <rect x="102" y={yPos + 4} width="22" height="11" rx="2" fill="rgba(21, 34, 71, 0.1)" stroke="rgba(21, 34, 71, 0.25)" strokeWidth="0.8" />
+                          <rect x="134" y={yPos + 4} width="22" height="11" rx="2" fill="rgba(21, 34, 71, 0.1)" stroke="rgba(21, 34, 71, 0.25)" strokeWidth="0.8" />
+                          <rect x="166" y={yPos + 4} width="22" height="11" rx="2" fill="rgba(21, 34, 71, 0.1)" stroke="rgba(21, 34, 71, 0.25)" strokeWidth="0.8" />
+                          <rect x="198" y={yPos + 4} width="16" height="11" rx="2" fill="rgba(21, 34, 71, 0.1)" stroke="rgba(21, 34, 71, 0.25)" strokeWidth="0.8" />
                         </g>
                       );
                     })}
@@ -445,24 +411,24 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
                     {/* Animated Construction Laser Scan Line */}
                     <g className="arch-laser-scan">
-                      <line x1="30" y1="153" x2="250" y2="153" stroke="#0284c7" strokeWidth="3" strokeDasharray="6 3" />
-                      <rect x="110" y="140" width="60" height="24" rx="12" fill="#0284c7" />
+                      <line x1="30" y1="153" x2="250" y2="153" stroke="#152247" strokeWidth="3" strokeDasharray="6 3" />
+                      <rect x="110" y="140" width="60" height="24" rx="12" fill="#152247" />
                       <text x="140" y="156" fill="#ffffff" fontSize="12" fontWeight="800" textAnchor="middle" fontFamily="Space Grotesk">60%</text>
                     </g>
 
                     {/* Animated Construction Crane Assembly Line at top */}
                     <g className="arch-crane-arm">
-                      <line x1="140" y1="45" x2="140" y2="15" stroke="#0284c7" strokeWidth="2" strokeDasharray="3 3" />
-                      <line x1="100" y1="15" x2="230" y2="15" stroke="#0284c7" strokeWidth="2.5" />
-                      <line x1="200" y1="15" x2="200" y2="70" stroke="#0284c7" strokeWidth="1.5" strokeDasharray="2 2" />
-                      <rect x="195" y="70" width="10" height="10" rx="2" fill="#0284c7" />
+                      <line x1="140" y1="45" x2="140" y2="15" stroke="#152247" strokeWidth="2" strokeDasharray="3 3" />
+                      <line x1="100" y1="15" x2="230" y2="15" stroke="#152247" strokeWidth="2.5" />
+                      <line x1="200" y1="15" x2="200" y2="70" stroke="#152247" strokeWidth="1.5" strokeDasharray="2 2" />
+                      <rect x="195" y="70" width="10" height="10" rx="2" fill="#152247" />
                     </g>
 
                     {/* Gradient Definitions */}
                     <defs>
                       <linearGradient id="blueSoftGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#0284c7" stopOpacity="0.45" />
-                        <stop offset="100%" stopColor="#e0f2fe" stopOpacity="0.9" />
+                        <stop offset="0%" stopColor="#2563EB" stopOpacity="0.65" />
+                        <stop offset="100%" stopColor="#152247" stopOpacity="0.9" />
                       </linearGradient>
                     </defs>
                   </svg>
@@ -492,7 +458,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                         <div className="roller-tool-wrapper">
                           <svg className="roller-tool-svg" viewBox="0 0 50 60" fill="none" xmlns="http://www.w3.org/2000/svg">
                             {/* Roller Cylinder */}
-                            <rect x="5" y="8" width="16" height="32" rx="3" fill="#0284c7" stroke="#0f172a" strokeWidth="2.5" />
+                            <rect x="5" y="8" width="16" height="32" rx="3" fill="#152247" stroke="#0f172a" strokeWidth="2.5" />
                             <line x1="5" y1="16" x2="21" y2="16" stroke="#0f172a" strokeWidth="1.5" />
                             <line x1="5" y1="24" x2="21" y2="24" stroke="#0f172a" strokeWidth="1.5" />
                             <line x1="5" y1="32" x2="21" y2="32" stroke="#0f172a" strokeWidth="1.5" />
