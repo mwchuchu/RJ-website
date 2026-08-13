@@ -11,6 +11,107 @@ interface SharedLayoutState {
 
 
 
+// Drop Curtain Reveal Image Component for Larom Page (Top-to-Bottom Drop)
+const CurtainRevealImage: React.FC<{
+  src: string;
+  alt: string;
+  height: string;
+  marginTop?: string;
+  delay?: number;
+  overlayColor?: string;
+  objectPosition?: string;
+  style?: React.CSSProperties;
+  onError?: (e: React.SyntheticEvent<HTMLImageElement, Event>) => void;
+}> = ({
+  src,
+  alt,
+  height,
+  marginTop = '0px',
+  delay = 0,
+  overlayColor = '#ffffff',
+  objectPosition = 'center',
+  style = {},
+  onError
+}) => {
+  const [isRevealed, setIsRevealed] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const node = cardRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              setIsRevealed(true);
+            }, delay);
+          } else {
+            setIsRevealed(false);
+          }
+        });
+      },
+      { threshold: 0.08, rootMargin: '0px 0px -20px 0px' }
+    );
+
+    observer.observe(node);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [delay]);
+
+  return (
+    <div style={{ marginTop }}>
+      {/* Image Wrapper Container with Drop Curtain Effect */}
+      <div
+        ref={cardRef}
+        style={{
+          position: 'relative',
+          height: height,
+          width: '100%',
+          overflow: 'hidden',
+          background: '#f8fafc',
+          ...style
+        }}
+      >
+        {/* Drop Curtain Overlay: Drops from Top to Bottom to reveal image */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            background: overlayColor,
+            transform: isRevealed ? 'translateY(100%)' : 'translateY(0%)',
+            transition: 'transform 1.4s cubic-bezier(0.77, 0, 0.175, 1)',
+            zIndex: 5,
+            pointerEvents: 'none'
+          }}
+        />
+
+        {/* Interior Photograph with subtle zoom reveal */}
+        <img
+          src={src}
+          alt={alt}
+          onError={onError}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition,
+            transform: isRevealed ? 'scale(1)' : 'scale(1.18)',
+            transition: 'transform 1.6s cubic-bezier(0.16, 1, 0.3, 1)',
+            display: 'block'
+          }}
+        />
+      </div>
+    </div>
+  );
+};
+
 export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
   const [sharedLayout, setSharedLayout] = useState<SharedLayoutState | null>(null);
   const [isExpanding, setIsExpanding] = useState(false);
@@ -20,15 +121,6 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
   const laromEditorialSectionRef = useRef<HTMLDivElement>(null);
   const [isLaromSectionVisible, setIsLaromSectionVisible] = useState(false);
 
-  const regionsSectionRef = useRef<HTMLDivElement>(null);
-  const [isRegionsVisible, setIsRegionsVisible] = useState(false);
-
-  const servicesSectionRef = useRef<HTMLDivElement>(null);
-  const [isServicesVisible, setIsServicesVisible] = useState(false);
-
-  const ceremonySectionRef = useRef<HTMLDivElement>(null);
-  const [isCeremonyVisible, setIsCeremonyVisible] = useState(false);
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -36,24 +128,12 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
           if (entry.target === laromEditorialSectionRef.current && entry.isIntersecting) {
             setIsLaromSectionVisible(true);
           }
-          if (entry.target === regionsSectionRef.current && entry.isIntersecting) {
-            setIsRegionsVisible(true);
-          }
-          if (entry.target === servicesSectionRef.current && entry.isIntersecting) {
-            setIsServicesVisible(true);
-          }
-          if (entry.target === ceremonySectionRef.current && entry.isIntersecting) {
-            setIsCeremonyVisible(true);
-          }
         });
       },
       { threshold: 0.15 }
     );
 
     if (laromEditorialSectionRef.current) observer.observe(laromEditorialSectionRef.current);
-    if (regionsSectionRef.current) observer.observe(regionsSectionRef.current);
-    if (servicesSectionRef.current) observer.observe(servicesSectionRef.current);
-    if (ceremonySectionRef.current) observer.observe(ceremonySectionRef.current);
     return () => observer.disconnect();
   }, []);
 
@@ -240,27 +320,15 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
                 textAlign: 'center'
               }}
             >
-              {/* Center Image */}
-              <div
-                style={{
-                  width: '100%',
-                  height: '260px',
-                  borderRadius: '0px',
-                  overflow: 'hidden',
-                  marginBottom: '24px',
-                  background: '#f4f4f4'
-                }}
-              >
-                <img
+              {/* Center Image with Drop Curtain Effect */}
+              <div style={{ marginBottom: '24px' }}>
+                <CurtainRevealImage
                   src="/images/larom-building image.png"
-                  onError={(e) => {
-                    const target = e.currentTarget;
-                    if (!target.src.includes('buildingimage.png')) {
-                      target.src = '/images/buildingimage.png';
-                    }
-                  }}
                   alt="LAROM Hotel & Residences Building"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center' }}
+                  height="260px"
+                  overlayColor="#ffffff"
+                  objectPosition="top center"
+                  onError={(e) => handleImgError(e, ['/images/buildingimage.png'])}
                 />
               </div>
 
@@ -492,35 +560,19 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
             </div>
           </div>
 
-          {/* Right Column: Architectural Photo Card Squeezed to Right (Matching Reference Image) */}
-          <div
-            style={{
-              position: 'relative',
-              height: '460px',
-              width: '100%',
-              maxWidth: '340px',
-              justifySelf: 'end',
-              borderRadius: '0px',
-              overflow: 'hidden',
-              boxShadow: '0 25px 60px rgba(15, 23, 42, 0.15)',
-              border: '1px solid #e2e8f0'
-            }}
-          >
-            <img
+          {/* Right Column: Architectural Photo Card Squeezed to Right */}
+          <div style={{ width: '100%', maxWidth: '340px', justifySelf: 'end' }}>
+            <CurtainRevealImage
               src="/images/larom-building image.png"
-              onError={(e) => {
-                const target = e.currentTarget;
-                if (!target.src.includes('buildingimage.png')) {
-                  target.src = '/images/buildingimage.png';
-                }
-              }}
               alt="LAROM Building Architecture"
+              height="460px"
+              overlayColor="#f8f9fa"
+              objectPosition="top center"
               style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                objectPosition: 'top center'
+                boxShadow: '0 25px 60px rgba(15, 23, 42, 0.15)',
+                border: '1px solid #e2e8f0'
               }}
+              onError={(e) => handleImgError(e, ['/images/buildingimage.png'])}
             />
           </div>
         </div>
@@ -528,7 +580,6 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
 
       {/* GLOBAL REGIONS STAGGERED GALLERY (ASIA, EUROPE, MIDDLE EAST, UNITED STATES - EXACT MATCH TO REFERENCE MOCKUP UI) */}
       <div
-        ref={regionsSectionRef}
         className="larom-global-regions-section"
         style={{
           background: 'transparent',
@@ -611,34 +662,17 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
           ].map((item, idx) => (
             <div key={idx} style={{ marginTop: item.marginTop }}>
               {/* Image Box with Top-to-Bottom Curtain Drop Animation on Scroll */}
-              <div
+              <CurtainRevealImage
+                src={item.image}
+                alt={item.title}
+                height={item.height}
+                delay={idx * 120}
+                overlayColor="#f8f9fa"
                 style={{
-                  position: 'relative',
-                  height: item.height,
-                  width: '100%',
-                  borderRadius: '0px',
-                  overflow: 'hidden',
                   boxShadow: '0 16px 40px rgba(15, 23, 42, 0.12)',
-                  border: 'none',
                   marginBottom: '16px'
                 }}
-              >
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    transition: 'transform 0.6s ease'
-                  }}
-                />
-                {/* Curtain Drop Overlay Animation on Scroll */}
-                <div
-                  className={`prime-location-curtain-overlay ${isRegionsVisible ? 'curtain-drop' : ''}`}
-                  style={{ transitionDelay: `${idx * 150}ms` }}
-                />
-              </div>
+              />
 
               {/* Card Label & Subtext */}
               <div>
@@ -674,7 +708,6 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
 
       {/* SERVICES & ACCOMMODATIONS STAGGERED GALLERY (GENERAL ROOM, DELUXE ROOM, EXECUTIVE SUITES, PRESIDENTIAL SUITES) */}
       <div
-        ref={servicesSectionRef}
         className="larom-services-accommodations-section"
         style={{
           background: 'transparent',
@@ -757,34 +790,17 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
           ].map((item, idx) => (
             <div key={idx} style={{ marginTop: item.marginTop }}>
               {/* Image Box with Top-to-Bottom Curtain Drop Animation on Scroll */}
-              <div
+              <CurtainRevealImage
+                src={item.image}
+                alt={item.title}
+                height={item.height}
+                delay={idx * 120}
+                overlayColor="#f8f9fa"
                 style={{
-                  position: 'relative',
-                  height: item.height,
-                  width: '100%',
-                  borderRadius: '0px',
-                  overflow: 'hidden',
                   boxShadow: '0 16px 40px rgba(15, 23, 42, 0.12)',
-                  border: 'none',
                   marginBottom: '16px'
                 }}
-              >
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    transition: 'transform 0.6s ease'
-                  }}
-                />
-                {/* Curtain Drop Overlay Animation on Scroll */}
-                <div
-                  className={`prime-location-curtain-overlay ${isServicesVisible ? 'curtain-drop' : ''}`}
-                  style={{ transitionDelay: `${idx * 150}ms` }}
-                />
-              </div>
+              />
 
               {/* Card Label & Subtext */}
               <div>
@@ -820,7 +836,6 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
 
       {/* OUR PARTNERSHIP SECTION (SLATE/NAVY CARD WITH ISLAMABAD CLUB CEREMONY PHOTOS & CURTAIN ANIMATION) */}
       <div
-        ref={ceremonySectionRef}
         className="larom-signing-ceremony-section"
         style={{
           position: 'relative',
@@ -968,17 +983,13 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
                     cursor: 'pointer'
                   }}
                 >
-                  <div style={{ position: 'relative', width: '100%', height: '220px', borderRadius: '0px', overflow: 'hidden' }}>
-                    <img
-                      src={item.image}
-                      alt={item.alt}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    />
-                    <div
-                      className={`prime-location-curtain-overlay ${isCeremonyVisible ? 'curtain-drop' : ''}`}
-                      style={{ transitionDelay: `${index * 150}ms` }}
-                    />
-                  </div>
+                  <CurtainRevealImage
+                    src={item.image}
+                    alt={item.alt}
+                    height="220px"
+                    delay={index * 120}
+                    overlayColor="#ffffff"
+                  />
                   <div style={{ marginTop: '14px' }}>
                     <h4
                       style={{
