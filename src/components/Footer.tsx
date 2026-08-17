@@ -105,6 +105,53 @@ export const Footer: React.FC = () => {
 
   return (
     <footer className="footer-container">
+      <style>{`
+        .footer-partner-link {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          padding: 10px 22px;
+          border-radius: 8px;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          text-decoration: none;
+          cursor: pointer;
+          min-width: 140px;
+        }
+        .footer-partner-link:hover {
+          background: rgba(56, 189, 248, 0.14);
+          border-color: #38bdf8;
+          box-shadow: 0 0 18px rgba(56, 189, 248, 0.35);
+          transform: translateY(-2px);
+        }
+        .footer-partner-link img {
+          transition: filter 0.3s ease, transform 0.3s ease;
+          filter: brightness(1.2) contrast(1.05);
+        }
+        .footer-partner-link:hover img {
+          filter: brightness(0) saturate(100%) invert(64%) sepia(85%) saturate(836%) hue-rotate(167deg) brightness(102%) contrast(97%);
+        }
+        .contact-link-row {
+          display: inline-flex !important;
+          align-items: center !important;
+          gap: 12px !important;
+          color: #cbd5e1 !important;
+          text-decoration: none !important;
+          font-size: 13.5px !important;
+          transition: all 0.25s ease !important;
+        }
+        .contact-link-row svg {
+          transition: transform 0.25s ease;
+        }
+        .contact-link-row:hover {
+          color: #38bdf8 !important;
+        }
+        .contact-link-row:hover svg {
+          transform: scale(1.15);
+        }
+      `}</style>
+
       {/* Horizontal Scrolling Ribbon of Original Partner Logos Without Borders */}
       <div className="footer-ribbon-section">
         <h4 className="partners-title">FEATURED HOSPITALITY & ONLINE BOOKING PARTNERS</h4>
@@ -128,7 +175,7 @@ export const Footer: React.FC = () => {
 
       <div className="footer-top-grid">
         {/* Brand Column with Official Company Logo Showcase */}
-        <div className="footer-col-brand">
+        <div className="footer-col-brand" style={{ minWidth: '340px', flex: '1.4' }}>
           <div className="footer-logo">
             <img
               src="/images/Rj-logo.png"
@@ -145,16 +192,96 @@ export const Footer: React.FC = () => {
           </div>
           <p className="footer-tagline">Pakistan's First Branded Residences on Islamabad Expressway</p>
 
+          {/* Partnered With Section (Spacious wide width with blue hover) */}
+          <div className="footer-partnered-with" style={{ marginTop: '24px', width: '100%', maxWidth: '410px' }}>
+            <span style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '1.8px', textTransform: 'uppercase', color: 'rgba(255, 255, 255, 0.65)', display: 'block', marginBottom: '14px' }}>
+              PARTNERED WITH
+            </span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+              <a
+                href="https://laromhotelresidences.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer-partner-link"
+                title="Visit LAROM Hotel & Residences Website"
+                style={{ flex: '1 1 150px' }}
+              >
+                <img
+                  src="/images/Larom-logo.png"
+                  alt="LAROM Hotels & Residences Logo"
+                  style={{ height: '40px', width: 'auto', objectFit: 'contain', display: 'block' }}
+                />
+              </a>
+              <a
+                href="https://www.continentintl.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer-partner-link"
+                title="Visit Continent Worldwide Hotels Website"
+                style={{ flex: '1 1 150px' }}
+              >
+                <img
+                  src="/images/continent-logo.png"
+                  alt="Continent Worldwide Hotels Logo"
+                  style={{ height: '40px', width: 'auto', objectFit: 'contain', display: 'block' }}
+                />
+              </a>
+            </div>
+          </div>
         </div>
 
-        {/* Contact & WhatsApp Column */}
+        {/* Contact & WhatsApp Column with Official Icons */}
         <div className="footer-col-links">
           <h4>Contact & Direct Inquiries</h4>
           <ul>
-            <li><a href="tel:+923008591434">+92 300 859 1434 (Pakistan HQ)</a></li>
-            <li><a href="tel:+441158880306">+44 115 888 0306 (UK Office)</a></li>
-            <li><a href="https://api.whatsapp.com/send?phone=447448445618" target="_blank" rel="noreferrer">WhatsApp: +44 7448 445618</a></li>
-            <li><a href="mailto:ask@rjsdevelopers.com">ask@rjsdevelopers.com</a></li>
+            <li>
+              <a href="tel:+923008591434" className="contact-link-row">
+                {/* Official Google Contacts Logo */}
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
+                  <circle cx="12" cy="12" r="11" fill="#1a73e8" />
+                  <circle cx="12" cy="8.2" r="3.2" fill="#ffffff" />
+                  <path d="M12 13.5C8.8 13.5 6.2 15.3 5.5 17.8C7.2 19.8 9.5 21 12 21C14.5 21 16.8 19.8 18.5 17.8C17.8 15.3 15.2 13.5 12 13.5Z" fill="#ffffff" />
+                </svg>
+                <span>+92 300 859 1434 (Pakistan HQ)</span>
+              </a>
+            </li>
+            <li>
+              <a href="tel:+441158880306" className="contact-link-row">
+                {/* Official Google Contacts Logo */}
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
+                  <circle cx="12" cy="12" r="11" fill="#1a73e8" />
+                  <circle cx="12" cy="8.2" r="3.2" fill="#ffffff" />
+                  <path d="M12 13.5C8.8 13.5 6.2 15.3 5.5 17.8C7.2 19.8 9.5 21 12 21C14.5 21 16.8 19.8 18.5 17.8C17.8 15.3 15.2 13.5 12 13.5Z" fill="#ffffff" />
+                </svg>
+                <span>+44 115 888 0306 (UK Office)</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://api.whatsapp.com/send?phone=447448445618" target="_blank" rel="noreferrer" className="contact-link-row">
+                {/* Official WhatsApp Logo */}
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
+                  <path
+                    d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2Z"
+                    fill="#25D366"
+                  />
+                  <path
+                    d="M17.52 14.33C17.22 14.18 15.76 13.46 15.49 13.36C15.22 13.26 15.02 13.21 14.82 13.51C14.62 13.81 14.06 14.46 13.89 14.66C13.72 14.86 13.54 14.88 13.24 14.73C12.94 14.58 11.98 14.27 10.84 13.26C9.96 12.47 9.36 11.5 9.21 11.2C9.06 10.9 9.19 10.74 9.34 10.59C9.48 10.46 9.64 10.24 9.79 10.07C9.94 9.89 9.99 9.77 10.09 9.57C10.19 9.37 10.14 9.19 10.07 9.04C9.99 8.89 9.42 7.51 9.19 6.94C8.96 6.39 8.73 6.46 8.56 6.45C8.4 6.44 8.22 6.44 8.04 6.44C7.86 6.44 7.56 6.51 7.31 6.78C7.06 7.06 6.36 7.71 6.36 9.04C6.36 10.37 7.33 11.64 7.47 11.82C7.6 12.01 9.38 14.75 12.1 15.92C12.75 16.2 13.25 16.37 13.65 16.5C14.3 16.71 14.89 16.68 15.36 16.61C15.88 16.53 16.97 15.95 17.2 15.31C17.43 14.66 17.43 14.11 17.36 14C17.28 13.89 17.09 13.81 16.79 13.66L17.52 14.33Z"
+                    fill="#FFFFFF"
+                  />
+                </svg>
+                <span>WhatsApp: +44 7448 445618</span>
+              </a>
+            </li>
+            <li>
+              <a href="mailto:ask@rjsdevelopers.com" className="contact-link-row">
+                {/* Red Mail Logo */}
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                  <rect width="20" height="16" x="2" y="4" rx="2" stroke="#ef4444" fill="rgba(239, 68, 68, 0.15)" />
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" stroke="#ef4444" />
+                </svg>
+                <span>ask@rjsdevelopers.com</span>
+              </a>
+            </li>
           </ul>
         </div>
 
@@ -192,5 +319,3 @@ export const Footer: React.FC = () => {
     </footer>
   );
 };
-
-

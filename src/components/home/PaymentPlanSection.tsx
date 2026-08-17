@@ -327,7 +327,7 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
                   fontSize: '16px',
                   fontWeight: 800,
                   padding: '16px 36px',
-                  borderRadius: '99px',
+                  borderRadius: '0px',
                   border: 'none',
                   cursor: 'pointer',
                   boxShadow: '0 10px 28px rgba(21, 34, 71, 0.3)',

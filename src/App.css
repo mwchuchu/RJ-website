@@ -4853,7 +4853,7 @@
   z-index: 1 !important;
   font-family: 'Space Grotesk', 'Outfit', 'Inter', -apple-system, sans-serif !important;
   font-weight: 800 !important;
-  border-radius: 99px !important;
+  border-radius: 0px !important;
   background: #152247 !important;
   color: #ffffff !important;
   border: none !important;
@@ -4875,7 +4875,7 @@
   background: #2563EB !important;
   transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
   z-index: -1 !important;
-  border-radius: inherit !important;
+  border-radius: 0px !important;
 }
 
 .home-curtain-btn:hover::before,

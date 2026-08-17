@@ -72,7 +72,7 @@ const CurtainRevealImage: React.FC<{
           height: height,
           width: '100%',
           overflow: 'hidden',
-          background: '#f8fafc',
+          background: '#ffffff',
           ...style
         }}
       >
@@ -225,7 +225,7 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
   const selectedPhoto = sharedLayout ? signingPhotos[sharedLayout.index] : null;
 
   return (
-    <div className="larom-hotel-page animate-fade-in" style={{ padding: '120px 48px 60px 48px', background: '#f8f9fa' }}>
+    <div className="larom-hotel-page animate-fade-in" style={{ padding: '120px 48px 60px 48px', background: '#ffffff' }}>
       {/* EDITORIAL PARTNER SHOWCASE SECTION (EXACT MATCH TO REFERENCE MOCKUP UI) */}
       <div
         ref={laromEditorialSectionRef}
@@ -566,11 +566,11 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
               src="/images/larom-building image.png"
               alt="LAROM Building Architecture"
               height="460px"
-              overlayColor="#f8f9fa"
+              overlayColor="#ffffff"
               objectPosition="top center"
               style={{
-                boxShadow: '0 25px 60px rgba(15, 23, 42, 0.15)',
-                border: '1px solid #e2e8f0'
+                boxShadow: '0 16px 40px rgba(0, 0, 0, 0.08)',
+                border: 'none'
               }}
               onError={(e) => handleImgError(e, ['/images/buildingimage.png'])}
             />
@@ -667,7 +667,7 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
                 alt={item.title}
                 height={item.height}
                 delay={idx * 120}
-                overlayColor="#f8f9fa"
+                overlayColor="#ffffff"
                 style={{
                   boxShadow: '0 16px 40px rgba(15, 23, 42, 0.12)',
                   marginBottom: '16px'
@@ -764,28 +764,28 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
               sub: 'Smart automated climate control, plush bedding, and high-speed fiber Wi-Fi',
               height: '380px',
               marginTop: '0px',
-              image: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=800&q=80'
+              image: 'https://images.unsplash.com/photo-1723642613875-d71af917a99e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDR8fGFwYXJ0bWVudCUyMGJhc2ljfGVufDB8fDB8fHww'
             },
             {
               title: 'Deluxe Room',
               sub: 'Expanded floor plan, designer lounge seating, and complimentary breakfast',
               height: '280px',
               marginTop: '0px',
-              image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80'
+              image: 'https://images.unsplash.com/photo-1680503146476-abb8c752e1f4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZGVsdXhlJTIwcm9vbXxlbnwwfHwwfHx8MA%3D%3D'
             },
             {
               title: 'Executive Suites',
               sub: 'Separate living & workspace area, 24/7 butler service, and private dining',
               height: '280px',
               marginTop: '60px',
-              image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80'
+              image: 'https://images.unsplash.com/photo-1754611362309-71297e9f42fd?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fHByZW1pdW0lMjByb29tfGVufDB8fDB8fHwy'
             },
             {
               title: 'Presidential Suites',
               sub: 'Top-floor penthouse, private terrace with jacuzzi, and dedicated concierge',
               height: '380px',
               marginTop: '0px',
-              image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=800&q=80'
+              image: 'https://images.unsplash.com/photo-1760072513367-55182245e76c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHByZW1pdW0lMjByb29tfGVufDB8fDB8fHwy'
             }
           ].map((item, idx) => (
             <div key={idx} style={{ marginTop: item.marginTop }}>
@@ -795,7 +795,7 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
                 alt={item.title}
                 height={item.height}
                 delay={idx * 120}
-                overlayColor="#f8f9fa"
+                overlayColor="#ffffff"
                 style={{
                   boxShadow: '0 16px 40px rgba(15, 23, 42, 0.12)',
                   marginBottom: '16px'

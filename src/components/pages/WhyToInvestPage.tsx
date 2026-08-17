@@ -7,6 +7,24 @@ function getTopRoundedPath(x: number, y: number, w: number, h: number, r: number
   return `M ${x} ${y + actualR} Q ${x} ${y} ${x + actualR} ${y} L ${x + w - actualR} ${y} Q ${x + w} ${y} ${x + w} ${y + actualR} L ${x + w} ${y + h} L ${x} ${y + h} Z`;
 }
 
+// Helper function to calculate SVG Donut Slice Path
+function getDonutSlicePath(cx: number, cy: number, rOuter: number, rInner: number, startAngleDeg: number, endAngleDeg: number) {
+  const rad = Math.PI / 180;
+  const x1Outer = cx + rOuter * Math.cos(startAngleDeg * rad);
+  const y1Outer = cy + rOuter * Math.sin(startAngleDeg * rad);
+  const x2Outer = cx + rOuter * Math.cos(endAngleDeg * rad);
+  const y2Outer = cy + rOuter * Math.sin(endAngleDeg * rad);
+
+  const x1Inner = cx + rInner * Math.cos(endAngleDeg * rad);
+  const y1Inner = cy + rInner * Math.sin(endAngleDeg * rad);
+  const x2Inner = cx + rInner * Math.cos(startAngleDeg * rad);
+  const y2Inner = cy + rInner * Math.sin(startAngleDeg * rad);
+
+  const largeArcFlag = endAngleDeg - startAngleDeg > 180 ? 1 : 0;
+
+  return `M ${x1Outer} ${y1Outer} A ${rOuter} ${rOuter} 0 ${largeArcFlag} 1 ${x2Outer} ${y2Outer} L ${x1Inner} ${y1Inner} A ${rInner} ${rInner} 0 ${largeArcFlag} 0 ${x2Inner} ${y2Inner} Z`;
+}
+
 // Scroll Animate Wrapper Component
 const ScrollAnimateSection: React.FC<{
   children: React.ReactNode;
@@ -220,11 +238,15 @@ interface WhyToInvestPageProps {
 
 export const WhyToInvestPage: React.FC<WhyToInvestPageProps> = ({ onNavigate }) => {
   const [hoveredBar, setHoveredBar] = useState<number | null>(null);
+  const [hoveredSegment, setHoveredSegment] = useState<number | null>(null);
+  const [selectedSegment, setSelectedSegment] = useState<number>(0);
   const [isYieldVisible, setIsYieldVisible] = useState(false);
+  const [isSegmentationVisible, setIsSegmentationVisible] = useState(false);
   const [isGraphVisible, setIsGraphVisible] = useState(false);
   const [isLocationVisible, setIsLocationVisible] = useState(false);
 
   const yieldSectionRef = useRef<HTMLDivElement>(null);
+  const segmentationSectionRef = useRef<HTMLDivElement>(null);
   const graphSectionRef = useRef<HTMLDivElement>(null);
   const locationGridRef = useRef<HTMLDivElement>(null);
 
@@ -234,6 +256,9 @@ export const WhyToInvestPage: React.FC<WhyToInvestPageProps> = ({ onNavigate }) 
         entries.forEach((entry) => {
           if (entry.target === yieldSectionRef.current) {
             setIsYieldVisible(entry.isIntersecting);
+          }
+          if (entry.target === segmentationSectionRef.current) {
+            setIsSegmentationVisible(entry.isIntersecting);
           }
           if (entry.target === graphSectionRef.current) {
             setIsGraphVisible(entry.isIntersecting);
@@ -247,6 +272,7 @@ export const WhyToInvestPage: React.FC<WhyToInvestPageProps> = ({ onNavigate }) 
     );
 
     if (yieldSectionRef.current) observer.observe(yieldSectionRef.current);
+    if (segmentationSectionRef.current) observer.observe(segmentationSectionRef.current);
     if (graphSectionRef.current) observer.observe(graphSectionRef.current);
     if (locationGridRef.current) observer.observe(locationGridRef.current);
     return () => observer.disconnect();
@@ -364,6 +390,47 @@ export const WhyToInvestPage: React.FC<WhyToInvestPageProps> = ({ onNavigate }) 
 
   return (
     <div className="why-invest-page animate-fade-in" style={{ padding: '120px 48px 60px', background: '#f8f9fa', color: '#0f172a' }}>
+      <style>{`
+        .why-invest-sharp-btn {
+          position: relative !important;
+          overflow: hidden !important;
+          z-index: 1 !important;
+          font-family: 'Space Grotesk', 'Outfit', 'Inter', system-ui, sans-serif !important;
+          font-weight: 800 !important;
+          border-radius: 0px !important;
+          background: #152247 !important;
+          color: #ffffff !important;
+          border: none !important;
+          cursor: pointer !important;
+          box-shadow: 0 10px 28px rgba(21, 34, 71, 0.25) !important;
+          transition: color 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+                      box-shadow 0.4s ease,
+                      transform 0.35s cubic-bezier(0.25, 1, 0.5, 1) !important;
+          display: inline-flex !important;
+          align-items: center !important;
+          gap: 12px !important;
+        }
+        .why-invest-sharp-btn::before {
+          content: '' !important;
+          position: absolute !important;
+          top: 0 !important;
+          left: 0 !important;
+          width: 100% !important;
+          height: 0% !important;
+          background: #2563EB !important;
+          transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
+          z-index: -1 !important;
+          border-radius: 0px !important;
+        }
+        .why-invest-sharp-btn:hover::before {
+          height: 100% !important;
+        }
+        .why-invest-sharp-btn:hover {
+          color: #ffffff !important;
+          transform: translateY(-4px) scale(1.02) !important;
+          box-shadow: 0 16px 36px rgba(37, 99, 235, 0.45) !important;
+        }
+      `}</style>
 
       {/* SECTION 1: HEADER & AUTOPLAY SLIDESHOW IMAGE TRAY (EXACT MATCH TO REFERENCE MOCKUP UI) */}
       <ScrollAnimateSection>
@@ -428,7 +495,7 @@ export const WhyToInvestPage: React.FC<WhyToInvestPageProps> = ({ onNavigate }) 
                 fontFamily: "'Space Grotesk', system-ui, sans-serif"
               }}
             >
-              Serviced Apartment Yield & Price Performance
+              Value to Money
             </h3>
             <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14.5px', color: '#64748b', margin: 0 }}>
               Gross annual rental yield comparison benchmarked against standard residential apartments & traditional bank assets.
@@ -554,6 +621,223 @@ export const WhyToInvestPage: React.FC<WhyToInvestPageProps> = ({ onNavigate }) 
         </div>
       </ScrollAnimateSection>
 
+      {/* SECTION: DEMAND IN MARKET • CENTERED DONUT PIE CHART WITH ON/AFTER SCROLL ANIMATIONS */}
+      <ScrollAnimateSection>
+        <div
+          ref={segmentationSectionRef}
+          style={{
+            marginBottom: '80px',
+            background: 'transparent',
+            borderRadius: '0px',
+            padding: '0',
+            color: '#0f172a',
+            border: 'none',
+            boxShadow: 'none',
+            position: 'relative'
+          }}
+        >
+          {/* Section Header */}
+          <div style={{ textAlign: 'center', maxWidth: '750px', margin: '0 auto 36px' }}>
+           
+            <h3
+              style={{
+                fontFamily: "'Space Grotesk', system-ui, sans-serif",
+                fontSize: '30px',
+                fontWeight: 900,
+                color: '#0f172a',
+                margin: '0 0 8px 0'
+              }}
+            >
+              Market Demand Benefits
+            </h3>
+            <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14.5px', color: '#64748b', margin: 0 }}>
+              Luxury Serviced Apartment are in huge demand in market
+            </p>
+            
+          </div>
+
+          {/* Centered Donut Pie Chart Container */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', margin: '0 auto', maxWidth: '640px' }}>
+            
+            {/* Interactive Donut SVG with Entrance and Continuous Breathing Animation */}
+            <div
+              style={{
+                position: 'relative',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                animation: isSegmentationVisible ? 'donutPulseFloat 6s ease-in-out infinite' : 'none'
+              }}
+            >
+              <svg
+                width="320"
+                height="320"
+                viewBox="0 0 340 340"
+                style={{
+                  overflow: 'visible',
+                  transform: isSegmentationVisible ? 'scale(1) rotate(0deg)' : 'scale(0.8) rotate(-40deg)',
+                  opacity: isSegmentationVisible ? 1 : 0,
+                  transition: 'transform 1.1s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.9s ease',
+                  cursor: 'pointer'
+                }}
+              >
+                {/* 5 Donut Slices */}
+                {[
+                  {
+                    id: 0,
+                    name: 'Luxury Serviced Apartment',
+                    share: '48%',
+                    color: '#152247',
+                    startAngle: -75,
+                    endAngle: 97.8
+                  },
+                  {
+                    id: 4,
+                    name: 'Extended Stay Hotels',
+                    share: '8%',
+                    color: '#d8681e',
+                    startAngle: 97.8,
+                    endAngle: 126.6
+                  },
+                  {
+                    id: 3,
+                    name: 'Boutique Serviced Apartment',
+                    share: '10%',
+                    color: '#70b847',
+                    startAngle: 126.6,
+                    endAngle: 162.6
+                  },
+                  {
+                    id: 2,
+                    name: 'Budget Serviced Apartment',
+                    share: '20%',
+                    color: '#f5a623',
+                    startAngle: 162.6,
+                    endAngle: 234.6
+                  },
+                  {
+                    id: 1,
+                    name: 'Mid-Range Serviced Apartments',
+                    share: '14%',
+                    color: '#a82020',
+                    startAngle: 234.6,
+                    endAngle: 285
+                  }
+                ].map((slice) => {
+                  const isSelected = selectedSegment === slice.id;
+                  const isHovered = hoveredSegment === slice.id;
+                  const isActive = isSelected || isHovered;
+                  const rOuter = isActive ? 138 : 124;
+                  const rInner = isActive ? 66 : 72;
+                  const pathData = getDonutSlicePath(170, 170, rOuter, rInner, slice.startAngle, slice.endAngle);
+
+                  return (
+                    <path
+                      key={slice.id}
+                      d={pathData}
+                      fill={slice.color}
+                      stroke="#ffffff"
+                      strokeWidth="2.5"
+                      style={{
+                        cursor: 'pointer',
+                        transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+                        filter: isActive ? `drop-shadow(0 4px 16px ${slice.color}66)` : 'none',
+                        opacity: hoveredSegment === null || isActive ? 1 : 0.65
+                      }}
+                      onClick={() => setSelectedSegment(slice.id)}
+                      onMouseEnter={() => setHoveredSegment(slice.id)}
+                      onMouseLeave={() => setHoveredSegment(null)}
+                    />
+                  );
+                })}
+
+                {/* Center Circle */}
+                <circle
+                  cx="170"
+                  cy="170"
+                  r="68"
+                  fill="#ffffff"
+                  stroke="#e2e8f0"
+                  strokeWidth="2"
+                  style={{
+                    filter: 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.06))'
+                  }}
+                />
+
+                {/* Center Dynamic Percentage Label */}
+                <text
+                  x="170"
+                  y="162"
+                  textAnchor="middle"
+                  fill="#0f172a"
+                  fontFamily="'Space Grotesk', system-ui, sans-serif"
+                  fontSize="24"
+                  fontWeight="900"
+                >
+                  {[
+                    { id: 0, val: '48%' },
+                    { id: 1, val: '14%' },
+                    { id: 2, val: '20%' },
+                    { id: 3, val: '10%' },
+                    { id: 4, val: '8%' }
+                  ].find((s) => s.id === (hoveredSegment !== null ? hoveredSegment : selectedSegment))?.val}
+                </text>
+
+                <text
+                  x="170"
+                  y="182"
+                  textAnchor="middle"
+                  fill="#64748b"
+                  fontFamily="'Inter', system-ui, sans-serif"
+                  fontSize="11.5"
+                  fontWeight="700"
+                  letterSpacing="0.5"
+                >
+                  Market Share
+                </text>
+              </svg>
+            </div>
+
+            {/* Segment Selector Pills */}
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', flexWrap: 'wrap', marginTop: '28px', marginBottom: '20px' }}>
+              {[
+                { id: 0, name: 'Luxury (48%)', color: '#152247' },
+                { id: 2, name: 'Budget (20%)', color: '#f5a623' },
+                { id: 1, name: 'Mid-Range (14%)', color: '#a82020' },
+                { id: 3, name: 'Boutique (10%)', color: '#70b847' },
+                { id: 4, name: 'Extended Stay (8%)', color: '#d8681e' }
+              ].map((pill) => {
+                const isSelected = selectedSegment === pill.id;
+                return (
+                  <button
+                    key={pill.id}
+                    onClick={() => setSelectedSegment(pill.id)}
+                    style={{
+                      padding: '8px 16px',
+                      borderRadius: '0px',
+                      border: isSelected ? `2px solid ${pill.color}` : '1px solid #cbd5e1',
+                      background: isSelected ? '#ffffff' : '#f8fafc',
+                      color: isSelected ? pill.color : '#475569',
+                      fontSize: '12.5px',
+                      fontWeight: 800,
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      transition: 'all 0.2s ease',
+                      boxShadow: isSelected ? '0 4px 14px rgba(0, 0, 0, 0.08)' : 'none'
+                    }}
+                  >
+                    <span style={{ width: '8px', height: '8px', borderRadius: '0px', background: pill.color, display: 'inline-block' }} />
+                    <span>{pill.name}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </ScrollAnimateSection>
+
       {/* SECTION 4: 10-YEAR MARKET SIZE GRAPH ($397.7 BILLION PEAK) */}
       <ScrollAnimateSection>
         <div ref={graphSectionRef} style={{ marginBottom: '80px' }}>
@@ -565,10 +849,10 @@ export const WhyToInvestPage: React.FC<WhyToInvestPageProps> = ({ onNavigate }) 
                 fontWeight: 900,
                 color: '#0f172a',
                 margin: '0 0 10px 0',
-                textTransform: 'uppercase'
+                
               }}
             >
-              Serviced Apartment Market Intelligence
+              Market Expansion Benefits
             </h3>
 
             <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14.5px', color: '#64748b', margin: 0 }}>
@@ -842,25 +1126,17 @@ export const WhyToInvestPage: React.FC<WhyToInvestPageProps> = ({ onNavigate }) 
 
       <div style={{ textAlign: 'center', marginTop: '64px' }}>
         <button
-          className="hero-btn"
+          className="why-invest-sharp-btn"
           onClick={() => onNavigate('book-now')}
           style={{
-            background: '#152247',
-            color: '#ffffff',
             padding: '16px 42px',
-            borderRadius: '0px',
             fontSize: '15px',
-            fontWeight: 800,
             letterSpacing: '1px',
-            textTransform: 'uppercase',
-            border: 'none',
-            cursor: 'pointer',
-            boxShadow: '0 12px 30px rgba(21, 34, 71, 0.25)',
-            transition: 'all 0.3s ease',
-            fontFamily: "'Space Grotesk', system-ui, sans-serif"
+            textTransform: 'uppercase'
           }}
         >
-          Book Your Unit Today
+          <span>Book Your Unit Today</span>
+          <span style={{ fontSize: '18px' }}>→</span>
         </button>
       </div>
     </div>
