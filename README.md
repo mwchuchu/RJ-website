@@ -21,7 +21,7 @@ A state-of-the-art web platform engineered for **RJ's Larom Residences**, showca
 - 📈 **Why Invest Portal**: In-depth investment rationale, capital growth projections, high-yield rental returns, and strategic location advantages along the Islamabad Expressway.
 - 🏊 **Luxury Amenities Explorer**: Showcases world-class facilities including infinity pool, executive lounge, health club & spa, rooftop dining, smart security, and 24/7 concierge.
 - 📝 **Book Now & Inquiry System**: Online booking interface and inquiry form for prospective buyers and investors.
-- 💬 **Sticky WhatsApp Support Widget**: One-click direct communication widget (`+92 323 0537371`) for instant sales and inquiry support.
+- 💬 **Sticky WhatsApp Support Widget**: One-click direct communication widget  for instant sales and inquiry support.
 - 🎨 **Modern Dark Glassmorphism UX**: Premium dark-themed design system, smooth tab transitions, micro-animations, and responsive layout across desktop and mobile devices.
 
 ---
