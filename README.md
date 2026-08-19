@@ -121,6 +121,6 @@ Open `http://localhost:5173/` in your browser to view the application.
 ---
 
 ## 📄 License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the Apache License - see the [LICENSE](LICENSE) file for details.
 
 
