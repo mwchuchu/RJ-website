@@ -7,7 +7,210 @@ interface ServicedApartmentsPageProps {
   onNavigate: (tabId: string) => void;
 }
 
-// Interactive Moving Image Tray Carousel Component (Central Image Focused & Animated Loop)
+// ─── Inject scoped keyframes & utility styles ───
+const ScopedStyles: React.FC = () => (
+  <style>{`
+    @keyframes saGradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    @keyframes saFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    @keyframes saPulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+    @keyframes saSlideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes saShimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    @keyframes saRevealLine {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+    .sa-card-hover:hover {
+      transform: translateY(-6px) !important;
+      box-shadow: 0 28px 60px rgba(21, 34, 71, 0.22) !important;
+    }
+    .sa-card-hover:hover img {
+      transform: scale(1.06) !important;
+    }
+    .sa-btn-glow:hover {
+      box-shadow: 0 0 0 2px rgba(21,34,71,0.15), 0 14px 35px rgba(21,34,71,0.25) !important;
+      transform: translateY(-2px) !important;
+    }
+    .sa-img-zoom:hover img {
+      transform: scale(1.05) !important;
+    }
+    .sa-curtain-card:hover .sa-curtain-overlay-caption {
+      opacity: 1 !important;
+    }
+  `}</style>
+);
+
+// ─── Scroll-triggered fade/slide component ───
+const ScrollEaseIn: React.FC<{
+  children: React.ReactNode;
+  direction?: 'left' | 'right' | 'up';
+  delay?: number;
+  style?: React.CSSProperties;
+  className?: string;
+}> = ({ children, direction = 'up', delay = 0, style = {}, className = '' }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => setIsVisible(true), delay);
+          } else {
+            setIsVisible(false);
+          }
+        });
+      },
+      { threshold: 0.08, rootMargin: '0px 0px -20px 0px' }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [delay]);
+
+  let initialTransform = 'translateY(40px)';
+  if (direction === 'left') initialTransform = 'translateX(-50px)';
+  if (direction === 'right') initialTransform = 'translateX(50px)';
+
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        ...style,
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? 'translate(0, 0)' : initialTransform,
+        transition: 'opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1)',
+        willChange: 'opacity, transform'
+      }}
+    >
+      {children}
+    </div>
+  );
+};
+
+// ─── Parallax Hero Banner ───
+const HeroBanner: React.FC = () => {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const onScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  return (
+    <div
+      style={{
+        position: 'relative',
+        height: '520px',
+        overflow: 'hidden',
+        marginBottom: '80px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}
+    >
+      {/* Parallax BG image */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: 'url(https://images.unsplash.com/photo-1631679706909-1844bbd07221?auto=format&fit=crop&w=1920&q=80)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          transform: `translateY(${scrollY * 0.25}px) scale(1.1)`,
+          transition: 'transform 0.1s linear',
+          filter: 'brightness(0.35)'
+        }}
+      />
+      {/* Gradient overlay */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(180deg, rgba(21,34,71,0.7) 0%, rgba(21,34,71,0.3) 50%, rgba(21,34,71,0.85) 100%)'
+        }}
+      />
+      {/* Content */}
+      <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '0 24px' }}>
+        <div
+          style={{
+            fontSize: '11px',
+            fontWeight: 700,
+            letterSpacing: '4px',
+            textTransform: 'uppercase',
+            color: 'rgba(255,255,255,0.55)',
+            marginBottom: '20px',
+            animation: 'saSlideUp 1s ease-out 0.2s both'
+          }}
+        >
+          RJ'S LAROM RESIDENCES
+        </div>
+        <h1
+          style={{
+            fontFamily: "'Space Grotesk', system-ui, sans-serif",
+            fontSize: 'clamp(32px, 5vw, 58px)',
+            fontWeight: 900,
+            letterSpacing: '1px',
+            textTransform: 'uppercase',
+            lineHeight: 1.1,
+            margin: '0 0 24px 0',
+            background: 'linear-gradient(135deg, #ffffff 0%, #cbd5e1 40%, #ffffff 60%, #94a3b8 100%)',
+            backgroundSize: '200% auto',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            animation: 'saShimmer 6s ease-in-out infinite, saSlideUp 1s ease-out 0.4s both'
+          }}
+        >
+          FULLY FURNISHED<br />SERVICED APARTMENTS
+        </h1>
+        {/* Decorative line */}
+        <div
+          style={{
+            width: '60px',
+            height: '2px',
+            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)',
+            margin: '0 auto 20px',
+            animation: 'saRevealLine 1.2s ease-out 0.8s both',
+            transformOrigin: 'center'
+          }}
+        />
+        <p
+          style={{
+            fontFamily: "'Cormorant Garamond', Georgia, serif",
+            fontSize: '18px',
+            fontStyle: 'italic',
+            color: 'rgba(255,255,255,0.65)',
+            fontWeight: 400,
+            margin: 0,
+            animation: 'saSlideUp 1s ease-out 0.6s both'
+          }}
+        >
+          Where architecture meets the art of living
+        </p>
+      </div>
+    </div>
+  );
+};
+
+// ─── Image Carousel with dot indicators ───
 const MovingImageTray: React.FC = () => {
   const trayImages = [
     {
@@ -33,63 +236,67 @@ const MovingImageTray: React.FC = () => {
   ];
 
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
+    if (isPaused) return;
     const timer = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % trayImages.length);
-    }, 3200);
+    }, 3800);
     return () => clearInterval(timer);
-  }, [trayImages.length]);
+  }, [trayImages.length, isPaused]);
 
   const leftIndex = (activeIndex - 1 + trayImages.length) % trayImages.length;
   const rightIndex = (activeIndex + 1) % trayImages.length;
 
   return (
-    <div style={{ marginBottom: '84px', position: 'relative' }}>
+    <div
+      style={{ marginBottom: '80px', position: 'relative' }}
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
       <div
         style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: '24px',
+          gap: '20px',
           maxWidth: '1280px',
           margin: '0 auto',
           position: 'relative'
         }}
       >
-        {/* Left Preview Image Card */}
+        {/* Left preview */}
         <div
+          className="sa-img-zoom"
           style={{
-            flex: '0 0 25%',
+            flex: '0 0 24%',
             height: '340px',
-            borderRadius: '4px',
             overflow: 'hidden',
-            opacity: 0.65,
-            transform: 'scale(0.92)',
-            transition: 'all 0.6s cubic-bezier(0.25, 1, 0.5, 1)',
+            opacity: 0.5,
+            transform: 'scale(0.88)',
+            transition: 'all 0.7s cubic-bezier(0.25, 1, 0.5, 1)',
             cursor: 'pointer',
-            boxShadow: '0 10px 25px rgba(0,0,0,0.05)'
+            boxShadow: '0 10px 25px rgba(0,0,0,0.08)'
           }}
           onClick={() => setActiveIndex(leftIndex)}
         >
           <img
             src={trayImages[leftIndex].url}
             alt={trayImages[leftIndex].title}
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
           />
         </div>
 
-        {/* Center Main Focused Image */}
+        {/* Center main */}
         <div
           style={{
             flex: '0 0 50%',
-            height: '430px',
-            borderRadius: '4px',
+            height: '440px',
             overflow: 'hidden',
-            opacity: 1,
-            transform: 'scale(1.05)',
-            transition: 'all 0.6s cubic-bezier(0.25, 1, 0.5, 1)',
-            boxShadow: '0 25px 60px rgba(21, 34, 71, 0.2)',
+            transform: 'scale(1.04)',
+            transition: 'all 0.7s cubic-bezier(0.25, 1, 0.5, 1)',
+            boxShadow: '0 30px 70px rgba(21, 34, 71, 0.25)',
             zIndex: 10,
             position: 'relative'
           }}
@@ -102,103 +309,84 @@ const MovingImageTray: React.FC = () => {
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              transition: 'opacity 0.6s ease'
+              transition: 'opacity 0.7s ease'
+            }}
+          />
+          {/* Bottom gradient overlay on active */}
+          <div
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: '100px',
+              background: 'linear-gradient(transparent, rgba(21,34,71,0.5))',
+              pointerEvents: 'none'
             }}
           />
         </div>
 
-        {/* Right Preview Image Card */}
+        {/* Right preview */}
         <div
+          className="sa-img-zoom"
           style={{
-            flex: '0 0 25%',
+            flex: '0 0 24%',
             height: '340px',
-            borderRadius: '4px',
             overflow: 'hidden',
-            opacity: 0.65,
-            transform: 'scale(0.92)',
-            transition: 'all 0.6s cubic-bezier(0.25, 1, 0.5, 1)',
+            opacity: 0.5,
+            transform: 'scale(0.88)',
+            transition: 'all 0.7s cubic-bezier(0.25, 1, 0.5, 1)',
             cursor: 'pointer',
-            boxShadow: '0 10px 25px rgba(0,0,0,0.05)'
+            boxShadow: '0 10px 25px rgba(0,0,0,0.08)'
           }}
           onClick={() => setActiveIndex(rightIndex)}
         >
           <img
             src={trayImages[rightIndex].url}
             alt={trayImages[rightIndex].title}
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
           />
         </div>
       </div>
 
-      {/* Active Image Title Caption */}
-      <div style={{ textAlign: 'center', marginTop: '20px' }}>
-        <p style={{ fontSize: '0.85rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#8A99AD', fontWeight: 500, margin: 0 }}>
+      {/* Caption + Dot indicators */}
+      <div style={{ textAlign: 'center', marginTop: '24px' }}>
+        <p
+          style={{
+            fontSize: '0.82rem',
+            letterSpacing: '0.14em',
+            textTransform: 'uppercase',
+            color: '#8A99AD',
+            fontWeight: 500,
+            margin: '0 0 16px 0'
+          }}
+        >
           {trayImages[activeIndex].title}
         </p>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+          {trayImages.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setActiveIndex(idx)}
+              aria-label={`Go to slide ${idx + 1}`}
+              style={{
+                width: idx === activeIndex ? '28px' : '8px',
+                height: '8px',
+                background: idx === activeIndex ? '#152247' : 'rgba(21,34,71,0.2)',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'all 0.4s cubic-bezier(0.25, 1, 0.5, 1)',
+                padding: 0
+              }}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
 };
 
-// Directional Scroll Ease-In Wrapper Component
-const ScrollEaseIn: React.FC<{
-  children: React.ReactNode;
-  direction?: 'left' | 'right' | 'up';
-  delay?: number;
-  style?: React.CSSProperties;
-  className?: string;
-}> = ({ children, direction = 'up', delay = 0, style = {}, className = '' }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setTimeout(() => {
-              setIsVisible(true);
-            }, delay);
-          } else {
-            setIsVisible(false);
-          }
-        });
-      },
-      { threshold: 0.08, rootMargin: '0px 0px -20px 0px' }
-    );
-
-    observer.observe(node);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [delay]);
-
-  let initialTransform = 'translateY(40px)';
-  if (direction === 'left') initialTransform = 'translateX(-50px)';
-  if (direction === 'right') initialTransform = 'translateX(50px)';
-
-  return (
-    <div
-      ref={ref}
-      className={className}
-      style={{
-        ...style,
-        opacity: isVisible ? 1 : 0,
-        transform: isVisible ? 'translate(0, 0)' : initialTransform,
-        transition: 'opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1)',
-        willChange: 'opacity, transform'
-      }}
-    >
-      {children}
-    </div>
-  );
-};
-
-// Drop Curtain Reveal Image Component for Editorial Grid
+// ─── Drop Curtain Reveal Image with hover overlay ───
 const CurtainRevealImage: React.FC<{
   src: string;
   alt: string;
@@ -213,14 +401,11 @@ const CurtainRevealImage: React.FC<{
   useEffect(() => {
     const node = cardRef.current;
     if (!node) return;
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setTimeout(() => {
-              setIsRevealed(true);
-            }, delay);
+            setTimeout(() => setIsRevealed(true), delay);
           } else {
             setIsRevealed(false);
           }
@@ -228,29 +413,23 @@ const CurtainRevealImage: React.FC<{
       },
       { threshold: 0.08, rootMargin: '0px 0px -20px 0px' }
     );
-
     observer.observe(node);
-
-    return () => {
-      observer.disconnect();
-    };
+    return () => observer.disconnect();
   }, [delay]);
 
   return (
-    <div style={{ marginTop }}>
-      {/* Image Wrapper Container with Drop Curtain Effect */}
+    <div style={{ marginTop }} className="sa-curtain-card">
       <div
         ref={cardRef}
         style={{
           position: 'relative',
-          height: height,
+          height,
           width: '100%',
           overflow: 'hidden',
-          background: '#f8fafc',
-          boxShadow: '0 12px 30px rgba(21, 34, 71, 0.06)'
+          background: '#f1f5f9'
         }}
       >
-        {/* Drop Curtain Overlay: Drops from Top to Bottom to reveal image */}
+        {/* Curtain overlay */}
         <div
           style={{
             position: 'absolute',
@@ -265,8 +444,7 @@ const CurtainRevealImage: React.FC<{
             pointerEvents: 'none'
           }}
         />
-
-        {/* Interior Photograph with subtle zoom reveal */}
+        {/* Image */}
         <img
           src={src}
           alt={alt}
@@ -279,20 +457,47 @@ const CurtainRevealImage: React.FC<{
             display: 'block'
           }}
         />
+        {/* Hover caption overlay */}
+        <div
+          className="sa-curtain-overlay-caption"
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            padding: '32px 16px 16px',
+            background: 'linear-gradient(transparent, rgba(21,34,71,0.75))',
+            opacity: 0,
+            transition: 'opacity 0.4s ease',
+            pointerEvents: 'none'
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "'Space Grotesk', system-ui, sans-serif",
+              fontSize: '11px',
+              fontWeight: 700,
+              color: '#ffffff',
+              letterSpacing: '1.5px',
+              textTransform: 'uppercase'
+            }}
+          >
+            {caption}
+          </span>
+        </div>
       </div>
-
-      {/* Caption Text Below Image — Strictly following design image */}
-      <div style={{ marginTop: '14px' }}>
+      {/* Caption below */}
+      <div style={{ marginTop: '12px' }}>
         <h4
           style={{
             fontFamily: "'Space Grotesk', system-ui, sans-serif",
-            fontSize: '13px',
-            fontWeight: 800,
+            fontSize: '12px',
+            fontWeight: 700,
             color: '#152247',
-            letterSpacing: '0.8px',
+            letterSpacing: '1px',
             textTransform: 'uppercase',
             margin: 0,
-            lineHeight: 1.3
+            lineHeight: 1.4
           }}
         >
           {caption}
@@ -302,278 +507,562 @@ const CurtainRevealImage: React.FC<{
   );
 };
 
-// Card Component with Curtain Reveal UP (Bottom-to-Top) Animation (No Numbering)
-const CurtainUpCard: React.FC<{
-  item: { title: string; image: string; alt: string; isLayout?: boolean };
-  delay?: number;
-}> = ({ item, delay = 0 }) => {
-  const [isRevealed, setIsRevealed] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-  const isLayout = item.isLayout || item.title.includes('LAYOUT');
-
-  useEffect(() => {
-    const node = cardRef.current;
-    if (!node) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setTimeout(() => {
-              setIsRevealed(true);
-            }, delay);
-          } else {
-            setIsRevealed(false);
-          }
-        });
-      },
-      { threshold: 0.08, rootMargin: '0px 0px -20px 0px' }
-    );
-
-    observer.observe(node);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [delay]);
-
-  return (
-    <div
-      ref={cardRef}
-      style={{
-        background: '#ffffff',
-        borderRadius: '0px',
-        padding: '24px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        height: '350px',
-        boxShadow: '0 15px 40px rgba(0, 0, 0, 0.16)',
-        border: '1px solid #f1f5f9',
-        position: 'relative',
-        overflow: 'hidden'
-      }}
-    >
-      {/* Upper Section: Right-aligned offset image container */}
-      <div style={{ display: 'flex', justifyContent: 'flex-end', height: '240px', width: '100%' }}>
-        <div
-          style={{
-            position: 'relative',
-            width: '78%',
-            height: '100%',
-            borderRadius: '0px',
-            overflow: 'hidden',
-            background: isLayout ? '#ffffff' : '#f8fafc',
-            border: isLayout ? '1px solid #e2e8f0' : 'none',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
-          {/* Curtain Overlay: Animates UP from translateY(0%) to translateY(-100%) */}
-          <div
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              background: '#ffffff',
-              transform: isRevealed ? 'translateY(-100%)' : 'translateY(0%)',
-              transition: 'transform 1.2s cubic-bezier(0.77, 0, 0.175, 1)',
-              zIndex: 3,
-              pointerEvents: 'none'
-            }}
-          />
-
-          {/* Interior / Layout Photograph with Zoom reveal */}
-          <img
-            src={item.image}
-            alt={item.alt}
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: isLayout ? 'contain' : 'cover',
-              padding: isLayout ? '12px' : '0',
-              transform: isRevealed ? 'scale(1)' : (isLayout ? 'scale(0.95)' : 'scale(1.15)'),
-              transition: 'transform 1.4s cubic-bezier(0.16, 1, 0.3, 1)',
-              display: 'block'
-            }}
-          />
-        </div>
-      </div>
-
-      {/* Bottom Left Title Label */}
-      <div>
-        <h4
-          style={{
-            fontFamily: "'Space Grotesk', system-ui, sans-serif",
-            fontSize: '12.5px',
-            fontWeight: 800,
-            color: '#152247',
-            letterSpacing: '0.8px',
-            textTransform: 'uppercase',
-            margin: 0
-          }}
-        >
-          {item.title}
-        </h4>
-      </div>
-    </div>
-  );
-};
-
-// "WHAT WE OFFER" Section with Navy Blue Background, 1 & 2 Bed Interiors & Layouts
+// ─── "What We Offer" Section — Modern Interactive Tabbed Showcase ───
 const WhatWeOfferSection: React.FC<{ onNavigate: (tabId: string) => void }> = ({ onNavigate }) => {
-  const offerItems = [
+  const residences = [
     {
-      title: 'One bed apartment.',
+      id: 'one-bed',
+      label: '01',
+      title: 'One Bedroom',
+      subtitle: 'Serviced Suite',
       image: 'https://images.unsplash.com/photo-1617098900591-3f90928e8c54?auto=format&fit=crop&w=1200&q=80',
+      layout: ONE_BEDROOM_FALLBACK,
       alt: 'Luxury 1-Bedroom Serviced Suite Interior',
-      isLayout: false
+      layoutAlt: '1-Bedroom Apartment Floor Plan Layout',
+      description: 'An intimate sanctuary of 650 sq. ft. designed for the discerning individual — featuring a bespoke master bedroom, open-plan living, and artisanal kitchen island.',
+      features: ['King Master Suite', 'Open-Plan Living', 'Designer Kitchen', 'Marble Bathroom']
     },
     {
-      title: 'LAYOUT ',
-      image: ONE_BEDROOM_FALLBACK,
-      alt: '1-Bedroom Apartment Floor Plan Layout',
-      isLayout: true
-    },
-    {
-      title: 'Two bed apartment.',
-      image: 'https://images.unsplash.com/photo-1720582611572-baf85ba10ed3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8dHdvJTIwYmVkcm9vbXxlbnwwfHwwfHx8MA%3D%3D?auto=format&fit=crop&w=1200&q=80?auto=format&fit=crop&w=1200&q=80',
+      id: 'two-bed',
+      label: '02',
+      title: 'Two Bedroom',
+      subtitle: 'Executive Residence',
+      image: 'https://images.unsplash.com/photo-1720582611572-baf85ba10ed3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8dHdvJTIwYmVkcm9vbXxlbnwwfHwwfHx8MA%3D%3D?auto=format&fit=crop&w=1200&q=80',
+      layout: TWO_BEDROOM_FALLBACK,
       alt: 'Executive 2-Bedroom Serviced Suite Interior',
-      isLayout: false
-    },
-    {
-      title: 'Layout',
-      image: TWO_BEDROOM_FALLBACK,
-      alt: '2-Bedroom Apartment Floor Plan Layout',
-      isLayout: true
+      layoutAlt: '2-Bedroom Apartment Floor Plan Layout',
+      description: 'A generous 1,050 sq. ft. residence crafted for families and professionals — with dual master suites, expansive entertaining spaces, and panoramic city views.',
+      features: ['Dual Master Suites', 'Separate Dining', 'Private Balcony', 'Walk-In Closets']
     }
   ];
 
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [showLayout, setShowLayout] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const progressRef = useRef<number>(0);
+  const animFrameRef = useRef<number>(0);
+
+  const CYCLE_DURATION = 6000;
+
+  useEffect(() => {
+    if (isPaused) {
+      cancelAnimationFrame(animFrameRef.current);
+      return;
+    }
+
+    let start: number | null = null;
+    const startProgress = progressRef.current;
+
+    const animate = (timestamp: number) => {
+      if (!start) start = timestamp;
+      const elapsed = timestamp - start;
+      const remaining = CYCLE_DURATION * (1 - startProgress / 100);
+      const newProgress = startProgress + ((elapsed / remaining) * (100 - startProgress));
+
+      if (newProgress >= 100) {
+        progressRef.current = 0;
+        setProgress(0);
+        setIsTransitioning(true);
+        setTimeout(() => {
+          setActiveIdx(prev => (prev + 1) % residences.length);
+          setShowLayout(false);
+          setTimeout(() => setIsTransitioning(false), 50);
+        }, 300);
+        start = null;
+        animFrameRef.current = requestAnimationFrame(animate);
+      } else {
+        progressRef.current = newProgress;
+        setProgress(newProgress);
+        animFrameRef.current = requestAnimationFrame(animate);
+      }
+    };
+
+    animFrameRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animFrameRef.current);
+  }, [isPaused, activeIdx, residences.length]);
+
+  const handleTabClick = (idx: number) => {
+    if (idx === activeIdx) return;
+    setIsTransitioning(true);
+    progressRef.current = 0;
+    setProgress(0);
+    setTimeout(() => {
+      setActiveIdx(idx);
+      setShowLayout(false);
+      setTimeout(() => setIsTransitioning(false), 50);
+    }, 300);
+  };
+
+  const active = residences[activeIdx];
+
   return (
     <div
       style={{
         position: 'relative',
-        borderRadius: '0px',
         overflow: 'hidden',
-        background: 'linear-gradient(135deg, rgba(21, 34, 71, 0.88) 0%, rgba(15, 25, 55, 0.90) 100%), url("https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGFwYXJ0bWVudHxlbnwwfHwwfHx8MA%3D%3D?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat',
-        padding: '72px 56px',
-        marginBottom: '96px',
-        boxShadow: '0 24px 60px rgba(21, 34, 71, 0.35)',
-        color: '#ffffff'
+        marginBottom: '96px'
       }}
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
     >
+      {/* Top label bar */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '20px',
+          marginBottom: '48px'
+        }}
+      >
+        <span
+          style={{
+            fontSize: '11px',
+            fontWeight: 800,
+            letterSpacing: '3px',
+            textTransform: 'uppercase',
+            color: '#94a3b8'
+          }}
+        >
+          RESIDENCES & LAYOUTS
+        </span>
+        <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, rgba(21,34,71,0.15), transparent)' }} />
+      </div>
+
+      {/* Section heading */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'flex-end',
+          justifyContent: 'space-between',
+          marginBottom: '56px',
+          flexWrap: 'wrap',
+          gap: '24px'
+        }}
+      >
+        <div>
+          <h2
+            style={{
+              fontFamily: "'Cormorant Garamond', 'Playfair Display', Georgia, serif",
+              fontSize: 'clamp(40px, 5vw, 60px)',
+              fontWeight: 500,
+              lineHeight: 1.05,
+              color: '#152247',
+              margin: 0,
+              textTransform: 'uppercase'
+            }}
+          >
+            WHAT WE<br />
+            <span
+              style={{
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontStyle: 'italic',
+                fontWeight: 400,
+                textTransform: 'capitalize',
+                fontSize: 'clamp(44px, 5.5vw, 66px)'
+              }}
+            >
+              Offer
+            </span>
+          </h2>
+        </div>
+        <p
+          style={{
+            fontFamily: "'Inter', system-ui, sans-serif",
+            fontSize: '14.5px',
+            lineHeight: 1.7,
+            color: '#64748b',
+            maxWidth: '420px',
+            margin: 0
+          }}
+        >
+          Discover our luxury Serviced Suites featuring bespoke interior architecture and detailed floor plan layouts crafted for elegant living.
+        </p>
+      </div>
+
+      {/* Interactive Showcase Panel */}
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'minmax(300px, 34%) 1fr',
-          gap: '56px',
-          alignItems: 'start'
+          gridTemplateColumns: '320px 1fr',
+          minHeight: '560px',
+          background: '#0C142B',
+          overflow: 'hidden',
+          boxShadow: '0 30px 80px rgba(21, 34, 71, 0.35)'
         }}
       >
-        {/* Left Column: Heading & Paragraph */}
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
+        {/* Left: Vertical Tab Nav */}
+        <div
+          style={{
+            background: 'linear-gradient(180deg, #0f1a3a 0%, #0C142B 100%)',
+            padding: '48px 36px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            borderRight: '1px solid rgba(255,255,255,0.06)'
+          }}
+        >
           <div>
-            <span
-              style={{
-                fontSize: '11px',
-                fontWeight: 800,
-                letterSpacing: '3px',
-                textTransform: 'uppercase',
-                color: '#94a3b8',
-                display: 'block',
-                marginBottom: '16px'
-              }}
-            >
-              RESIDENCES & LAYOUTS
-            </span>
+            {/* Tab buttons */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '40px' }}>
+              {residences.map((res, idx) => (
+                <button
+                  key={res.id}
+                  onClick={() => handleTabClick(idx)}
+                  style={{
+                    background: idx === activeIdx ? 'rgba(255,255,255,0.08)' : 'transparent',
+                    border: 'none',
+                    padding: '20px 24px',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                    transition: 'all 0.4s ease',
+                    position: 'relative',
+                    overflow: 'hidden'
+                  }}
+                >
+                  {/* Active bar */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      left: 0,
+                      top: 0,
+                      width: '3px',
+                      height: '100%',
+                      background: idx === activeIdx ? '#ffffff' : 'transparent',
+                      transition: 'background 0.3s ease'
+                    }}
+                  />
+                  <div
+                    style={{
+                      fontSize: '11px',
+                      fontWeight: 600,
+                      letterSpacing: '2px',
+                      color: idx === activeIdx ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.25)',
+                      marginBottom: '6px',
+                      transition: 'color 0.3s ease',
+                      fontFamily: "'Space Grotesk', system-ui, sans-serif"
+                    }}
+                  >
+                    {res.label}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "'Space Grotesk', system-ui, sans-serif",
+                      fontSize: '16px',
+                      fontWeight: 700,
+                      color: idx === activeIdx ? '#ffffff' : 'rgba(255,255,255,0.4)',
+                      letterSpacing: '0.5px',
+                      textTransform: 'uppercase',
+                      transition: 'color 0.3s ease',
+                      lineHeight: 1.3
+                    }}
+                  >
+                    {res.title}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "'Cormorant Garamond', Georgia, serif",
+                      fontSize: '14px',
+                      fontStyle: 'italic',
+                      color: idx === activeIdx ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.2)',
+                      transition: 'color 0.3s ease',
+                      marginTop: '2px'
+                    }}
+                  >
+                    {res.subtitle}
+                  </div>
+                  {/* Progress bar */}
+                  {idx === activeIdx && (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        height: '2px',
+                        width: `${progress}%`,
+                        background: 'linear-gradient(90deg, rgba(255,255,255,0.3), rgba(255,255,255,0.6))',
+                        transition: 'width 0.1s linear'
+                      }}
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
 
-            <h2
-              style={{
-                fontFamily: "'Cormorant Garamond', 'Playfair Display', Georgia, serif",
-                fontSize: '52px',
-                fontWeight: 500,
-                lineHeight: '1.05',
-                color: '#ffffff',
-                margin: '0 0 24px 0',
-                letterSpacing: '0.5px',
-                textTransform: 'uppercase'
-              }}
-            >
-              WHAT WE<br />
-              <span style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontStyle: 'italic', fontWeight: 400, textTransform: 'capitalize', fontSize: '56px' }}>
-                Offer
-              </span>
-            </h2>
+            {/* Description */}
+            <div style={{ padding: '0 4px' }}>
+              <p
+                style={{
+                  fontFamily: "'Inter', system-ui, sans-serif",
+                  fontSize: '13.5px',
+                  lineHeight: 1.7,
+                  color: 'rgba(203, 213, 225, 0.8)',
+                  margin: '0 0 28px 0',
+                  opacity: isTransitioning ? 0 : 1,
+                  transform: isTransitioning ? 'translateY(8px)' : 'translateY(0)',
+                  transition: 'opacity 0.3s ease, transform 0.3s ease'
+                }}
+              >
+                {active.description}
+              </p>
 
-            <p
-              style={{
-                fontFamily: "'Inter', system-ui, sans-serif",
-                fontSize: '14.5px',
-                lineHeight: '1.75',
-                color: '#cbd5e1',
-                marginBottom: '36px',
-                maxWidth: '380px'
-              }}
-            >
-              Discover our luxury 1 & 2 Bedroom Serviced Suites featuring bespoke interior architecture and detailed floor plan layouts crafted for elegant living.
-            </p>
+              {/* Feature pills */}
+              <div
+                style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: '8px',
+                  opacity: isTransitioning ? 0 : 1,
+                  transform: isTransitioning ? 'translateY(8px)' : 'translateY(0)',
+                  transition: 'opacity 0.3s ease 0.05s, transform 0.3s ease 0.05s'
+                }}
+              >
+                {active.features.map((feat, i) => (
+                  <span
+                    key={i}
+                    style={{
+                      fontSize: '10px',
+                      fontWeight: 700,
+                      letterSpacing: '1px',
+                      textTransform: 'uppercase',
+                      color: 'rgba(255,255,255,0.6)',
+                      padding: '6px 14px',
+                      border: '1px solid rgba(255,255,255,0.1)',
+                      fontFamily: "'Space Grotesk', system-ui, sans-serif"
+                    }}
+                  >
+                    {feat}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
 
+          {/* Bottom CTA */}
+          <div style={{ marginTop: '36px' }}>
             <button
               onClick={() => onNavigate('book-now')}
+              className="sa-btn-glow"
               style={{
                 background: '#ffffff',
                 border: 'none',
                 color: '#152247',
                 padding: '14px 32px',
-                borderRadius: '0px',
-                fontSize: '13px',
+                fontSize: '11px',
                 fontWeight: 800,
-                letterSpacing: '1.5px',
+                letterSpacing: '2px',
                 textTransform: 'uppercase',
                 cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '10px',
-                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.2)',
-                transition: 'all 0.3s ease',
-                fontFamily: "'Space Grotesk', system-ui, sans-serif"
+                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.25)',
+                transition: 'all 0.4s cubic-bezier(0.25, 1, 0.5, 1)',
+                fontFamily: "'Space Grotesk', system-ui, sans-serif",
+                width: '100%',
+                justifyContent: 'center'
               }}
             >
               BOOK NOW <span style={{ fontSize: '15px' }}>→</span>
             </button>
+            <p
+              style={{
+                fontSize: '11px',
+                color: 'rgba(148, 163, 184, 0.5)',
+                margin: '14px 0 0 0',
+                fontStyle: 'italic',
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                textAlign: 'center'
+              }}
+            >
+              5-Star Branded Residences by Continent Hotels & Resorts.
+            </p>
           </div>
         </div>
 
-        {/* Right Column: 2x2 Grid of Cards (No Numbering, Interior & Floor Plan Layouts) */}
-        <div>
+        {/* Right: Split Visual Panel */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', position: 'relative' }}>
+          {/* Interior Photo */}
           <div
             style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(2, 1fr)',
-              gap: '24px'
+              position: 'relative',
+              overflow: 'hidden',
+              cursor: 'pointer'
             }}
+            onClick={() => setShowLayout(false)}
           >
-            {offerItems.map((item, index) => (
-              <CurtainUpCard key={index} item={item} delay={index * 150} />
-            ))}
-          </div>
-
-          {/* Bottom Right Subtitle */}
-          <div style={{ textAlign: 'right', marginTop: '24px' }}>
-            <p
+            <img
+              src={active.image}
+              alt={active.alt}
               style={{
-                fontSize: '13px',
-                color: '#94a3b8',
-                margin: 0,
-                fontStyle: 'italic',
-                fontFamily: "'Cormorant Garamond', Georgia, serif"
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                opacity: isTransitioning ? 0 : 1,
+                transform: isTransitioning ? 'scale(1.08)' : 'scale(1)',
+                transition: 'opacity 0.6s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+                display: 'block'
+              }}
+            />
+            <div
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                padding: '40px 24px 20px',
+                background: 'linear-gradient(transparent, rgba(12,20,43,0.8))'
               }}
             >
-              5-Star Branded Serviced Residences by Continent Hotels & Resorts.
-            </p>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  opacity: isTransitioning ? 0 : 1,
+                  transition: 'opacity 0.3s ease'
+                }}
+              >
+                <div style={{ width: '24px', height: '1px', background: 'rgba(255,255,255,0.4)' }} />
+                <span
+                  style={{
+                    fontFamily: "'Space Grotesk', system-ui, sans-serif",
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    letterSpacing: '1.5px',
+                    textTransform: 'uppercase',
+                    color: 'rgba(255,255,255,0.8)'
+                  }}
+                >
+                  INTERIOR VIEW
+                </span>
+              </div>
+            </div>
+            {!showLayout && (
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  border: '2px solid rgba(255,255,255,0.2)',
+                  pointerEvents: 'none'
+                }}
+              />
+            )}
+          </div>
+
+          {/* Floor Plan */}
+          <div
+            style={{
+              position: 'relative',
+              overflow: 'hidden',
+              background: '#ffffff',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer'
+            }}
+            onClick={() => setShowLayout(true)}
+          >
+            <img
+              src={active.layout}
+              alt={active.layoutAlt}
+              style={{
+                maxWidth: '90%',
+                maxHeight: '85%',
+                objectFit: 'contain',
+                opacity: isTransitioning ? 0 : 1,
+                transform: isTransitioning ? 'scale(0.92)' : 'scale(1)',
+                transition: 'opacity 0.6s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)'
+              }}
+            />
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '20px',
+                left: '24px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                opacity: isTransitioning ? 0 : 1,
+                transition: 'opacity 0.3s ease'
+              }}
+            >
+              <div style={{ width: '24px', height: '1px', background: 'rgba(21,34,71,0.3)' }} />
+              <span
+                style={{
+                  fontFamily: "'Space Grotesk', system-ui, sans-serif",
+                  fontSize: '11px',
+                  fontWeight: 700,
+                  letterSpacing: '1.5px',
+                  textTransform: 'uppercase',
+                  color: '#152247'
+                }}
+              >
+                FLOOR PLAN
+              </span>
+            </div>
+            {showLayout && (
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  border: '2px solid rgba(21,34,71,0.15)',
+                  pointerEvents: 'none'
+                }}
+              />
+            )}
+          </div>
+
+          {/* View toggle pills */}
+          <div
+            style={{
+              position: 'absolute',
+              top: '20px',
+              right: '20px',
+              display: 'flex',
+              gap: '4px',
+              zIndex: 10
+            }}
+          >
+            <button
+              onClick={() => setShowLayout(false)}
+              style={{
+                background: !showLayout ? '#152247' : 'rgba(255,255,255,0.85)',
+                color: !showLayout ? '#ffffff' : '#152247',
+                border: 'none',
+                padding: '7px 16px',
+                fontSize: '10px',
+                fontWeight: 700,
+                letterSpacing: '1px',
+                textTransform: 'uppercase',
+                cursor: 'pointer',
+                fontFamily: "'Space Grotesk', system-ui, sans-serif",
+                transition: 'all 0.3s ease',
+                backdropFilter: 'blur(8px)'
+              }}
+            >
+              Interior
+            </button>
+            <button
+              onClick={() => setShowLayout(true)}
+              style={{
+                background: showLayout ? '#152247' : 'rgba(255,255,255,0.85)',
+                color: showLayout ? '#ffffff' : '#152247',
+                border: 'none',
+                padding: '7px 16px',
+                fontSize: '10px',
+                fontWeight: 700,
+                letterSpacing: '1px',
+                textTransform: 'uppercase',
+                cursor: 'pointer',
+                fontFamily: "'Space Grotesk', system-ui, sans-serif",
+                transition: 'all 0.3s ease',
+                backdropFilter: 'blur(8px)'
+              }}
+            >
+              Layout
+            </button>
           </div>
         </div>
       </div>
@@ -581,7 +1070,7 @@ const WhatWeOfferSection: React.FC<{ onNavigate: (tabId: string) => void }> = ({
   );
 };
 
-// Exterior Architecture & Amenities Section (Heading Left, Clean Editorial Text Right)
+// ─── Exterior Architecture & Amenities Section ───
 const ExteriorAmenitiesSection: React.FC = () => {
   const galleryImages = [
     {
@@ -647,7 +1136,7 @@ const ExteriorAmenitiesSection: React.FC = () => {
 
   return (
     <div style={{ marginBottom: '96px', paddingTop: '32px' }}>
-      {/* Top Header: Left Side Heading, Right Side Clean Editorial Text */}
+      {/* Header row */}
       <div
         style={{
           display: 'grid',
@@ -657,10 +1146,18 @@ const ExteriorAmenitiesSection: React.FC = () => {
           marginBottom: '72px'
         }}
       >
-        {/* Left Column: Exterior Heading (Eases in from LEFT) */}
         <ScrollEaseIn direction="left">
           <div>
-            <div style={{ fontSize: '11px', fontWeight: 800, color: '#777777', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>
+            <div
+              style={{
+                fontSize: '11px',
+                fontWeight: 800,
+                color: '#94a3b8',
+                letterSpacing: '2.5px',
+                textTransform: 'uppercase',
+                marginBottom: '10px'
+              }}
+            >
               GRACEFULLY HANDLED
             </div>
             <h3
@@ -672,15 +1169,23 @@ const ExteriorAmenitiesSection: React.FC = () => {
                 letterSpacing: '0.5px',
                 lineHeight: '1.15',
                 textTransform: 'uppercase',
-                margin: 0
+                margin: '0 0 12px 0'
               }}
             >
               EXTERIOR
             </h3>
+            {/* Accent line */}
+            <div
+              style={{
+                width: '40px',
+                height: '2px',
+                background: 'linear-gradient(90deg, #152247, transparent)',
+                marginTop: '4px'
+              }}
+            />
           </div>
         </ScrollEaseIn>
 
-        {/* Right Column: Two Paragraphs matching Interior section (Eases in from RIGHT) */}
         <ScrollEaseIn direction="right">
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <p
@@ -688,19 +1193,18 @@ const ExteriorAmenitiesSection: React.FC = () => {
                 fontFamily: "'Inter', system-ui, sans-serif",
                 fontSize: '15.5px',
                 color: '#475569',
-                lineHeight: '1.7',
+                lineHeight: '1.75',
                 margin: 0
               }}
             >
               Rising gracefully along the Islamabad Expressway, RJ's Larom Residences marries bold exterior architectural elevation with curated 5-star resident amenities tailored for elevated living.
             </p>
-
             <p
               style={{
                 fontFamily: "'Inter', system-ui, sans-serif",
                 fontSize: '15px',
                 color: '#64748b',
-                lineHeight: '1.7',
+                lineHeight: '1.75',
                 margin: 0
               }}
             >
@@ -710,12 +1214,12 @@ const ExteriorAmenitiesSection: React.FC = () => {
         </ScrollEaseIn>
       </div>
 
-      {/* 4-Image Exterior & Amenity Gallery Grid with Drop Curtain Reveal */}
+      {/* Gallery grid */}
       <div
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '32px',
+          gap: '28px',
           alignItems: 'start'
         }}
       >
@@ -735,44 +1239,99 @@ const ExteriorAmenitiesSection: React.FC = () => {
   );
 };
 
+// ─── Floating Scroll-to-Top Button ───
+const ScrollToTopButton: React.FC = () => {
+  const [visible, setVisible] = useState(false);
 
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 600);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  if (!visible) return null;
+
+  return (
+    <button
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      aria-label="Scroll to top"
+      style={{
+        position: 'fixed',
+        bottom: '32px',
+        right: '32px',
+        width: '48px',
+        height: '48px',
+        background: '#152247',
+        color: '#ffffff',
+        border: 'none',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: '20px',
+        cursor: 'pointer',
+        boxShadow: '0 8px 25px rgba(21,34,71,0.35)',
+        zIndex: 999,
+        transition: 'all 0.3s ease',
+        animation: 'saSlideUp 0.4s ease-out'
+      }}
+    >
+      ↑
+    </button>
+  );
+};
+
+// ─── Section Divider ───
+const SectionDivider: React.FC<{ style?: React.CSSProperties }> = ({ style }) => (
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '16px',
+      margin: '0 auto',
+      maxWidth: '200px',
+      padding: '8px 0',
+      ...style
+    }}
+  >
+    <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, transparent, rgba(21,34,71,0.15))' }} />
+    <div style={{ width: '6px', height: '6px', background: '#152247', transform: 'rotate(45deg)', opacity: 0.3 }} />
+    <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, rgba(21,34,71,0.15), transparent)' }} />
+  </div>
+);
+
+
+// ═══════════════════════════════════════════════
+// ─── Main Page Export ───
+// ═══════════════════════════════════════════════
 export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({
   onNavigate,
 }) => {
-
   return (
     <div
-      className="serviced-apartments-page animate-fade-in"
+      className="serviced-apartments-page"
       style={{
-        padding: '120px 48px 80px',
         background: '#ffffff',
-        fontFamily: "'Space Grotesk', system-ui, sans-serif"
+        fontFamily: "'Space Grotesk', system-ui, sans-serif",
+        paddingTop: '72px'
       }}
     >
-      <div style={{ maxWidth: '1320px', margin: '0 auto' }}>
+      <ScopedStyles />
+      <ScrollToTopButton />
 
-        {/* 1. TOP EDITORIAL HEADING */}
-        <div style={{ textAlign: 'center', marginBottom: '44px' }}>
-          <h1
-            style={{
-              fontFamily: "'Space Grotesk', system-ui, sans-serif",
-              fontSize: '48px',
-              fontWeight: 900,
-              color: '#152247',
-              letterSpacing: '0.5px',
-              textTransform: 'uppercase',
-              lineHeight: '1.15',
-              margin: 0
-            }}
-          >
-            FULLY FURNISHED SERVICED APARTMENTS
-          </h1>
-        </div>
+      {/* 1. HERO BANNER with parallax */}
+      <HeroBanner />
 
-        {/* 2. MOVING IMAGE TRAY CAROUSEL (Central Image Focused & Animated Loop) */}
+      {/* Contained content */}
+      <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 48px 80px' }}>
+
+        {/* 2. MOVING IMAGE TRAY CAROUSEL */}
         <MovingImageTray />
 
-        {/* 3. QUOTATION HEADLINE & RIGHT-SIDE PARAGRAPH SECTION */}
+        {/* Divider */}
+        <SectionDivider style={{ marginBottom: '64px' }} />
+
+        {/* 3. VISION / SERVICED TO PERFECTION */}
         <div
           style={{
             display: 'grid',
@@ -783,10 +1342,18 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({
             overflow: 'hidden'
           }}
         >
-          {/* Left Column: Vision Title (Eases in from LEFT) */}
           <ScrollEaseIn direction="left">
             <div>
-              <div style={{ fontSize: '11px', fontWeight: 800, color: '#777777', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>
+              <div
+                style={{
+                  fontSize: '11px',
+                  fontWeight: 800,
+                  color: '#94a3b8',
+                  letterSpacing: '2.5px',
+                  textTransform: 'uppercase',
+                  marginBottom: '10px'
+                }}
+              >
                 VISION
               </div>
               <h2
@@ -798,15 +1365,22 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({
                   letterSpacing: '0.5px',
                   lineHeight: '1.15',
                   textTransform: 'uppercase',
-                  margin: 0
+                  margin: '0 0 12px 0'
                 }}
               >
                 SERVICED TO PERFECTION
               </h2>
+              {/* Accent line */}
+              <div
+                style={{
+                  width: '40px',
+                  height: '2px',
+                  background: 'linear-gradient(90deg, #152247, transparent)'
+                }}
+              />
             </div>
           </ScrollEaseIn>
 
-          {/* Right Column: Paragraph Description (Eases in from RIGHT) */}
           <ScrollEaseIn direction="right">
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               <p
@@ -814,7 +1388,7 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({
                   fontFamily: "'Inter', system-ui, sans-serif",
                   fontSize: '15.5px',
                   color: '#475569',
-                  lineHeight: '1.7',
+                  lineHeight: '1.75',
                   margin: 0
                 }}
               >
@@ -824,9 +1398,9 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({
           </ScrollEaseIn>
         </div>
 
-        {/* 4. INTERIOR GALLERY SECTION (Text Left, INTERIOR Heading Right) */}
+        {/* 4. INTERIOR SECTION */}
         <div style={{ marginBottom: '96px', paddingTop: '40px' }}>
-          {/* Interior Heading & Description Paragraph Section */}
+          {/* Header: Text left, Interior heading right */}
           <div
             style={{
               display: 'grid',
@@ -837,7 +1411,6 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({
               overflow: 'hidden'
             }}
           >
-            {/* Left Column: Paragraph Description (Eases in from LEFT) */}
             <ScrollEaseIn direction="left">
               <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                 <p
@@ -845,19 +1418,18 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({
                     fontFamily: "'Inter', system-ui, sans-serif",
                     fontSize: '15.5px',
                     color: '#475569',
-                    lineHeight: '1.7',
+                    lineHeight: '1.75',
                     margin: 0
                   }}
                 >
                   Crafted with architectural precision and warm luxury, the Bedroom Serviced Apartment at RJ's Larom Residences is a curated living space. The private master bedroom features bespoke wood paneling, plush king bedding, and ambient cove lighting.
                 </p>
-
                 <p
                   style={{
                     fontFamily: "'Inter', system-ui, sans-serif",
                     fontSize: '15px',
                     color: '#64748b',
-                    lineHeight: '1.7',
+                    lineHeight: '1.75',
                     margin: 0
                   }}
                 >
@@ -866,10 +1438,18 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({
               </div>
             </ScrollEaseIn>
 
-            {/* Right Column: Interior Title (Breathes in / eases in from RIGHT) */}
             <ScrollEaseIn direction="right">
               <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: '11px', fontWeight: 800, color: '#777777', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>
+                <div
+                  style={{
+                    fontSize: '11px',
+                    fontWeight: 800,
+                    color: '#94a3b8',
+                    letterSpacing: '2.5px',
+                    textTransform: 'uppercase',
+                    marginBottom: '10px'
+                  }}
+                >
                   DESIGN PHILOSOPHY
                 </div>
                 <h3
@@ -881,25 +1461,33 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({
                     letterSpacing: '0.5px',
                     lineHeight: '1.15',
                     textTransform: 'uppercase',
-                    margin: 0
+                    margin: '0 0 12px 0'
                   }}
                 >
                   INTERIOR
                 </h3>
+                {/* Accent line right-aligned */}
+                <div
+                  style={{
+                    width: '40px',
+                    height: '2px',
+                    background: 'linear-gradient(90deg, transparent, #152247)',
+                    marginLeft: 'auto'
+                  }}
+                />
               </div>
             </ScrollEaseIn>
           </div>
 
-          {/* 8-Image Editorial Staggered Grid with Drop Curtain Reveal on Scroll */}
+          {/* Interior image grid */}
           <div
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(4, 1fr)',
-              gap: '32px 32px',
+              gap: '28px',
               alignItems: 'start'
             }}
           >
-            {/* Row 1 - Image 1: Bedroom (Far Left - Tall Portrait) */}
             <CurtainRevealImage
               src="https://images.unsplash.com/photo-1617098900591-3f90928e8c54?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzJ8fGJlZHJvb218ZW58MHx8MHx8fDA%3D?auto=format&fit=crop&w=1200&q=80"
               alt="Bespoke Master Bedroom Suite"
@@ -907,8 +1495,6 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({
               height="440px"
               delay={0}
             />
-
-            {/* Row 1 - Image 2: Dining (Middle-Left - Square/Medium) */}
             <CurtainRevealImage
               src="https://images.unsplash.com/photo-1633505412556-82c0921e8f4a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGRpbmluZyUyMHJvb218ZW58MHx8MHx8fDA%3D?auto=format&fit=crop&w=1200&q=80"
               alt="Artisanal Fine Dining Table & Suite Dining"
@@ -916,8 +1502,6 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({
               height="290px"
               delay={150}
             />
-
-            {/* Row 1 - Image 3: Washroom (Middle-Right - Square/Medium, Vertical Offset near bottom baseline) */}
             <CurtainRevealImage
               src="https://images.unsplash.com/photo-1661107259637-4e1c55462428?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8d2FzaHJvb218ZW58MHx8MHx8fDA%3D?auto=format&fit=crop&w=1200&q=80"
               alt="Calacatta Marble Washroom"
@@ -926,8 +1510,6 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({
               marginTop="120px"
               delay={300}
             />
-
-            {/* Row 1 - Image 4: Living Room (Far Right - Medium Portrait) */}
             <CurtainRevealImage
               src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80"
               alt="Open-Concept Living Room Lounge"
@@ -935,18 +1517,14 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({
               height="360px"
               delay={450}
             />
-
-            {/* Row 2 - Image 5: Kitchen Island Bar */}
             <CurtainRevealImage
-              src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1200&q=80"
-              alt="Artisanal Kitchen Island & Fine Dining Bar"
+              src="https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8a2l0Y2hlbiUyMGRlc2lnbnxlbnwwfHwwfHx8MA%3D%3D"
+              alt="Modern Luxury Kitchen Interior"
               caption="CRAFTED FOR HARMONY"
               height="340px"
               marginTop="40px"
               delay={0}
             />
-
-            {/* Row 2 - Image 6: Sky Balcony */}
             <CurtainRevealImage
               src="https://images.unsplash.com/photo-1591944438730-23dbc9076a9a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fEJBTENPTll8ZW58MHx8MHx8fDA%3D"
               alt="Private Suite Terrace & Panoramic Sky View"
@@ -954,8 +1532,6 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({
               height="420px"
               delay={150}
             />
-
-            {/* Row 2 - Image 7: Sunlit Lounge Nook */}
             <CurtainRevealImage
               src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=1200&q=80"
               alt="Sunlit Executive Reading & Leisure Lounge"
@@ -964,8 +1540,6 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({
               marginTop="60px"
               delay={300}
             />
-
-            {/* Row 2 - Image 8: Bespoke Dressing Suite */}
             <CurtainRevealImage
               src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8QkVTUE9LRSUyMEJFRFJPT018ZW58MHx8MHx8fDA%3D"
               alt="Bespoke Master Bedroom Suite"
@@ -976,12 +1550,11 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({
           </div>
         </div>
 
-        {/* 5. EXTERIOR ARCHITECTURE & AMENITIES SECTION (Left Heading, Right Text & Amenity Cards) */}
+        {/* 5. EXTERIOR & AMENITIES */}
         <ExteriorAmenitiesSection />
 
-        {/* 6. WHAT WE OFFER SECTION */}
+        {/* 6. WHAT WE OFFER */}
         <WhatWeOfferSection onNavigate={onNavigate} />
-
       </div>
     </div>
   );

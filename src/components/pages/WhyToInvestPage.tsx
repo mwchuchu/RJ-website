@@ -651,7 +651,7 @@ export const WhyToInvestPage: React.FC<WhyToInvestPageProps> = ({ onNavigate }) 
               Market Demand Benefits
             </h3>
             <p style={{ fontFamily: "'Inter', system-ui, sans-serif", fontSize: '14.5px', color: '#64748b', margin: 0 }}>
-              Luxury Serviced Apartment are in huge demand in market
+              Luxury Serviced Apartment are in huge demand in market. 
             </p>
             
           </div>

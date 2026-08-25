@@ -71,16 +71,16 @@ export const Footer: React.FC = () => {
         <svg viewBox="0 0 160 36" height="30">
           <rect x="0" y="0" width="28" height="36" rx="2" fill="#ff5000" />
           <text x="14" y="26" fontSize="19" fontWeight="900" fill="#ffffff" textAnchor="middle" fontFamily="Space Grotesk, system-ui">K</text>
-          
+
           <rect x="32" y="0" width="28" height="36" rx="2" fill="#ff5000" />
           <text x="46" y="26" fontSize="19" fontWeight="900" fill="#ffffff" textAnchor="middle" fontFamily="Space Grotesk, system-ui">A</text>
-          
+
           <rect x="64" y="0" width="28" height="36" rx="2" fill="#ff5000" />
           <text x="78" y="26" fontSize="19" fontWeight="900" fill="#ffffff" textAnchor="middle" fontFamily="Space Grotesk, system-ui">Y</text>
-          
+
           <rect x="96" y="0" width="28" height="36" rx="2" fill="#ff5000" />
           <text x="110" y="26" fontSize="19" fontWeight="900" fill="#ffffff" textAnchor="middle" fontFamily="Space Grotesk, system-ui">A</text>
-          
+
           <rect x="128" y="0" width="28" height="36" rx="2" fill="#ff5000" />
           <text x="142" y="26" fontSize="19" fontWeight="900" fill="#ffffff" textAnchor="middle" fontFamily="Space Grotesk, system-ui">K</text>
         </svg>

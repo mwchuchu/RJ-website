@@ -27,7 +27,7 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
       detailKey: 'downPayment' as const,
       icon: (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
         </svg>
       )
     },
@@ -41,10 +41,10 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
       detailKey: 'monthly' as const,
       icon: (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#152247" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-          <line x1="16" y1="2" x2="16" y2="6"/>
-          <line x1="8" y1="2" x2="8" y2="6"/>
-          <line x1="3" y1="10" x2="21" y2="10"/>
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+          <line x1="16" y1="2" x2="16" y2="6" />
+          <line x1="8" y1="2" x2="8" y2="6" />
+          <line x1="3" y1="10" x2="21" y2="10" />
         </svg>
       )
     },
@@ -58,7 +58,7 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
       detailKey: 'possession' as const,
       icon: (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0284c7" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.778-7.778zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+          <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.778-7.778zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
         </svg>
       )
     }
@@ -187,7 +187,7 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
       <div style={{ maxWidth: '1280px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
         {/* Section Header */}
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-          
+
           <h2 style={{ fontSize: '40px', fontWeight: 900, color: '#0f172a', margin: '0 0 12px 0', letterSpacing: '-0.5px' }}>
             Investor Payment Plan & Structure
           </h2>
@@ -233,7 +233,7 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
 
         {/* Main 2-Column Grid: Left Breakdown Details | Right Live Pie Chart */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr minmax(320px, 440px)', gap: '50px', alignItems: 'center' }}>
-          
+
           {/* Left Column: Suite Pricing, Milestone Segment Cards & Explore Button */}
           <div>
             {/* Active Suite Total Price Display Banner */}
@@ -397,7 +397,7 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
 
               {/* Center Donut Hole Hub Content (No hovered stage line) */}
               <circle cx="140" cy="140" r="58" fill="#ffffff" stroke="#e2e8f0" strokeWidth="3" />
-              
+
               <text x="140" y="136" textAnchor="middle" fill="#152247" fontSize="24" fontWeight="900" fontFamily="Space Grotesk">
                 {activeSegment !== null ? `${segments[activeSegment].percentage}%` : '100%'}
               </text>

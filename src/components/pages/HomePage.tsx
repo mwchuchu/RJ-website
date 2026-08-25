@@ -111,7 +111,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
     {
       id: 2,
       title: 'Rooftop Infinity Pool',
-      
+
       centerImg: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800&q=80',
       leftImg: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80',
       rightImg: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80'
@@ -158,7 +158,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           <div style={{ maxWidth: '1240px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(480px, 1fr))', gap: '60px', alignItems: 'center' }}>
             {/* Left Column: Headline with Blue Wavy Underline, Single Explore More Button, & 3 Stat Cards */}
             <div>
-              
+
               <h2
                 style={{
                   fontSize: '44px',
@@ -305,7 +305,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     alt={amenitySlides[activeAmenitySlide].title}
                     style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'all 0.5s ease' }}
                   />
-                
+
                 </div>
 
                 {/* Right Stadium Capsule */}
@@ -360,7 +360,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       <ScrollAnimateSection>
         <section className={`architectural-progress-section ${isVisible ? 'in-view' : ''}`} ref={sectionRef}>
           <div className="arch-progress-container">
-            <div className="arch-header"> 
+            <div className="arch-header">
               <h2 className="arch-headline">60% Construction Achieved</h2>
               <p className="arch-subtext">
                 14-Storey landmark high-rise structure actively erecting on Islamabad Expressway. On schedule for June 2027 handover.
@@ -453,7 +453,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                       {/* Dynamic Animated Hazard Fill */}
                       <div className="roller-hazard-fill" style={{ width: `${progress}%` }}>
                         <div className="hazard-stripe-pattern"></div>
-                        
+
                         {/* Paint Roller Tool Icon attached to 60% edge */}
                         <div className="roller-tool-wrapper">
                           <svg className="roller-tool-svg" viewBox="0 0 50 60" fill="none" xmlns="http://www.w3.org/2000/svg">
