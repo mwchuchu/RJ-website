@@ -39,7 +39,7 @@ export const App: React.FC = () => {
 
           {activeTab === 'serviced-apartments' && (
             <ServicedApartmentsPage
-              onSelectProperty={(prop) => setSelectedProperty(prop)}
+              onSelectProperty={(prop: Property) => setSelectedProperty(prop)}
               onNavigate={handleSelectTab}
             />
           )}

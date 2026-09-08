@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
+import type { Property } from '../../types/index';
 
 interface ServicedApartmentsPageProps {
+  onSelectProperty?: (prop: Property) => void;
   onNavigate?: (tabId: string) => void;
 }
 
