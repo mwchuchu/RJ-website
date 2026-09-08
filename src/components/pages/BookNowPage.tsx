@@ -39,7 +39,7 @@ export const BookNowPage: React.FC<BookNowPageProps> = () => {
     const unitTitle = propId === 'prop-01'
       ? '1-Bedroom Luxury Serviced Apartment (625 sq.ft • Rs. 16.56M)'
       : '2-Bedroom Executive Serviced Residence (1,140 sq.ft • Rs. 30.21M)';
-    
+
     setFormData((prev) => ({
       ...prev,
       unitType: unitTitle
@@ -80,6 +80,7 @@ export const BookNowPage: React.FC<BookNowPageProps> = () => {
           }
         }
 
+        .float-hero-watermark,
         .float-amenities-text {
           animation: floatWatermark 5s ease-in-out infinite;
         }
@@ -137,7 +138,7 @@ export const BookNowPage: React.FC<BookNowPageProps> = () => {
         style={{
           position: 'relative',
           minHeight: '70vh',
-          background: 'linear-gradient(180deg, #99c6f4ff 0%, #6cb3f1ff 40%, #FAFBFD 100%)',
+          background: 'radial-gradient(ellipse 120% 85% at 50% 0%, #5074a6 0%, #7b9cc7 25%, #adc6e3 50%, #dce8f5 75%, #ffffff 100%)',
           borderRadius: '0px 0px 32px 32px',
           overflow: 'hidden',
           display: 'flex',
@@ -150,16 +151,16 @@ export const BookNowPage: React.FC<BookNowPageProps> = () => {
         }}
       >
         <div
-          className="float-amenities-text"
+          className="float-hero-watermark"
           style={{
             position: 'absolute',
             top: '30%',
             left: '50%',
             transform: 'translateX(-50%)',
-            fontSize: 'clamp(70px, 15vw, 200px)',
+            fontSize: 'clamp(52px, 12.5vw, 185px)',
             fontWeight: 800,
             letterSpacing: '8px',
-            color: 'rgba(15, 39, 68, 0.22)',
+            color: 'rgba(21, 34, 71, 0.25)',
             userSelect: 'none',
             pointerEvents: 'none',
             whiteSpace: 'nowrap',

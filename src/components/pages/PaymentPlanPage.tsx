@@ -48,7 +48,7 @@ export const PaymentPlanPage: React.FC<PaymentPlanPageProps> = ({ onNavigate }) 
 
   const formatPKR = (val: number) => val.toLocaleString('en-PK');
 
-  // Schedule rows for table
+  // Full Schedule rows for table
   const scheduleRows = [
     {
       no: '01',
@@ -77,7 +77,15 @@ export const PaymentPlanPage: React.FC<PaymentPlanPageProps> = ({ onNavigate }) 
   ];
 
   return (
-    <div className="payment-plan-page animate-fade-in" style={{ background: '#ffffff', minHeight: '100vh', color: '#152247', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
+    <div
+      className="payment-plan-page animate-fade-in"
+      style={{
+        background: '#ffffff',
+        minHeight: '100vh',
+        color: '#152247',
+        fontFamily: "'Space Grotesk', system-ui, sans-serif"
+      }}
+    >
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -90,15 +98,73 @@ export const PaymentPlanPage: React.FC<PaymentPlanPageProps> = ({ onNavigate }) 
           }
         }
 
+        .float-hero-watermark,
         .float-payment-text {
           animation: floatWatermark 5s ease-in-out infinite;
         }
+
+        .minimal-metric-card {
+          background: #ffffff;
+          border: 1px solid #e2e8f0;
+          border-radius: 16px;
+          padding: 22px 24px;
+          box-shadow: 0 4px 16px rgba(21, 34, 71, 0.03);
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          cursor: default;
+        }
+
+        .minimal-metric-card:hover {
+          transform: translateY(-4px);
+          border-color: #152247;
+          box-shadow: 0 14px 30px -8px rgba(21, 34, 71, 0.12);
+        }
+
+        .minimal-schedule-row {
+          border-bottom: 1px solid #f1f5f9;
+          font-size: 13.5px;
+          color: #0f172a;
+          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .minimal-schedule-row:hover {
+          background: rgba(21, 34, 71, 0.035) !important;
+          transform: translateX(4px);
+          box-shadow: inset 3px 0 0 #152247;
+        }
+
+        .minimal-switch-btn {
+          padding: 10px 22px;
+          border-radius: 8px;
+          font-weight: 800;
+          font-size: 13.5px;
+          border: none;
+          cursor: pointer;
+          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .minimal-switch-btn:hover:not(.active-switch) {
+          color: #152247;
+          background: rgba(21, 34, 71, 0.05);
+        }
+
+        .reserve-btn-hover {
+          transition: all 0.25s ease;
+        }
+
+        .reserve-btn-hover:hover {
+          background: #1e3a8a !important;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(21, 34, 71, 0.3);
+        }
       `}</style>
+
+      {/* Hero Watermark Banner */}
       <section
         style={{
           position: 'relative',
           minHeight: '70vh',
-          background: 'linear-gradient(180deg, #99c6f4ff 0%, #6cb3f1ff 40%, #FAFBFD 100%)',
+          background:
+            'radial-gradient(ellipse 120% 85% at 50% 0%, #5074a6 0%, #7b9cc7 25%, #adc6e3 50%, #dce8f5 75%, #ffffff 100%)',
           borderRadius: '0px 0px 32px 32px',
           overflow: 'hidden',
           display: 'flex',
@@ -112,16 +178,16 @@ export const PaymentPlanPage: React.FC<PaymentPlanPageProps> = ({ onNavigate }) 
       >
         {/* Floating Giant Watermark */}
         <div
-          className="float-payment-text"
+          className="float-hero-watermark"
           style={{
             position: 'absolute',
             top: '30%',
             left: '50%',
             transform: 'translateX(-50%)',
-            fontSize: 'clamp(50px, 11vw, 170px)',
+            fontSize: 'clamp(52px, 12.5vw, 185px)',
             fontWeight: 800,
             letterSpacing: '8px',
-            color: 'rgba(15, 39, 68, 0.22)',
+            color: 'rgba(21, 34, 71, 0.25)',
             userSelect: 'none',
             pointerEvents: 'none',
             whiteSpace: 'nowrap',
@@ -133,54 +199,75 @@ export const PaymentPlanPage: React.FC<PaymentPlanPageProps> = ({ onNavigate }) 
         </div>
       </section>
 
-      {/* Embedded Interactive Pie Section (Without redundant Explore Payment Plan button) */}
-      <PaymentPlanSection onNavigate={onNavigate} hideExploreButton={true} />
+      {/* Embedded Interactive Pie Section (Only Pie Chart on Payment Plan Page) */}
+      <PaymentPlanSection onNavigate={onNavigate} hideExploreButton={true} onlyPieChart={true} />
 
-      {/* Minimalist Schedule Chart & Table Section */}
+      {/* Full Minimalist Schedule Chart & Table Section */}
       <section style={{ maxWidth: '1160px', margin: '40px auto 80px auto', padding: '0 24px' }}>
-        
         {/* Section Title */}
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-          <span style={{ background: 'rgba(21, 34, 71, 0.06)', color: '#152247', padding: '6px 16px', borderRadius: '99px', fontSize: '11px', fontWeight: 800, letterSpacing: '1.5px', textTransform: 'uppercase' }}>
-            MINIMALIST PAYMENT SCHEDULE
+          <span
+            style={{
+              background: 'rgba(21, 34, 71, 0.06)',
+              color: '#152247',
+              padding: '6px 18px',
+              borderRadius: '99px',
+              fontSize: '11px',
+              fontWeight: 800,
+              letterSpacing: '1.5px',
+              textTransform: 'uppercase'
+            }}
+          >
+            STRUCTURED INSTALLMENT SCHEDULE
           </span>
           <h2 style={{ fontSize: '32px', fontWeight: 900, color: '#152247', margin: '10px 0 0 0' }}>
-            Structured Installment Chart
+            Flexible Payment Schedule
           </h2>
+          <p style={{ fontSize: '14px', color: '#64748b', marginTop: '6px' }}>
+            Transparent 0% mark-up milestone breakdown tailored to your chosen residence
+          </p>
         </div>
 
         {/* Minimalist Controls: Suite Selector + Duration Switcher */}
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', gap: '14px', marginBottom: '28px' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '14px',
+            marginBottom: '32px'
+          }}
+        >
           {/* Suite Switch */}
-          <div style={{ display: 'inline-flex', background: '#f1f5f9', padding: '4px', borderRadius: '12px', gap: '6px' }}>
+          <div
+            style={{
+              display: 'inline-flex',
+              background: '#f8fafc',
+              border: '1px solid #e2e8f0',
+              padding: '4px',
+              borderRadius: '12px',
+              gap: '6px'
+            }}
+          >
             <button
               onClick={() => setSelectedSuiteType('1bed')}
+              className={`minimal-switch-btn ${selectedSuiteType === '1bed' ? 'active-switch' : ''}`}
               style={{
-                padding: '10px 22px',
-                borderRadius: '8px',
-                fontWeight: 800,
-                fontSize: '13.5px',
-                border: 'none',
                 background: selectedSuiteType === '1bed' ? '#152247' : 'transparent',
                 color: selectedSuiteType === '1bed' ? '#ffffff' : '#64748b',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease'
+                boxShadow: selectedSuiteType === '1bed' ? '0 4px 12px rgba(21, 34, 71, 0.2)' : 'none'
               }}
             >
               1-Bedroom ({plans['1bed'].sqft} sq.ft)
             </button>
             <button
               onClick={() => setSelectedSuiteType('2bed')}
+              className={`minimal-switch-btn ${selectedSuiteType === '2bed' ? 'active-switch' : ''}`}
               style={{
-                padding: '10px 22px',
-                borderRadius: '8px',
-                fontWeight: 800,
-                fontSize: '13.5px',
-                border: 'none',
                 background: selectedSuiteType === '2bed' ? '#152247' : 'transparent',
                 color: selectedSuiteType === '2bed' ? '#ffffff' : '#64748b',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease'
+                boxShadow: selectedSuiteType === '2bed' ? '0 4px 12px rgba(21, 34, 71, 0.2)' : 'none'
               }}
             >
               2-Bedroom ({plans['2bed'].sqft} sq.ft)
@@ -188,35 +275,34 @@ export const PaymentPlanPage: React.FC<PaymentPlanPageProps> = ({ onNavigate }) 
           </div>
 
           {/* Duration Switch */}
-          <div style={{ display: 'inline-flex', background: '#f1f5f9', padding: '4px', borderRadius: '12px', gap: '6px' }}>
+          <div
+            style={{
+              display: 'inline-flex',
+              background: '#f8fafc',
+              border: '1px solid #e2e8f0',
+              padding: '4px',
+              borderRadius: '12px',
+              gap: '6px'
+            }}
+          >
             <button
               onClick={() => setSelectedDuration('6month')}
+              className={`minimal-switch-btn ${selectedDuration === '6month' ? 'active-switch' : ''}`}
               style={{
-                padding: '10px 20px',
-                borderRadius: '8px',
-                fontWeight: 800,
-                fontSize: '13.5px',
-                border: 'none',
                 background: selectedDuration === '6month' ? '#152247' : 'transparent',
                 color: selectedDuration === '6month' ? '#ffffff' : '#64748b',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease'
+                boxShadow: selectedDuration === '6month' ? '0 4px 12px rgba(21, 34, 71, 0.2)' : 'none'
               }}
             >
               6-Month Plan (10%/mo)
             </button>
             <button
               onClick={() => setSelectedDuration('12month')}
+              className={`minimal-switch-btn ${selectedDuration === '12month' ? 'active-switch' : ''}`}
               style={{
-                padding: '10px 20px',
-                borderRadius: '8px',
-                fontWeight: 800,
-                fontSize: '13.5px',
-                border: 'none',
                 background: selectedDuration === '12month' ? '#152247' : 'transparent',
                 color: selectedDuration === '12month' ? '#ffffff' : '#64748b',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease'
+                boxShadow: selectedDuration === '12month' ? '0 4px 12px rgba(21, 34, 71, 0.2)' : 'none'
               }}
             >
               12-Month Plan (5%/mo)
@@ -224,134 +310,234 @@ export const PaymentPlanPage: React.FC<PaymentPlanPageProps> = ({ onNavigate }) 
           </div>
         </div>
 
-        {/* 4 Minimalist Product Cards (Styled like the reference design) */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px', marginBottom: '32px' }}>
-          
+        {/* 4 Minimalist Product Cards with Navy Theme & Hover Effects */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+            gap: '20px',
+            marginBottom: '32px'
+          }}
+        >
           {/* Card 1: Total Valuation */}
-          <div style={{ background: '#ffffff', border: '1px solid #eef2f6', borderRadius: '18px', padding: '22px', boxShadow: '0 4px 18px rgba(0,0,0,0.03)' }}>
-            <div style={{ fontSize: '12px', fontWeight: 600, color: '#64748b', marginBottom: '4px' }}>
+          <div className="minimal-metric-card">
+            <div style={{ fontSize: '12px', fontWeight: 700, color: '#64748b', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
               Total Suite Valuation
             </div>
-            <div style={{ fontSize: '26px', fontWeight: 900, color: '#0f172a', lineHeight: '1.1' }}>
+            <div style={{ fontSize: '26px', fontWeight: 900, color: '#152247', lineHeight: '1.1' }}>
               {formatPKR(current.totalPrice)}{' '}
-              <span style={{ fontSize: '13px', fontWeight: 800, color: '#475569' }}>PKR</span>
+              <span style={{ fontSize: '13px', fontWeight: 800, color: '#64748b' }}>PKR</span>
             </div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#f1f5f9', padding: '4px 10px', borderRadius: '6px', marginTop: '12px' }}>
-              <span style={{ fontSize: '11.5px', fontWeight: 700, color: '#0f766e' }}>
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                background: 'rgba(21, 34, 71, 0.05)',
+                border: '1px solid rgba(21, 34, 71, 0.1)',
+                padding: '4px 10px',
+                borderRadius: '6px',
+                marginTop: '14px'
+              }}
+            >
+              <span style={{ fontSize: '11.5px', fontWeight: 700, color: '#152247' }}>
                 Rs. 26,500 / sq.ft • {current.sqft} SQFT
               </span>
             </div>
           </div>
 
           {/* Card 2: Down Payment */}
-          <div style={{ background: '#ffffff', border: '1px solid #eef2f6', borderRadius: '18px', padding: '22px', boxShadow: '0 4px 18px rgba(0,0,0,0.03)' }}>
-            <div style={{ fontSize: '12px', fontWeight: 600, color: '#64748b', marginBottom: '4px' }}>
+          <div className="minimal-metric-card">
+            <div style={{ fontSize: '12px', fontWeight: 700, color: '#64748b', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
               25% Down Payment
             </div>
-            <div style={{ fontSize: '26px', fontWeight: 900, color: '#16a34a', lineHeight: '1.1' }}>
+            <div style={{ fontSize: '26px', fontWeight: 900, color: '#152247', lineHeight: '1.1' }}>
               {formatPKR(current.downPayment)}{' '}
-              <span style={{ fontSize: '13px', fontWeight: 800, color: '#475569' }}>PKR</span>
+              <span style={{ fontSize: '13px', fontWeight: 800, color: '#64748b' }}>PKR</span>
             </div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#ecfdf5', padding: '4px 10px', borderRadius: '6px', marginTop: '12px' }}>
-              <span style={{ fontSize: '11.5px', fontWeight: 700, color: '#15803d' }}>
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                background: 'rgba(37, 99, 235, 0.08)',
+                border: '1px solid rgba(37, 99, 235, 0.18)',
+                padding: '4px 10px',
+                borderRadius: '6px',
+                marginTop: '14px'
+              }}
+            >
+              <span style={{ fontSize: '11.5px', fontWeight: 700, color: '#1d4ed8' }}>
                 Immediate Booking & Allocation
               </span>
             </div>
           </div>
 
-          {/* Card 3: Monthly Installment (As low as...) */}
-          <div style={{ background: '#ffffff', border: '1px solid #eef2f6', borderRadius: '18px', padding: '22px', boxShadow: '0 4px 18px rgba(0,0,0,0.03)' }}>
-            <div style={{ fontSize: '12px', fontWeight: 600, color: '#64748b', marginBottom: '4px' }}>
-              As low as ({selectedDuration === '6month' ? '6-Mo' : '12-Mo'})
+          {/* Card 3: Monthly Installment */}
+          <div className="minimal-metric-card">
+            <div style={{ fontSize: '12px', fontWeight: 700, color: '#64748b', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              Monthly Installment ({selectedDuration === '6month' ? '6-Mo' : '12-Mo'})
             </div>
-            <div style={{ fontSize: '26px', fontWeight: 900, color: '#0f172a', lineHeight: '1.1' }}>
+            <div style={{ fontSize: '26px', fontWeight: 900, color: '#152247', lineHeight: '1.1' }}>
               {formatPKR(currentMonthly)}{' '}
-              <span style={{ fontSize: '13px', fontWeight: 800, color: '#475569' }}>PKR / mo</span>
+              <span style={{ fontSize: '13px', fontWeight: 800, color: '#64748b' }}>PKR / mo</span>
             </div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#eff6ff', padding: '4px 10px', borderRadius: '6px', marginTop: '12px' }}>
-              <span style={{ fontSize: '11.5px', fontWeight: 700, color: '#1d4ed8' }}>
-                On 0% mark-up ({monthlyPercent}%/mo)
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                background: 'rgba(2, 132, 199, 0.08)',
+                border: '1px solid rgba(2, 132, 199, 0.18)',
+                padding: '4px 10px',
+                borderRadius: '6px',
+                marginTop: '14px'
+              }}
+            >
+              <span style={{ fontSize: '11.5px', fontWeight: 700, color: '#0284c7' }}>
+                0% Mark-Up ({monthlyPercent}%/mo)
               </span>
             </div>
           </div>
 
           {/* Card 4: Possession */}
-          <div style={{ background: '#ffffff', border: '1px solid #eef2f6', borderRadius: '18px', padding: '22px', boxShadow: '0 4px 18px rgba(0,0,0,0.03)' }}>
-            <div style={{ fontSize: '12px', fontWeight: 600, color: '#64748b', marginBottom: '4px' }}>
+          <div className="minimal-metric-card">
+            <div style={{ fontSize: '12px', fontWeight: 700, color: '#64748b', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
               15% On Possession
             </div>
-            <div style={{ fontSize: '26px', fontWeight: 900, color: '#7c3aed', lineHeight: '1.1' }}>
+            <div style={{ fontSize: '26px', fontWeight: 900, color: '#152247', lineHeight: '1.1' }}>
               {formatPKR(current.possession)}{' '}
-              <span style={{ fontSize: '13px', fontWeight: 800, color: '#475569' }}>PKR</span>
+              <span style={{ fontSize: '13px', fontWeight: 800, color: '#64748b' }}>PKR</span>
             </div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#faf5ff', padding: '4px 10px', borderRadius: '6px', marginTop: '12px' }}>
-              <span style={{ fontSize: '11.5px', fontWeight: 700, color: '#7e22ce' }}>
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                background: 'rgba(21, 34, 71, 0.06)',
+                border: '1px solid rgba(21, 34, 71, 0.15)',
+                padding: '4px 10px',
+                borderRadius: '6px',
+                marginTop: '14px'
+              }}
+            >
+              <span style={{ fontSize: '11.5px', fontWeight: 700, color: '#152247' }}>
                 June 2027 Keys Handover
               </span>
             </div>
           </div>
         </div>
 
-        {/* Clean Minimalist Schedule Table */}
-        <div style={{ background: '#ffffff', border: '1px solid #eef2f6', borderRadius: '20px', padding: '28px', boxShadow: '0 8px 30px rgba(15, 23, 42, 0.04)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '1px solid #f1f5f9', paddingBottom: '16px', flexWrap: 'wrap', gap: '10px' }}>
+        {/* Full Clean Minimalist Schedule Table Card */}
+        <div
+          style={{
+            background: '#ffffff',
+            border: '1px solid #e2e8f0',
+            borderRadius: '20px',
+            padding: '28px 32px',
+            boxShadow: '0 8px 32px rgba(21, 34, 71, 0.04)'
+          }}
+        >
+          {/* Table Header Row */}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '20px',
+              borderBottom: '1px solid #f1f5f9',
+              paddingBottom: '16px',
+              flexWrap: 'wrap',
+              gap: '12px'
+            }}
+          >
             <div>
               <h3 style={{ fontSize: '20px', fontWeight: 900, color: '#152247', margin: 0 }}>
                 {current.title} — {selectedDuration === '6month' ? '6-Month Plan' : '12-Month Plan'}
               </h3>
-              <p style={{ fontSize: '13px', color: '#64748b', margin: '2px 0 0 0' }}>
+              <p style={{ fontSize: '13px', color: '#64748b', margin: '3px 0 0 0' }}>
                 Rate: Rs. 26,500 / sq.ft • Total Size: {current.sqft} sq.ft
               </p>
             </div>
-            <span style={{ fontSize: '12px', fontWeight: 800, background: '#f1f5f9', color: '#152247', padding: '6px 14px', borderRadius: '8px' }}>
+            <span
+              style={{
+                fontSize: '12px',
+                fontWeight: 800,
+                background: 'rgba(21, 34, 71, 0.06)',
+                color: '#152247',
+                padding: '6px 14px',
+                borderRadius: '8px',
+                border: '1px solid rgba(21, 34, 71, 0.1)'
+              }}
+            >
               {scheduleRows.length} Payment Stages
             </span>
           </div>
 
           <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '600px' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '650px' }}>
               <thead>
-                <tr style={{ borderBottom: '1.5px solid #e2e8f0', color: '#64748b', fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                  <th style={{ padding: '12px 14px', width: '60px' }}>No.</th>
-                  <th style={{ padding: '12px 14px' }}>Milestone</th>
-                  <th style={{ padding: '12px 14px' }}>Type</th>
-                  <th style={{ padding: '12px 14px' }}>Share</th>
-                  <th style={{ padding: '12px 14px' }}>Amount (PKR)</th>
-                  <th style={{ padding: '12px 14px', textAlign: 'right' }}>Timeline</th>
+                <tr
+                  style={{
+                    background: '#f8fafc',
+                    borderBottom: '2px solid #e2e8f0',
+                    color: '#475569',
+                    fontSize: '11.5px',
+                    fontWeight: 800,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.8px'
+                  }}
+                >
+                  <th style={{ padding: '14px 16px', width: '60px' }}>No.</th>
+                  <th style={{ padding: '14px 16px' }}>Milestone</th>
+                  <th style={{ padding: '14px 16px' }}>Type</th>
+                  <th style={{ padding: '14px 16px' }}>Share</th>
+                  <th style={{ padding: '14px 16px' }}>Amount (PKR)</th>
+                  <th style={{ padding: '14px 16px', textAlign: 'right' }}>Timeline</th>
                 </tr>
               </thead>
               <tbody>
                 {scheduleRows.map((r, idx) => (
-                  <tr
-                    key={idx}
-                    style={{
-                      borderBottom: '1px solid #f1f5f9',
-                      fontSize: '13.5px',
-                      color: '#0f172a',
-                      transition: 'background 0.15s ease'
-                    }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = '#f8fafc')}
-                    onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
-                  >
-                    <td style={{ padding: '12px 14px', fontWeight: 800, color: '#64748b' }}>{r.no}</td>
-                    <td style={{ padding: '12px 14px', fontWeight: 700 }}>{r.stage}</td>
-                    <td style={{ padding: '12px 14px' }}>
+                  <tr key={idx} className="minimal-schedule-row">
+                    <td style={{ padding: '14px 16px', fontWeight: 800, color: '#94a3b8' }}>{r.no}</td>
+                    <td style={{ padding: '14px 16px', fontWeight: 700, color: '#152247' }}>{r.stage}</td>
+                    <td style={{ padding: '14px 16px' }}>
                       <span
                         style={{
-                          fontSize: '11px',
+                          fontSize: '11.5px',
                           fontWeight: 700,
-                          padding: '3px 8px',
+                          padding: '3px 10px',
                           borderRadius: '6px',
-                          background: r.type === 'Down Payment' ? '#dcfce7' : r.type === 'Final Handover' ? '#f3e8ff' : '#eff6ff',
-                          color: r.type === 'Down Payment' ? '#15803d' : r.type === 'Final Handover' ? '#7e22ce' : '#1d4ed8'
+                          background:
+                            r.type === 'Down Payment'
+                              ? 'rgba(21, 34, 71, 0.08)'
+                              : r.type === 'Final Handover'
+                              ? 'rgba(21, 34, 71, 0.12)'
+                              : 'rgba(37, 99, 235, 0.08)',
+                          color:
+                            r.type === 'Down Payment'
+                              ? '#152247'
+                              : r.type === 'Final Handover'
+                              ? '#152247'
+                              : '#1d4ed8',
+                          border:
+                            r.type === 'Down Payment'
+                              ? '1px solid rgba(21, 34, 71, 0.15)'
+                              : r.type === 'Final Handover'
+                              ? '1px solid rgba(21, 34, 71, 0.2)'
+                              : '1px solid rgba(37, 99, 235, 0.15)'
                         }}
                       >
                         {r.type}
                       </span>
                     </td>
-                    <td style={{ padding: '12px 14px', fontWeight: 700, color: '#475569' }}>{r.share}</td>
-                    <td style={{ padding: '12px 14px', fontWeight: 800, color: '#152247' }}>{formatPKR(r.amount)} PKR</td>
-                    <td style={{ padding: '12px 14px', textAlign: 'right', color: '#64748b', fontWeight: 600 }}>{r.timeline}</td>
+                    <td style={{ padding: '14px 16px', fontWeight: 800, color: '#152247' }}>{r.share}</td>
+                    <td style={{ padding: '14px 16px', fontWeight: 900, color: '#152247' }}>
+                      {formatPKR(r.amount)} PKR
+                    </td>
+                    <td style={{ padding: '14px 16px', textAlign: 'right', color: '#475569', fontWeight: 600 }}>
+                      {r.timeline}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -359,11 +545,23 @@ export const PaymentPlanPage: React.FC<PaymentPlanPageProps> = ({ onNavigate }) 
           </div>
 
           {/* Bottom Action */}
-          <div style={{ marginTop: '24px', paddingTop: '18px', borderTop: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '14px' }}>
-            <div style={{ fontSize: '13px', color: '#64748b' }}>
-              Guaranteed ROI: <strong style={{ color: '#152247' }}>{current.roi}</strong>
+          <div
+            style={{
+              marginTop: '24px',
+              paddingTop: '20px',
+              borderTop: '1px solid #f1f5f9',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: '14px'
+            }}
+          >
+            <div style={{ fontSize: '13.5px', color: '#64748b' }}>
+              Guaranteed Rental Yield: <strong style={{ color: '#152247' }}>{current.roi}</strong>
             </div>
             <button
+              className="reserve-btn-hover"
               onClick={() => onNavigate('book-now')}
               style={{
                 background: '#152247',
@@ -373,8 +571,7 @@ export const PaymentPlanPage: React.FC<PaymentPlanPageProps> = ({ onNavigate }) 
                 fontSize: '14px',
                 fontWeight: 800,
                 border: 'none',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease'
+                cursor: 'pointer'
               }}
             >
               Reserve Your Unit Now →

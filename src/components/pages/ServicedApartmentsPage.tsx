@@ -220,9 +220,9 @@ const BannerAccommodationsCard: React.FC<{ onNavigate?: (tabId: string) => void 
             borderRadius: '0px',
             fontSize: '15px',
             fontWeight: 800,
-            border: 'none',
+            border: '1px solid rgba(255, 255, 255, 0.25)',
             cursor: 'pointer',
-            boxShadow: '0 12px 32px rgba(21, 34, 71, 0.35)',
+            boxShadow: '0 14px 36px rgba(10, 20, 45, 0.45)',
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
@@ -251,6 +251,7 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({ 
           }
         }
 
+        .float-hero-watermark,
         .float-apartments-text {
           animation: floatWatermark 5s ease-in-out infinite;
         }
@@ -540,13 +541,13 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({ 
           left: 0;
           width: 100%;
           height: 100%;
-          background: linear-gradient(135deg, rgba(19, 56, 79, 0.88) 0%, rgba(15, 47, 69, 0.90) 50%, rgba(10, 35, 52, 0.94) 100%);
+          background: linear-gradient(135deg, rgba(38, 92, 138, 0.76) 0%, rgba(28, 75, 116, 0.80) 50%, rgba(20, 58, 92, 0.84) 100%);
           z-index: 2;
           transition: background 0.4s ease;
         }
 
         .accommodations-banner-card:hover .accommodations-banner-overlay {
-          background: linear-gradient(135deg, rgba(16, 50, 72, 0.84) 0%, rgba(13, 42, 63, 0.87) 50%, rgba(8, 30, 46, 0.91) 100%);
+          background: linear-gradient(135deg, rgba(42, 100, 148, 0.72) 0%, rgba(32, 82, 125, 0.76) 50%, rgba(24, 65, 102, 0.80) 100%);
         }
 
         .accommodations-banner-content {
@@ -611,7 +612,7 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({ 
         style={{
           position: 'relative',
           minHeight: '70vh',
-          background: 'linear-gradient(180deg, #99c6f4ff 0%, #6cb3f1ff 40%, #FAFBFD 100%)',
+          background: 'radial-gradient(ellipse 120% 85% at 50% 0%, #5074a6 0%, #7b9cc7 25%, #adc6e3 50%, #dce8f5 75%, #ffffff 100%)',
           borderRadius: '0px 0px 32px 32px',
           overflow: 'hidden',
           display: 'flex',
@@ -624,16 +625,16 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({ 
         }}
       >
         <div
-          className="float-apartments-text"
+          className="float-hero-watermark"
           style={{
             position: 'absolute',
             top: '30%',
             left: '50%',
             transform: 'translateX(-50%)',
-            fontSize: 'clamp(70px, 15vw, 200px)',
+            fontSize: 'clamp(52px, 12.5vw, 185px)',
             fontWeight: 800,
             letterSpacing: '8px',
-            color: 'rgba(15, 39, 68, 0.22)',
+            color: 'rgba(21, 34, 71, 0.25)',
             userSelect: 'none',
             pointerEvents: 'none',
             whiteSpace: 'nowrap',
@@ -651,7 +652,7 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({ 
       <div style={{ maxWidth: '1160px', margin: '60px auto 0 auto', padding: '0 24px' }}>
         {/* Pacific Monarch Style Editorial Header */}
         <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 64px auto' }}>
-          
+
           <h2 style={{ fontSize: 'clamp(28px, 3.5vw, 42px)', fontWeight: 800, color: '#152247', margin: '0 0 16px 0', letterSpacing: '-0.5px' }}>
             Curated Living Spaces & Interior Architecture
           </h2>
