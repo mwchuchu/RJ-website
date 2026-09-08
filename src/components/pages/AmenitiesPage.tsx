@@ -45,8 +45,8 @@ const ScrollAnimateSection: React.FC<{
       style={{
         ...style,
         opacity: isVisible ? 1 : 0,
-        transform: isVisible ? 'translateY(0) scale(1)' : 'translateY(40px) scale(0.98)',
-        transition: `opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`
+        transform: isVisible ? 'translateY(0) scale(1)' : 'translateY(30px) scale(0.98)',
+        transition: `opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`
       }}
     >
       {children}
@@ -69,104 +69,185 @@ export const AmenitiesPage: React.FC<AmenitiesPageProps> = ({ onNavigate }) => {
     ? CATEGORIZED_AMENITIES
     : CATEGORIZED_AMENITIES.filter(cat => cat.category === activeCategory);
 
-  const getBadgeClass = (categoryName: string) => {
-    if (categoryName.toLowerCase().includes('general')) return 'general';
-    if (categoryName.toLowerCase().includes('guest')) return 'guest';
-    return 'corporate';
-  };
-
   return (
-    <div className="pastel-amenities-page animate-fade-in" style={{ background: '#ffffff', color: '#152247' }}>
-      {/* Header Section */}
-      <ScrollAnimateSection>
-        <div className="section-header-centered" style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto' }}>
-          
-          <h2 className="section-main-title" style={{ fontSize: '38px', marginTop: '12px', color: '#152247', fontWeight: 900 }}>
-            Amenities & Hotel Features
-          </h2>
-          <p className="section-description" style={{ color: '#64748b', fontSize: '15px', lineHeight: '1.6', marginTop: '8px' }}>
-            Explore premium resort facilities, corporate suites, and residential living services at RJ's Larom Residences.
-          </p>
-        </div>
+    <div
+      className="pastel-amenities-page animate-fade-in"
+      style={{
+        background: 'transparent',
+        padding: 0,
+        margin: 0,
+        width: '100%',
+        color: '#152247',
+        minHeight: '100vh',
+        paddingBottom: '80px'
+      }}
+    >
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
 
+        .pastel-amenities-page {
+          padding: 0 !important;
+          background: transparent !important;
+        }
+
+        @keyframes floatWatermark {
+          0%, 100% {
+            transform: translateX(-50%) translateY(0px);
+          }
+          50% {
+            transform: translateX(-50%) translateY(-15px);
+          }
+        }
+
+        .float-amenities-text {
+          animation: floatWatermark 5s ease-in-out infinite;
+        }
+
+        @keyframes floatSmooth {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-8px); }
+        }
+
+        .sa-float-capsule {
+          animation: floatSmooth 5s ease-in-out infinite;
+        }
+
+        .amenity-card-hover {
+          transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .amenity-card-hover:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 20px 40px rgba(21, 34, 71, 0.12) !important;
+        }
+        .amenity-card-hover:hover img {
+          transform: scale(1.06);
+        }
+      `}</style>
+      <section
+        style={{
+          position: 'relative',
+          minHeight: '70vh',
+          background: 'linear-gradient(180deg, #99c6f4ff 0%, #6cb3f1ff 40%, #FAFBFD 100%)',
+          borderRadius: '0px 0px 32px 32px',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '110px 48px 0px 48px',
+          margin: 0,
+          width: '100%'
+        }}
+      >
+        {/* Floating Giant Watermark */}
+        <div
+          className="float-amenities-text"
+          style={{
+            position: 'absolute',
+            top: '30%',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            fontSize: 'clamp(70px, 15vw, 200px)',
+            fontWeight: 900,
+            letterSpacing: '8px',
+            color: 'rgba(15, 39, 68, 0.22)',
+            userSelect: 'none',
+            pointerEvents: 'none',
+            whiteSpace: 'nowrap',
+            zIndex: 1,
+            fontFamily: "'Space Grotesk', system-ui, sans-serif"
+          }}
+        >
+          AMENITIES
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════
+          SECTION 2: CATEGORY FILTER PILLS & AMENITIES GRID
+      ════════════════════════════════════════════════════════════ */}
+      <div id="amenities-grid-section" style={{ maxWidth: '1320px', margin: '48px auto 0 auto', padding: '0 32px' }}>
         {/* 4 Category Filter Pills */}
-        <div className="pastel-filter-container">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`pastel-filter-btn ${activeCategory === cat ? 'active' : ''}`}
-            >
-              {cat}
-            </button>
+        <ScrollAnimateSection>
+          <div className="pastel-filter-container" style={{ margin: '0 auto 36px auto', display: 'flex', justifyContent: 'center' }}>
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`pastel-filter-btn ${activeCategory === cat ? 'active' : ''}`}
+                style={{ cursor: 'pointer' }}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </ScrollAnimateSection>
+
+        {/* Grouped Category Sections Displaying Section Difference */}
+        <div className="pastel-sections-container">
+          {displayedCategories.map((catSection, sectionIdx) => (
+            <ScrollAnimateSection key={catSection.category} delay={sectionIdx * 100}>
+              <div className="pastel-section-block" style={{ marginBottom: '56px' }}>
+                {/* Section Header */}
+                <div className="pastel-section-header-banner" style={{ marginBottom: '24px' }}>
+                  <h3 className="pastel-section-title" style={{ fontSize: '24px', fontWeight: 800, color: '#152247', margin: 0, fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
+                    {catSection.category}
+                  </h3>
+                </div>
+
+                {/* Grid of Amenity Cards for this Section */}
+                <div className="pastel-amenities-grid">
+                  {catSection.items.map((amenity, index) => (
+                    <ScrollAnimateSection key={amenity.id} delay={index * 40}>
+                      <div className="pastel-card-item amenity-card-hover" style={{ borderRadius: '18px', overflow: 'hidden', border: '1px solid #E2E8F0', background: '#ffffff', boxShadow: '0 6px 20px rgba(21, 34, 71, 0.04)' }}>
+                        {/* Full-bleed Photo Wrapper */}
+                        <div className="pastel-card-img-wrapper" style={{ height: '220px', overflow: 'hidden' }}>
+                          <img
+                            src={amenity.image}
+                            alt={amenity.name}
+                            className="pastel-card-img-element"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.5s ease' }}
+                          />
+                        </div>
+
+                        {/* Bottom Content Panel */}
+                        <div className="pastel-card-details-panel" style={{ padding: '18px 20px' }}>
+                          <h4 className="pastel-card-name" style={{ fontSize: '16px', fontWeight: 700, color: '#0F172A', margin: '0 0 6px 0' }}>
+                            {amenity.name}
+                          </h4>
+                          <p className="pastel-card-description-text" style={{ fontSize: '13px', color: '#64748B', lineHeight: '1.5', margin: 0 }}>
+                            {amenity.desc || 'Included luxury amenity for residents & guests at RJ\'s Larom Residences.'}
+                          </p>
+                        </div>
+                      </div>
+                    </ScrollAnimateSection>
+                  ))}
+                </div>
+              </div>
+            </ScrollAnimateSection>
           ))}
         </div>
-      </ScrollAnimateSection>
 
-      {/* Grouped Category Sections Displaying Section Difference */}
-      <div className="pastel-sections-container">
-        {displayedCategories.map((catSection, sectionIdx) => (
-          <ScrollAnimateSection key={catSection.category} delay={sectionIdx * 100}>
-            <div className="pastel-section-block">
-              {/* Section Header Banner with Badge Tag & Count Pill */}
-              <div className="pastel-section-header-banner">
-                <div className="pastel-section-title-group">
-                  <h3 className="pastel-section-title">{catSection.category}</h3>
-                  <span className={`pastel-section-badge-pill ${getBadgeClass(catSection.category)}`}>
-                    {catSection.badge}
-                  </span>
-                </div>
-                <span className="pastel-section-count-pill">
-                  {catSection.items.length} Included Amenities
-                </span>
-              </div>
-
-              {/* Grid of Amenity Cards for this Section */}
-              <div className="pastel-amenities-grid">
-                {catSection.items.map((amenity, index) => (
-                  <ScrollAnimateSection key={amenity.id} delay={index * 40}>
-                    <div className="pastel-card-item">
-                      {/* Full-bleed Photo Wrapper */}
-                      <div className="pastel-card-img-wrapper">
-                        <img src={amenity.image} alt={amenity.name} className="pastel-card-img-element" />
-                      </div>
-
-                      {/* Bottom Content Panel with Hover Detail Reveal */}
-                      <div className="pastel-card-details-panel">
-                        <h4 className="pastel-card-name">{amenity.name}</h4>
-                        <p className="pastel-card-description-text">
-                          {amenity.desc || 'Included luxury amenity for residents & guests at RJ\'s Larom Residences.'}
-                        </p>
-                      </div>
-                    </div>
-                  </ScrollAnimateSection>
-                ))}
-              </div>
-            </div>
-          </ScrollAnimateSection>
-        ))}
+        {/* Footer Callout Highlights Box */}
+        <ScrollAnimateSection delay={200}>
+          <div style={{ background: '#152247', color: '#ffffff', padding: '48px 44px', borderRadius: '24px', textAlign: 'center', maxWidth: '960px', margin: '40px auto 0', boxShadow: '0 20px 50px rgba(21, 34, 71, 0.2)' }}>
+            <h3 style={{ fontSize: '28px', fontWeight: 900, marginBottom: '12px', color: '#ffffff', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
+              Everything You Need, All in One Place
+            </h3>
+            <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.85)', maxWidth: '650px', margin: '0 auto 28px', lineHeight: '1.6' }}>
+              From 20 active commercial kiosks driving retail income to rooftop pool relaxation and round-the-clock housekeeping.
+            </p>
+            <button
+              className="hero-btn"
+              onClick={() => onNavigate('book-now')}
+              style={{ background: '#ffffff', color: '#152247', padding: '14px 36px', borderRadius: '999px', fontWeight: 800, fontSize: '14px', border: 'none', cursor: 'pointer', boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)', transition: 'all 0.3s ease' }}
+            >
+              Book Your Unit Today ↗
+            </button>
+          </div>
+        </ScrollAnimateSection>
       </div>
-
-      {/* Footer Callout Highlights Box */}
-      <ScrollAnimateSection delay={200}>
-        <div style={{ background: '#152247', color: '#ffffff', padding: '44px', borderRadius: '0px', textAlign: 'center', maxWidth: '900px', margin: '60px auto 0', boxShadow: '0 20px 50px rgba(21, 34, 71, 0.2)' }}>
-          <h3 style={{ fontSize: '26px', fontWeight: 900, marginBottom: '12px', color: '#ffffff', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>Everything You Need, All in One Place</h3>
-          <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.85)', maxWidth: '650px', margin: '0 auto 28px', lineHeight: '1.6' }}>
-            From 20 active commercial kiosks driving retail income to rooftop pool relaxation and round-the-clock housekeeping.
-          </p>
-          <button
-            className="hero-btn"
-            onClick={() => onNavigate('book-now')}
-            style={{ background: '#ffffff', color: '#152247', padding: '14px 36px', borderRadius: '0px', fontWeight: 800, fontSize: '15px', border: 'none', cursor: 'pointer', boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)', transition: 'all 0.3s ease' }}
-          >
-            Book Your Unit Today
-          </button>
-        </div>
-      </ScrollAnimateSection>
     </div>
   );
 };
 
-
-
-
+export default AmenitiesPage;

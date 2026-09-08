@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 
 interface PaymentPlanSectionProps {
   onNavigate: (tabId: string) => void;
+  hideExploreButton?: boolean;
 }
 
-export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNavigate }) => {
+export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNavigate, hideExploreButton = false }) => {
   const [activeSegment, setActiveSegment] = useState<number | null>(null);
   const [selectedSuite, setSelectedSuite] = useState<'1bed' | '2bed'>('1bed');
 
@@ -317,30 +318,32 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
             </div>
 
             {/* Explore Payment Plan Button */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-              <button
-                className="home-curtain-btn"
-                onClick={() => onNavigate('payment-plan')}
-                style={{
-                  background: '#152247',
-                  color: '#ffffff',
-                  fontSize: '16px',
-                  fontWeight: 800,
-                  padding: '16px 36px',
-                  borderRadius: '0px',
-                  border: 'none',
-                  cursor: 'pointer',
-                  boxShadow: '0 10px 28px rgba(21, 34, 71, 0.3)',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  letterSpacing: '0.5px'
-                }}
-              >
-                <span>Explore Payment Plan</span>
-                <span style={{ fontSize: '18px' }}>→</span>
-              </button>
-            </div>
+            {!hideExploreButton && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                <button
+                  className="home-curtain-btn"
+                  onClick={() => onNavigate('payment-plan')}
+                  style={{
+                    background: '#152247',
+                    color: '#ffffff',
+                    fontSize: '16px',
+                    fontWeight: 800,
+                    padding: '16px 36px',
+                    borderRadius: '0px',
+                    border: 'none',
+                    cursor: 'pointer',
+                    boxShadow: '0 10px 28px rgba(21, 34, 71, 0.3)',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    letterSpacing: '0.5px'
+                  }}
+                >
+                  <span>Explore Payment Plan</span>
+                  <span style={{ fontSize: '18px' }}>→</span>
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Right Column: Live Animated SVG Pie Chart & Legend */}

@@ -60,14 +60,30 @@ export const BookNowPage: React.FC<BookNowPageProps> = () => {
     <div
       className="book-now-page animate-fade-in"
       style={{
-        padding: '110px 24px 80px 24px',
+        padding: 0,
+        margin: 0,
+        width: '100%',
         background: '#ffffff',
         minHeight: '100vh',
         fontFamily: "'Space Grotesk', system-ui, sans-serif",
-        color: '#152247'
+        color: '#152247',
+        paddingBottom: '80px'
       }}
     >
       <style>{`
+        @keyframes floatWatermark {
+          0%, 100% {
+            transform: translateX(-50%) translateY(0px);
+          }
+          50% {
+            transform: translateX(-50%) translateY(-15px);
+          }
+        }
+
+        .float-amenities-text {
+          animation: floatWatermark 5s ease-in-out infinite;
+        }
+
         .minimal-product-card {
           background: #ffffff;
           border: 1px solid #eef2f6;
@@ -116,21 +132,47 @@ export const BookNowPage: React.FC<BookNowPageProps> = () => {
         }
       `}</style>
 
-      {/* Header */}
-      <div style={{ textAlign: 'center', maxWidth: '860px', margin: '0 auto 40px' }}>
-        <span style={{ background: 'rgba(21, 34, 71, 0.06)', color: '#152247', padding: '6px 16px', borderRadius: '99px', fontSize: '11px', fontWeight: 800, letterSpacing: '1.5px', textTransform: 'uppercase' }}>
-          OFFICIAL RESERVATION • RS. 26,500 / SQFT
-        </span>
-        <h1 style={{ fontSize: 'clamp(30px, 4vw, 42px)', fontWeight: 900, color: '#152247', margin: '14px 0 10px 0', letterSpacing: '-0.5px' }}>
-          Book Your Luxury Serviced Residence
-        </h1>
-        <p style={{ color: '#64748b', fontSize: '16px', lineHeight: '1.6' }}>
-          1 and 2-Bedroom Residences at guaranteed <strong>Rs. 26,500 / sq.ft</strong> with a 25% down payment and 6 or 12-month installment plans.
-        </p>
-      </div>
+      {/* Floating Giant Watermark Hero */}
+      <section
+        style={{
+          position: 'relative',
+          minHeight: '70vh',
+          background: 'linear-gradient(180deg, #99c6f4ff 0%, #6cb3f1ff 40%, #FAFBFD 100%)',
+          borderRadius: '0px 0px 32px 32px',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '110px 48px 0px 48px',
+          margin: 0,
+          width: '100%'
+        }}
+      >
+        <div
+          className="float-amenities-text"
+          style={{
+            position: 'absolute',
+            top: '30%',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            fontSize: 'clamp(70px, 15vw, 200px)',
+            fontWeight: 800,
+            letterSpacing: '8px',
+            color: 'rgba(15, 39, 68, 0.22)',
+            userSelect: 'none',
+            pointerEvents: 'none',
+            whiteSpace: 'nowrap',
+            zIndex: 1,
+            fontFamily: "'Space Grotesk', system-ui, sans-serif"
+          }}
+        >
+          BOOK NOW
+        </div>
+      </section>
 
-      {/* Product Cards (Styled like the reference design) */}
-      <div style={{ maxWidth: '1160px', margin: '0 auto 48px' }}>
+      {/* Product Cards Container */}
+      <div style={{ maxWidth: '1160px', margin: '48px auto 48px', padding: '0 24px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '28px' }}>
           {availableUnits.map((prop) => {
             const isSelected = selectedUnitId === prop.id;

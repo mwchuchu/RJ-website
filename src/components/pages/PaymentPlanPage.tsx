@@ -78,29 +78,63 @@ export const PaymentPlanPage: React.FC<PaymentPlanPageProps> = ({ onNavigate }) 
 
   return (
     <div className="payment-plan-page animate-fade-in" style={{ background: '#ffffff', minHeight: '100vh', color: '#152247', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
-      {/* Top Banner Header */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        @keyframes floatWatermark {
+          0%, 100% {
+            transform: translateX(-50%) translateY(0px);
+          }
+          50% {
+            transform: translateX(-50%) translateY(-15px);
+          }
+        }
+
+        .float-payment-text {
+          animation: floatWatermark 5s ease-in-out infinite;
+        }
+      `}</style>
       <section
         style={{
-          background: '#152247',
-          color: '#ffffff',
-          padding: '110px 32px 50px 32px',
-          textAlign: 'center'
+          position: 'relative',
+          minHeight: '70vh',
+          background: 'linear-gradient(180deg, #99c6f4ff 0%, #6cb3f1ff 40%, #FAFBFD 100%)',
+          borderRadius: '0px 0px 32px 32px',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '110px 48px 0px 48px',
+          margin: 0,
+          width: '100%'
         }}
       >
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(255, 255, 255, 0.12)', color: '#ffffff', padding: '6px 18px', borderRadius: '99px', fontSize: '11px', fontWeight: 800, letterSpacing: '1.5px', marginBottom: '14px' }}>
-          OFFICIAL RESIDENCY SCHEDULE • RS. 26,500 / SQFT
+        {/* Floating Giant Watermark */}
+        <div
+          className="float-payment-text"
+          style={{
+            position: 'absolute',
+            top: '30%',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            fontSize: 'clamp(50px, 11vw, 170px)',
+            fontWeight: 800,
+            letterSpacing: '8px',
+            color: 'rgba(15, 39, 68, 0.22)',
+            userSelect: 'none',
+            pointerEvents: 'none',
+            whiteSpace: 'nowrap',
+            zIndex: 1,
+            fontFamily: "'Space Grotesk', system-ui, sans-serif"
+          }}
+        >
+          PAYMENT PLAN
         </div>
-
-        <h1 style={{ fontSize: 'clamp(32px, 4vw, 44px)', fontWeight: 900, color: '#ffffff', margin: '0 0 12px 0', letterSpacing: '-0.5px' }}>
-          Payment Plan & Investment Schedule
-        </h1>
-        <p style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '16px', maxWidth: '700px', margin: '0 auto', lineHeight: '1.6' }}>
-          1 & 2-Bedroom Luxury Serviced Residences at locked rates of <strong>Rs. 26,500 / sq.ft</strong> with flexible 6-month & 12-month installment options.
-        </p>
       </section>
 
-      {/* Embedded Interactive Pie Section */}
-      <PaymentPlanSection onNavigate={onNavigate} />
+      {/* Embedded Interactive Pie Section (Without redundant Explore Payment Plan button) */}
+      <PaymentPlanSection onNavigate={onNavigate} hideExploreButton={true} />
 
       {/* Minimalist Schedule Chart & Table Section */}
       <section style={{ maxWidth: '1160px', margin: '40px auto 80px auto', padding: '0 24px' }}>

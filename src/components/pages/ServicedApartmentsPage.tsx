@@ -1,1561 +1,679 @@
 import React, { useState, useEffect, useRef } from 'react';
-import type { Property } from '../../types/index';
-import { ONE_BEDROOM_FALLBACK, TWO_BEDROOM_FALLBACK } from '../../data/floorplanAssets';
 
 interface ServicedApartmentsPageProps {
-  onSelectProperty?: (property: Property) => void;
-  onNavigate: (tabId: string) => void;
+  onNavigate?: (tabId: string) => void;
 }
 
-// ─── Inject scoped keyframes & utility styles ───
-const ScopedStyles: React.FC = () => (
-  <style>{`
-    @keyframes saGradientShift {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-    }
-    @keyframes saFloat {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-    @keyframes saPulse {
-      0%, 100% { opacity: 0.4; }
-      50% { opacity: 1; }
-    }
-    @keyframes saSlideUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes saShimmer {
-      0% { background-position: -200% center; }
-      100% { background-position: 200% center; }
-    }
-    @keyframes saRevealLine {
-      from { transform: scaleX(0); }
-      to { transform: scaleX(1); }
-    }
-    .sa-card-hover:hover {
-      transform: translateY(-6px) !important;
-      box-shadow: 0 28px 60px rgba(21, 34, 71, 0.22) !important;
-    }
-    .sa-card-hover:hover img {
-      transform: scale(1.06) !important;
-    }
-    .sa-btn-glow:hover {
-      box-shadow: 0 0 0 2px rgba(21,34,71,0.15), 0 14px 35px rgba(21,34,71,0.25) !important;
-      transform: translateY(-2px) !important;
-    }
-    .sa-img-zoom:hover img {
-      transform: scale(1.05) !important;
-    }
-    .sa-curtain-card:hover .sa-curtain-overlay-caption {
-      opacity: 1 !important;
-    }
-  `}</style>
-);
 
-// ─── Scroll-triggered fade/slide component ───
-const ScrollEaseIn: React.FC<{
-  children: React.ReactNode;
-  direction?: 'left' | 'right' | 'up';
-  delay?: number;
-  style?: React.CSSProperties;
-  className?: string;
-}> = ({ children, direction = 'up', delay = 0, style = {}, className = '' }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+// ─── 5 Curated Rooms with Dual Flip Images & Specifications ───
+interface CuratedRoom {
+  id: string;
+  tag: string;
+  title: string;
+  description: string;
+  image1: string;
+  image2: string;
+  label1: string;
+  label2: string;
+  specs: string[];
+}
 
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setTimeout(() => setIsVisible(true), delay);
-          } else {
-            setIsVisible(false);
-          }
-        });
-      },
-      { threshold: 0.08, rootMargin: '0px 0px -20px 0px' }
-    );
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, [delay]);
+const CURATED_ROOMS: CuratedRoom[] = [
+  {
+    id: 'bedroom',
+    tag: '380 – 650 SQ. FT. • PRIVATE MASTER SUITE',
+    title: 'MASTER BEDROOM',
+    description:
+      'A serene sanctuary crafted with custom Italian timber paneling, king-sized bed with plush acoustic headboard, concealed cove mood lighting, custom built-in wardrobes, and acoustic double-glazed windows overlooking the skyline.',
+    image1: 'https://images.unsplash.com/photo-1617098900591-3f90928e8c54?auto=format&fit=crop&w=1200&q=80',
+    image2: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80',
+    label1: 'Master King Bed Suite',
+    label2: 'Sunlit Horizon View',
+    specs: ['King Size Bed', 'Timber Cove Lighting', 'Custom Built-in Wardrobes', 'Acoustic Double Glazing']
+  },
+  {
+    id: 'kitchen',
+    tag: 'FULLY EQUIPPED • GERMAN APPLIANCES',
+    title: 'DESIGNER KITCHEN',
+    description:
+      'Seamlessly integrated European induction cooktop, built-in oven and microwave, concealed dishwasher, full-size refrigerator, and Calacatta quartz countertops with bespoke Italian soft-close cabinetry and espresso breakfast bar.',
+    image1: 'https://images.unsplash.com/photo-1565538810643-b5bdb714032a?auto=format&fit=crop&w=1200&q=80',
+    image2: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1200&q=80',
+    label1: 'Italian Cabinetry & Quartz Bar',
+    label2: 'Integrated European Appliances',
+    specs: ['Induction Cooktop', 'Calacatta Quartz Island', 'Concealed Dishwasher', 'Built-in Microwave']
+  },
+  {
+    id: 'living',
+    tag: 'OPEN-CONCEPT • PANORAMIC CITY VIEWS',
+    title: 'LIVING ROOM LOUNGE',
+    description:
+      'Designed for effortless executive hosting and relaxation. Features plush Italian modular sectional seating, 55-inch 4K Smart TV, architectural accent lighting, and expansive glass sliding doors leading directly to your private sky terrace.',
+    image1: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80',
+    image2: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=80',
+    label1: 'Daylight Lounge & Terrace',
+    label2: 'Evening Entertainment Setup',
+    specs: ['Italian Modular Sofa', '55" 4K Smart TV', 'Direct Balcony Access', 'Architectural Lighting']
+  },
+  {
+    id: 'dining',
+    tag: 'BESPOKE HOSPITALITY • IN-ROOM DINING',
+    title: 'DINING ROOM',
+    description:
+      'An intimate setting for private dining or entertaining guests. Complete with a custom-crafted quartz dining table, designer upholstered chairs, modern linear pendant chandelier, and 24/7 in-suite chef and hotel room service.',
+    image1: 'https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=1200&q=80',
+    image2: 'https://images.unsplash.com/photo-1633505412556-82c0921e8f4a?auto=format&fit=crop&w=1200&q=80',
+    label1: 'Designer Dining Ensemble',
+    label2: 'Open Hospitality Layout',
+    specs: ['Custom Quartz Dining Table', 'Designer Upholstered Chairs', 'Pendant Chandelier', '24/7 Room Service']
+  },
+  {
+    id: 'washroom',
+    tag: 'SPA-INSPIRED • IMPORTED MARBLE',
+    title: 'LUXURY WASHROOM',
+    description:
+      'Immerse in luxury with floor-to-ceiling imported Calacatta porcelain tiles, a frameless tempered glass walk-in rain shower, Hansgrohe brushed brass fixtures, backlit anti-fog vanity mirror, and curated 5-star hotel bath amenities.',
+    image1: 'https://images.unsplash.com/photo-1661107259637-4e1c55462428?auto=format&fit=crop&w=1200&q=80',
+    image2: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=80',
+    label1: 'Backlit Calacatta Vanity',
+    label2: 'Walk-in Glass Rain Shower',
+    specs: ['Walk-in Rain Shower', 'Backlit Anti-Fog Vanity', 'Hansgrohe Brushed Brass', 'Calacatta Marble']
+  }
+];
 
-  let initialTransform = 'translateY(40px)';
-  if (direction === 'left') initialTransform = 'translateX(-50px)';
-  if (direction === 'right') initialTransform = 'translateX(50px)';
-
-  return (
-    <div
-      ref={ref}
-      className={className}
-      style={{
-        ...style,
-        opacity: isVisible ? 1 : 0,
-        transform: isVisible ? 'translate(0, 0)' : initialTransform,
-        transition: 'opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1)',
-        willChange: 'opacity, transform'
-      }}
-    >
-      {children}
-    </div>
-  );
-};
-
-// ─── Parallax Hero Banner ───
-const HeroBanner: React.FC = () => {
-  const [scrollY, setScrollY] = useState(0);
+const CuratedRoomItem: React.FC<{ room: CuratedRoom; index: number }> = ({ room, index }) => {
+  const [isInView, setIsInView] = useState(false);
+  const rowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+    if (!rowRef.current) return;
 
-  return (
-    <div
-      style={{
-        position: 'relative',
-        height: '520px',
-        overflow: 'hidden',
-        marginBottom: '80px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}
-    >
-      {/* Parallax BG image */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: 'url(https://images.unsplash.com/photo-1631679706909-1844bbd07221?auto=format&fit=crop&w=1920&q=80)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          transform: `translateY(${scrollY * 0.25}px) scale(1.1)`,
-          transition: 'transform 0.1s linear',
-          filter: 'brightness(0.35)'
-        }}
-      />
-      {/* Gradient overlay */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'linear-gradient(180deg, rgba(21,34,71,0.7) 0%, rgba(21,34,71,0.3) 50%, rgba(21,34,71,0.85) 100%)'
-        }}
-      />
-      {/* Content */}
-      <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '0 24px' }}>
-        <div
-          style={{
-            fontSize: '11px',
-            fontWeight: 700,
-            letterSpacing: '4px',
-            textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.55)',
-            marginBottom: '20px',
-            animation: 'saSlideUp 1s ease-out 0.2s both'
-          }}
-        >
-          RJ'S LAROM RESIDENCES
-        </div>
-        <h1
-          style={{
-            fontFamily: "'Space Grotesk', system-ui, sans-serif",
-            fontSize: 'clamp(32px, 5vw, 58px)',
-            fontWeight: 900,
-            letterSpacing: '1px',
-            textTransform: 'uppercase',
-            lineHeight: 1.1,
-            margin: '0 0 24px 0',
-            background: 'linear-gradient(135deg, #ffffff 0%, #cbd5e1 40%, #ffffff 60%, #94a3b8 100%)',
-            backgroundSize: '200% auto',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            animation: 'saShimmer 6s ease-in-out infinite, saSlideUp 1s ease-out 0.4s both'
-          }}
-        >
-          FULLY FURNISHED<br />SERVICED APARTMENTS
-        </h1>
-        {/* Decorative line */}
-        <div
-          style={{
-            width: '60px',
-            height: '2px',
-            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)',
-            margin: '0 auto 20px',
-            animation: 'saRevealLine 1.2s ease-out 0.8s both',
-            transformOrigin: 'center'
-          }}
-        />
-        <p
-          style={{
-            fontFamily: "'Cormorant Garamond', Georgia, serif",
-            fontSize: '18px',
-            fontStyle: 'italic',
-            color: 'rgba(255,255,255,0.65)',
-            fontWeight: 400,
-            margin: 0,
-            animation: 'saSlideUp 1s ease-out 0.6s both'
-          }}
-        >
-          Where architecture meets the art of living
-        </p>
-      </div>
-    </div>
-  );
-};
-
-// ─── Image Carousel with dot indicators ───
-const MovingImageTray: React.FC = () => {
-  const trayImages = [
-    {
-      url: 'https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bGl2aW5nJTIwcm9vbXxlbnwwfHwwfHx8MA%3D%3D&fit=crop&w=1200&q=80',
-      title: 'Luxury Serviced Suite Lounge'
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1616047006789-b7af5afb8c20?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGludGVyaW9yfGVufDB8fDB8fHww?auto=format&fit=crop&w=1200&q=80',
-      title: 'Warm Minimal Timber Interior'
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1200&q=80',
-      title: 'Bespoke Master Bedroom Suite'
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1616486886892-ff366aa67ba4?auto=format&fit=crop&w=1200&q=80',
-      title: 'Artisanal Dining & Stone Details'
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=80',
-      title: 'Calacatta Marble Bath Sanctuary'
-    }
-  ];
-
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-
-  useEffect(() => {
-    if (isPaused) return;
-    const timer = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % trayImages.length);
-    }, 3800);
-    return () => clearInterval(timer);
-  }, [trayImages.length, isPaused]);
-
-  const leftIndex = (activeIndex - 1 + trayImages.length) % trayImages.length;
-  const rightIndex = (activeIndex + 1) % trayImages.length;
-
-  return (
-    <div
-      style={{ marginBottom: '80px', position: 'relative' }}
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-    >
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '20px',
-          maxWidth: '1280px',
-          margin: '0 auto',
-          position: 'relative'
-        }}
-      >
-        {/* Left preview */}
-        <div
-          className="sa-img-zoom"
-          style={{
-            flex: '0 0 24%',
-            height: '340px',
-            overflow: 'hidden',
-            opacity: 0.5,
-            transform: 'scale(0.88)',
-            transition: 'all 0.7s cubic-bezier(0.25, 1, 0.5, 1)',
-            cursor: 'pointer',
-            boxShadow: '0 10px 25px rgba(0,0,0,0.08)'
-          }}
-          onClick={() => setActiveIndex(leftIndex)}
-        >
-          <img
-            src={trayImages[leftIndex].url}
-            alt={trayImages[leftIndex].title}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
-          />
-        </div>
-
-        {/* Center main */}
-        <div
-          style={{
-            flex: '0 0 50%',
-            height: '440px',
-            overflow: 'hidden',
-            transform: 'scale(1.04)',
-            transition: 'all 0.7s cubic-bezier(0.25, 1, 0.5, 1)',
-            boxShadow: '0 30px 70px rgba(21, 34, 71, 0.25)',
-            zIndex: 10,
-            position: 'relative'
-          }}
-        >
-          <img
-            key={activeIndex}
-            src={trayImages[activeIndex].url}
-            alt={trayImages[activeIndex].title}
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              transition: 'opacity 0.7s ease'
-            }}
-          />
-          {/* Bottom gradient overlay on active */}
-          <div
-            style={{
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              height: '100px',
-              background: 'linear-gradient(transparent, rgba(21,34,71,0.5))',
-              pointerEvents: 'none'
-            }}
-          />
-        </div>
-
-        {/* Right preview */}
-        <div
-          className="sa-img-zoom"
-          style={{
-            flex: '0 0 24%',
-            height: '340px',
-            overflow: 'hidden',
-            opacity: 0.5,
-            transform: 'scale(0.88)',
-            transition: 'all 0.7s cubic-bezier(0.25, 1, 0.5, 1)',
-            cursor: 'pointer',
-            boxShadow: '0 10px 25px rgba(0,0,0,0.08)'
-          }}
-          onClick={() => setActiveIndex(rightIndex)}
-        >
-          <img
-            src={trayImages[rightIndex].url}
-            alt={trayImages[rightIndex].title}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
-          />
-        </div>
-      </div>
-
-      {/* Caption + Dot indicators */}
-      <div style={{ textAlign: 'center', marginTop: '24px' }}>
-        <p
-          style={{
-            fontSize: '0.82rem',
-            letterSpacing: '0.14em',
-            textTransform: 'uppercase',
-            color: '#8A99AD',
-            fontWeight: 500,
-            margin: '0 0 16px 0'
-          }}
-        >
-          {trayImages[activeIndex].title}
-        </p>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
-          {trayImages.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setActiveIndex(idx)}
-              aria-label={`Go to slide ${idx + 1}`}
-              style={{
-                width: idx === activeIndex ? '28px' : '8px',
-                height: '8px',
-                background: idx === activeIndex ? '#152247' : 'rgba(21,34,71,0.2)',
-                border: 'none',
-                cursor: 'pointer',
-                transition: 'all 0.4s cubic-bezier(0.25, 1, 0.5, 1)',
-                padding: 0
-              }}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// ─── Drop Curtain Reveal Image with hover overlay ───
-const CurtainRevealImage: React.FC<{
-  src: string;
-  alt: string;
-  caption: string;
-  height: string;
-  marginTop?: string;
-  delay?: number;
-}> = ({ src, alt, caption, height, marginTop = '0px', delay = 0 }) => {
-  const [isRevealed, setIsRevealed] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const node = cardRef.current;
-    if (!node) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setTimeout(() => setIsRevealed(true), delay);
-          } else {
-            setIsRevealed(false);
-          }
-        });
-      },
-      { threshold: 0.08, rootMargin: '0px 0px -20px 0px' }
-    );
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, [delay]);
-
-  return (
-    <div style={{ marginTop }} className="sa-curtain-card">
-      <div
-        ref={cardRef}
-        style={{
-          position: 'relative',
-          height,
-          width: '100%',
-          overflow: 'hidden',
-          background: '#f1f5f9'
-        }}
-      >
-        {/* Curtain overlay */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            background: '#ffffff',
-            transform: isRevealed ? 'translateY(100%)' : 'translateY(0%)',
-            transition: 'transform 1.4s cubic-bezier(0.77, 0, 0.175, 1)',
-            zIndex: 5,
-            pointerEvents: 'none'
-          }}
-        />
-        {/* Image */}
-        <img
-          src={src}
-          alt={alt}
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            transform: isRevealed ? 'scale(1)' : 'scale(1.18)',
-            transition: 'transform 1.6s cubic-bezier(0.16, 1, 0.3, 1)',
-            display: 'block'
-          }}
-        />
-        {/* Hover caption overlay */}
-        <div
-          className="sa-curtain-overlay-caption"
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            padding: '32px 16px 16px',
-            background: 'linear-gradient(transparent, rgba(21,34,71,0.75))',
-            opacity: 0,
-            transition: 'opacity 0.4s ease',
-            pointerEvents: 'none'
-          }}
-        >
-          <span
-            style={{
-              fontFamily: "'Space Grotesk', system-ui, sans-serif",
-              fontSize: '11px',
-              fontWeight: 700,
-              color: '#ffffff',
-              letterSpacing: '1.5px',
-              textTransform: 'uppercase'
-            }}
-          >
-            {caption}
-          </span>
-        </div>
-      </div>
-      {/* Caption below */}
-      <div style={{ marginTop: '12px' }}>
-        <h4
-          style={{
-            fontFamily: "'Space Grotesk', system-ui, sans-serif",
-            fontSize: '12px',
-            fontWeight: 700,
-            color: '#152247',
-            letterSpacing: '1px',
-            textTransform: 'uppercase',
-            margin: 0,
-            lineHeight: 1.4
-          }}
-        >
-          {caption}
-        </h4>
-      </div>
-    </div>
-  );
-};
-
-// ─── "What We Offer" Section — Modern Interactive Tabbed Showcase ───
-const WhatWeOfferSection: React.FC<{ onNavigate: (tabId: string) => void }> = ({ onNavigate }) => {
-  const residences = [
-    {
-      id: 'one-bed',
-      label: '01',
-      title: 'One Bedroom',
-      subtitle: 'Serviced Suite',
-      image: 'https://images.unsplash.com/photo-1617098900591-3f90928e8c54?auto=format&fit=crop&w=1200&q=80',
-      layout: ONE_BEDROOM_FALLBACK,
-      alt: 'Luxury 1-Bedroom Serviced Suite Interior',
-      layoutAlt: '1-Bedroom Apartment Floor Plan Layout',
-      description: 'An intimate sanctuary of 650 sq. ft. designed for the discerning individual — featuring a bespoke master bedroom, open-plan living, and artisanal kitchen island.',
-      features: ['King Master Suite', 'Open-Plan Living', 'Designer Kitchen', 'Marble Bathroom']
-    },
-    {
-      id: 'two-bed',
-      label: '02',
-      title: 'Two Bedroom',
-      subtitle: 'Executive Residence',
-      image: 'https://images.unsplash.com/photo-1720582611572-baf85ba10ed3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8dHdvJTIwYmVkcm9vbXxlbnwwfHwwfHx8MA%3D%3D?auto=format&fit=crop&w=1200&q=80',
-      layout: TWO_BEDROOM_FALLBACK,
-      alt: 'Executive 2-Bedroom Serviced Suite Interior',
-      layoutAlt: '2-Bedroom Apartment Floor Plan Layout',
-      description: 'A generous 1,050 sq. ft. residence crafted for families and professionals — with dual master suites, expansive entertaining spaces, and panoramic city views.',
-      features: ['Dual Master Suites', 'Separate Dining', 'Private Balcony', 'Walk-In Closets']
-    }
-  ];
-
-  const [activeIdx, setActiveIdx] = useState(0);
-  const [showLayout, setShowLayout] = useState(false);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const progressRef = useRef<number>(0);
-  const animFrameRef = useRef<number>(0);
-
-  const CYCLE_DURATION = 6000;
-
-  useEffect(() => {
-    if (isPaused) {
-      cancelAnimationFrame(animFrameRef.current);
+    // Trigger immediately if already visible in viewport on mount
+    const rect = rowRef.current.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.95 && rect.bottom > 0) {
+      setIsInView(true);
       return;
     }
 
-    let start: number | null = null;
-    const startProgress = progressRef.current;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          if (rowRef.current) {
+            observer.unobserve(rowRef.current);
+          }
+        }
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
 
-    const animate = (timestamp: number) => {
-      if (!start) start = timestamp;
-      const elapsed = timestamp - start;
-      const remaining = CYCLE_DURATION * (1 - startProgress / 100);
-      const newProgress = startProgress + ((elapsed / remaining) * (100 - startProgress));
+    observer.observe(rowRef.current);
 
-      if (newProgress >= 100) {
-        progressRef.current = 0;
-        setProgress(0);
-        setIsTransitioning(true);
-        setTimeout(() => {
-          setActiveIdx(prev => (prev + 1) % residences.length);
-          setShowLayout(false);
-          setTimeout(() => setIsTransitioning(false), 50);
-        }, 300);
-        start = null;
-        animFrameRef.current = requestAnimationFrame(animate);
-      } else {
-        progressRef.current = newProgress;
-        setProgress(newProgress);
-        animFrameRef.current = requestAnimationFrame(animate);
-      }
+    return () => {
+      observer.disconnect();
     };
-
-    animFrameRef.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animFrameRef.current);
-  }, [isPaused, activeIdx, residences.length]);
-
-  const handleTabClick = (idx: number) => {
-    if (idx === activeIdx) return;
-    setIsTransitioning(true);
-    progressRef.current = 0;
-    setProgress(0);
-    setTimeout(() => {
-      setActiveIdx(idx);
-      setShowLayout(false);
-      setTimeout(() => setIsTransitioning(false), 50);
-    }, 300);
-  };
-
-  const active = residences[activeIdx];
+  }, []);
 
   return (
     <div
-      style={{
-        position: 'relative',
-        overflow: 'hidden',
-        marginBottom: '96px'
-      }}
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
+      ref={rowRef}
+      className={`editorial-room-row ${isInView ? 'in-view' : ''}`}
     >
-      {/* Top label bar */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '20px',
-          marginBottom: '48px'
-        }}
-      >
-        <span
-          style={{
-            fontSize: '11px',
-            fontWeight: 800,
-            letterSpacing: '3px',
-            textTransform: 'uppercase',
-            color: '#94a3b8'
-          }}
-        >
-          RESIDENCES & LAYOUTS
-        </span>
-        <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, rgba(21,34,71,0.15), transparent)' }} />
-      </div>
-
-      {/* Section heading */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'flex-end',
-          justifyContent: 'space-between',
-          marginBottom: '56px',
-          flexWrap: 'wrap',
-          gap: '24px'
-        }}
-      >
-        <div>
-          <h2
-            style={{
-              fontFamily: "'Cormorant Garamond', 'Playfair Display', Georgia, serif",
-              fontSize: 'clamp(40px, 5vw, 60px)',
-              fontWeight: 500,
-              lineHeight: 1.05,
-              color: '#152247',
-              margin: 0,
-              textTransform: 'uppercase'
-            }}
-          >
-            WHAT WE<br />
-            <span
-              style={{
-                fontFamily: "'Cormorant Garamond', Georgia, serif",
-                fontStyle: 'italic',
-                fontWeight: 400,
-                textTransform: 'capitalize',
-                fontSize: 'clamp(44px, 5.5vw, 66px)'
-              }}
-            >
-              Offer
-            </span>
-          </h2>
-        </div>
-        <p
-          style={{
-            fontFamily: "'Inter', system-ui, sans-serif",
-            fontSize: '14.5px',
-            lineHeight: 1.7,
-            color: '#64748b',
-            maxWidth: '420px',
-            margin: 0
-          }}
-        >
-          Discover our luxury Serviced Suites featuring bespoke interior architecture and detailed floor plan layouts crafted for elegant living.
+      {/* Left Side: Editorial Typography (slides in from left to right) */}
+      <div className="editorial-room-text-col">
+        <h3 className="editorial-room-title">
+          {room.title}
+        </h3>
+        <p className="editorial-room-desc">
+          {room.description}
         </p>
       </div>
 
-      {/* Interactive Showcase Panel */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '320px 1fr',
-          minHeight: '560px',
-          background: '#0C142B',
-          overflow: 'hidden',
-          boxShadow: '0 30px 80px rgba(21, 34, 71, 0.35)'
-        }}
-      >
-        {/* Left: Vertical Tab Nav */}
-        <div
-          style={{
-            background: 'linear-gradient(180deg, #0f1a3a 0%, #0C142B 100%)',
-            padding: '48px 36px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            borderRight: '1px solid rgba(255,255,255,0.06)'
-          }}
-        >
-          <div>
-            {/* Tab buttons */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '40px' }}>
-              {residences.map((res, idx) => (
-                <button
-                  key={res.id}
-                  onClick={() => handleTabClick(idx)}
-                  style={{
-                    background: idx === activeIdx ? 'rgba(255,255,255,0.08)' : 'transparent',
-                    border: 'none',
-                    padding: '20px 24px',
-                    cursor: 'pointer',
-                    textAlign: 'left',
-                    transition: 'all 0.4s ease',
-                    position: 'relative',
-                    overflow: 'hidden'
-                  }}
-                >
-                  {/* Active bar */}
-                  <div
-                    style={{
-                      position: 'absolute',
-                      left: 0,
-                      top: 0,
-                      width: '3px',
-                      height: '100%',
-                      background: idx === activeIdx ? '#ffffff' : 'transparent',
-                      transition: 'background 0.3s ease'
-                    }}
-                  />
-                  <div
-                    style={{
-                      fontSize: '11px',
-                      fontWeight: 600,
-                      letterSpacing: '2px',
-                      color: idx === activeIdx ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.25)',
-                      marginBottom: '6px',
-                      transition: 'color 0.3s ease',
-                      fontFamily: "'Space Grotesk', system-ui, sans-serif"
-                    }}
-                  >
-                    {res.label}
-                  </div>
-                  <div
-                    style={{
-                      fontFamily: "'Space Grotesk', system-ui, sans-serif",
-                      fontSize: '16px',
-                      fontWeight: 700,
-                      color: idx === activeIdx ? '#ffffff' : 'rgba(255,255,255,0.4)',
-                      letterSpacing: '0.5px',
-                      textTransform: 'uppercase',
-                      transition: 'color 0.3s ease',
-                      lineHeight: 1.3
-                    }}
-                  >
-                    {res.title}
-                  </div>
-                  <div
-                    style={{
-                      fontFamily: "'Cormorant Garamond', Georgia, serif",
-                      fontSize: '14px',
-                      fontStyle: 'italic',
-                      color: idx === activeIdx ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.2)',
-                      transition: 'color 0.3s ease',
-                      marginTop: '2px'
-                    }}
-                  >
-                    {res.subtitle}
-                  </div>
-                  {/* Progress bar */}
-                  {idx === activeIdx && (
-                    <div
-                      style={{
-                        position: 'absolute',
-                        bottom: 0,
-                        left: 0,
-                        height: '2px',
-                        width: `${progress}%`,
-                        background: 'linear-gradient(90deg, rgba(255,255,255,0.3), rgba(255,255,255,0.6))',
-                        transition: 'width 0.1s linear'
-                      }}
-                    />
-                  )}
-                </button>
-              ))}
-            </div>
-
-            {/* Description */}
-            <div style={{ padding: '0 4px' }}>
-              <p
-                style={{
-                  fontFamily: "'Inter', system-ui, sans-serif",
-                  fontSize: '13.5px',
-                  lineHeight: 1.7,
-                  color: 'rgba(203, 213, 225, 0.8)',
-                  margin: '0 0 28px 0',
-                  opacity: isTransitioning ? 0 : 1,
-                  transform: isTransitioning ? 'translateY(8px)' : 'translateY(0)',
-                  transition: 'opacity 0.3s ease, transform 0.3s ease'
-                }}
-              >
-                {active.description}
-              </p>
-
-              {/* Feature pills */}
-              <div
-                style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  gap: '8px',
-                  opacity: isTransitioning ? 0 : 1,
-                  transform: isTransitioning ? 'translateY(8px)' : 'translateY(0)',
-                  transition: 'opacity 0.3s ease 0.05s, transform 0.3s ease 0.05s'
-                }}
-              >
-                {active.features.map((feat, i) => (
-                  <span
-                    key={i}
-                    style={{
-                      fontSize: '10px',
-                      fontWeight: 700,
-                      letterSpacing: '1px',
-                      textTransform: 'uppercase',
-                      color: 'rgba(255,255,255,0.6)',
-                      padding: '6px 14px',
-                      border: '1px solid rgba(255,255,255,0.1)',
-                      fontFamily: "'Space Grotesk', system-ui, sans-serif"
-                    }}
-                  >
-                    {feat}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom CTA */}
-          <div style={{ marginTop: '36px' }}>
-            <button
-              onClick={() => onNavigate('book-now')}
-              className="sa-btn-glow"
-              style={{
-                background: '#ffffff',
-                border: 'none',
-                color: '#152247',
-                padding: '14px 32px',
-                fontSize: '11px',
-                fontWeight: 800,
-                letterSpacing: '2px',
-                textTransform: 'uppercase',
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '10px',
-                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.25)',
-                transition: 'all 0.4s cubic-bezier(0.25, 1, 0.5, 1)',
-                fontFamily: "'Space Grotesk', system-ui, sans-serif",
-                width: '100%',
-                justifyContent: 'center'
-              }}
-            >
-              BOOK NOW <span style={{ fontSize: '15px' }}>→</span>
-            </button>
-            <p
-              style={{
-                fontSize: '11px',
-                color: 'rgba(148, 163, 184, 0.5)',
-                margin: '14px 0 0 0',
-                fontStyle: 'italic',
-                fontFamily: "'Cormorant Garamond', Georgia, serif",
-                textAlign: 'center'
-              }}
-            >
-              5-Star Branded Residences by Continent Hotels & Resorts.
-            </p>
-          </div>
-        </div>
-
-        {/* Right: Split Visual Panel */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', position: 'relative' }}>
-          {/* Interior Photo */}
-          <div
-            style={{
-              position: 'relative',
-              overflow: 'hidden',
-              cursor: 'pointer'
-            }}
-            onClick={() => setShowLayout(false)}
-          >
-            <img
-              src={active.image}
-              alt={active.alt}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                opacity: isTransitioning ? 0 : 1,
-                transform: isTransitioning ? 'scale(1.08)' : 'scale(1)',
-                transition: 'opacity 0.6s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
-                display: 'block'
-              }}
-            />
-            <div
-              style={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                padding: '40px 24px 20px',
-                background: 'linear-gradient(transparent, rgba(12,20,43,0.8))'
-              }}
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  opacity: isTransitioning ? 0 : 1,
-                  transition: 'opacity 0.3s ease'
-                }}
-              >
-                <div style={{ width: '24px', height: '1px', background: 'rgba(255,255,255,0.4)' }} />
-                <span
-                  style={{
-                    fontFamily: "'Space Grotesk', system-ui, sans-serif",
-                    fontSize: '11px',
-                    fontWeight: 700,
-                    letterSpacing: '1.5px',
-                    textTransform: 'uppercase',
-                    color: 'rgba(255,255,255,0.8)'
-                  }}
-                >
-                  INTERIOR VIEW
-                </span>
-              </div>
-            </div>
-            {!showLayout && (
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  border: '2px solid rgba(255,255,255,0.2)',
-                  pointerEvents: 'none'
-                }}
-              />
-            )}
-          </div>
-
-          {/* Floor Plan */}
-          <div
-            style={{
-              position: 'relative',
-              overflow: 'hidden',
-              background: '#ffffff',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer'
-            }}
-            onClick={() => setShowLayout(true)}
-          >
-            <img
-              src={active.layout}
-              alt={active.layoutAlt}
-              style={{
-                maxWidth: '90%',
-                maxHeight: '85%',
-                objectFit: 'contain',
-                opacity: isTransitioning ? 0 : 1,
-                transform: isTransitioning ? 'scale(0.92)' : 'scale(1)',
-                transition: 'opacity 0.6s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)'
-              }}
-            />
-            <div
-              style={{
-                position: 'absolute',
-                bottom: '20px',
-                left: '24px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-                opacity: isTransitioning ? 0 : 1,
-                transition: 'opacity 0.3s ease'
-              }}
-            >
-              <div style={{ width: '24px', height: '1px', background: 'rgba(21,34,71,0.3)' }} />
-              <span
-                style={{
-                  fontFamily: "'Space Grotesk', system-ui, sans-serif",
-                  fontSize: '11px',
-                  fontWeight: 700,
-                  letterSpacing: '1.5px',
-                  textTransform: 'uppercase',
-                  color: '#152247'
-                }}
-              >
-                FLOOR PLAN
-              </span>
-            </div>
-            {showLayout && (
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  border: '2px solid rgba(21,34,71,0.15)',
-                  pointerEvents: 'none'
-                }}
-              />
-            )}
-          </div>
-
-          {/* View toggle pills */}
-          <div
-            style={{
-              position: 'absolute',
-              top: '20px',
-              right: '20px',
-              display: 'flex',
-              gap: '4px',
-              zIndex: 10
-            }}
-          >
-            <button
-              onClick={() => setShowLayout(false)}
-              style={{
-                background: !showLayout ? '#152247' : 'rgba(255,255,255,0.85)',
-                color: !showLayout ? '#ffffff' : '#152247',
-                border: 'none',
-                padding: '7px 16px',
-                fontSize: '10px',
-                fontWeight: 700,
-                letterSpacing: '1px',
-                textTransform: 'uppercase',
-                cursor: 'pointer',
-                fontFamily: "'Space Grotesk', system-ui, sans-serif",
-                transition: 'all 0.3s ease',
-                backdropFilter: 'blur(8px)'
-              }}
-            >
-              Interior
-            </button>
-            <button
-              onClick={() => setShowLayout(true)}
-              style={{
-                background: showLayout ? '#152247' : 'rgba(255,255,255,0.85)',
-                color: showLayout ? '#ffffff' : '#152247',
-                border: 'none',
-                padding: '7px 16px',
-                fontSize: '10px',
-                fontWeight: 700,
-                letterSpacing: '1px',
-                textTransform: 'uppercase',
-                cursor: 'pointer',
-                fontFamily: "'Space Grotesk', system-ui, sans-serif",
-                transition: 'all 0.3s ease',
-                backdropFilter: 'blur(8px)'
-              }}
-            >
-              Layout
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// ─── Exterior Architecture & Amenities Section ───
-const ExteriorAmenitiesSection: React.FC = () => {
-  const galleryImages = [
-    {
-      src: 'https://images.unsplash.com/photo-1775257796019-3e8db981a1a6?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8Y29uY2VpcmdlfGVufDB8fDB8fHww?auto=format&fit=crop&w=1200&q=80',
-      alt: '24/7 Executive Room Service & Suite Dining',
-      caption: 'CARE WITHOUT BOUNDARIES',
-      height: '380px',
-      delay: 0
-    },
-    {
-      src: 'https://images.unsplash.com/photo-1519162952575-c6c7199502a3?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8aW5kb29yJTIwZ2FtZXN8ZW58MHx8MHx8fDA%3D?auto=format&fit=crop&w=800&q=80',
-      alt: 'Indoor Games and Snooker Lounge',
-      caption: 'THE RHYTHM OF LEISURE',
-      height: '280px',
-      delay: 150
-    },
-    {
-      src: 'https://plus.unsplash.com/premium_photo-1676925924664-f501b552a788?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzV8fHByYXllciUyMHJvb218ZW58MHx8MHx8fDA%3D?auto=format&fit=crop&w=800&q=80',
-      alt: 'Executive Prayer Room Sanctuary',
-      caption: 'SANCTUARY OF STILLNESS',
-      height: '300px',
-      marginTop: '80px',
-      delay: 300
-    },
-    {
-      src: 'https://images.unsplash.com/photo-1506521781263-d8422e82f27a?auto=format&fit=crop&w=800&q=80',
-      alt: 'Secure Basement Car Parking & Surveillance Entrance',
-      caption: 'QUIET ASSURANCE OF PEACE',
-      height: '340px',
-      delay: 450
-    },
-    {
-      src: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1200&q=80',
-      alt: 'TechnoGym Fitness Center & Wellness Suite',
-      caption: 'VITALITY IN MOTION',
-      height: '360px',
-      marginTop: '40px',
-      delay: 0
-    },
-    {
-      src: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1200&q=80',
-      alt: 'Artisanal Coffee Shop & Executive Lounge',
-      caption: 'MOMENTS BREWED IN GOLD',
-      height: '300px',
-      delay: 150
-    },
-    {
-      src: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1200&q=80',
-      alt: 'Rooftop Infinity Swimming Pool',
-      caption: 'REFLECTIONS OF HORIZON',
-      height: '410px',
-      marginTop: '60px',
-      delay: 300
-    },
-    {
-      src: 'https://images.unsplash.com/photo-1582653291997-079a1c04e5a1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fG1lZXRpbmclMjByb29tfGVufDB8fDB8fHww',
-      alt: 'Executive Meeting Room & Business Center',
-      caption: 'WHERE VISION ALIGNS',
-      height: '330px',
-      delay: 450
-    }
-  ];
-
-  return (
-    <div style={{ marginBottom: '96px', paddingTop: '32px' }}>
-      {/* Header row */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'minmax(320px, 42%) 1fr',
-          gap: '64px',
-          alignItems: 'start',
-          marginBottom: '72px'
-        }}
-      >
-        <ScrollEaseIn direction="left">
-          <div>
-            <div
-              style={{
-                fontSize: '11px',
-                fontWeight: 800,
-                color: '#94a3b8',
-                letterSpacing: '2.5px',
-                textTransform: 'uppercase',
-                marginBottom: '10px'
-              }}
-            >
-              GRACEFULLY HANDLED
-            </div>
-            <h3
-              style={{
-                fontFamily: "'Space Grotesk', system-ui, sans-serif",
-                fontSize: '38px',
-                fontWeight: 900,
-                color: '#152247',
-                letterSpacing: '0.5px',
-                lineHeight: '1.15',
-                textTransform: 'uppercase',
-                margin: '0 0 12px 0'
-              }}
-            >
-              EXTERIOR
-            </h3>
-            {/* Accent line */}
-            <div
-              style={{
-                width: '40px',
-                height: '2px',
-                background: 'linear-gradient(90deg, #152247, transparent)',
-                marginTop: '4px'
-              }}
-            />
-          </div>
-        </ScrollEaseIn>
-
-        <ScrollEaseIn direction="right">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <p
-              style={{
-                fontFamily: "'Inter', system-ui, sans-serif",
-                fontSize: '15.5px',
-                color: '#475569',
-                lineHeight: '1.75',
-                margin: 0
-              }}
-            >
-              Rising gracefully along the Islamabad Expressway, RJ's Larom Residences marries bold exterior architectural elevation with curated 5-star resident amenities tailored for elevated living.
-            </p>
-            <p
-              style={{
-                fontFamily: "'Inter', system-ui, sans-serif",
-                fontSize: '15px',
-                color: '#64748b',
-                lineHeight: '1.75',
-                margin: 0
-              }}
-            >
-              Designed for holistic urban living, residents enjoy a TechnoGym fitness center, artisanal coffee shop & lounge, rooftop infinity swimming pool, executive business meeting suite, indoor games lounge, serene prayer sanctuary, and 24/7 covered basement parking.
-            </p>
-          </div>
-        </ScrollEaseIn>
-      </div>
-
-      {/* Gallery grid */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '28px',
-          alignItems: 'start'
-        }}
-      >
-        {galleryImages.map((img, idx) => (
-          <CurtainRevealImage
-            key={idx}
-            src={img.src}
-            alt={img.alt}
-            caption={img.caption}
-            height={img.height}
-            marginTop={img.marginTop}
-            delay={img.delay}
+      {/* Right Side: Overlapping Photo Collage (Continuous foreground/background swap animation) */}
+      <div className="editorial-room-collage-col" title="Hover to pause animation">
+        {/* Landscape Image */}
+        <div className={`collage-img-landscape collage-delay-${index % 5}`}>
+          <img
+            src={room.image1}
+            alt={`${room.title} - Overview`}
           />
-        ))}
+        </div>
+
+        {/* Portrait Image */}
+        <div className={`collage-img-portrait collage-delay-${index % 5}`}>
+          <img
+            src={room.image2}
+            alt={`${room.title} - Detail`}
+          />
+        </div>
       </div>
     </div>
   );
 };
 
-// ─── Floating Scroll-to-Top Button ───
-const ScrollToTopButton: React.FC = () => {
-  const [visible, setVisible] = useState(false);
+const BannerAccommodationsCard: React.FC<{ onNavigate?: (tabId: string) => void }> = ({ onNavigate }) => {
+  const [isInView, setIsInView] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > 600);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    if (!cardRef.current) return;
+
+    const rect = cardRef.current.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.95 && rect.bottom > 0) {
+      setIsInView(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          if (cardRef.current) {
+            observer.unobserve(cardRef.current);
+          }
+        }
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+    );
+
+    observer.observe(cardRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
-  if (!visible) return null;
-
-  return (
-    <button
-      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-      aria-label="Scroll to top"
-      style={{
-        position: 'fixed',
-        bottom: '32px',
-        right: '32px',
-        width: '48px',
-        height: '48px',
-        background: '#152247',
-        color: '#ffffff',
-        border: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontSize: '20px',
-        cursor: 'pointer',
-        boxShadow: '0 8px 25px rgba(21,34,71,0.35)',
-        zIndex: 999,
-        transition: 'all 0.3s ease',
-        animation: 'saSlideUp 0.4s ease-out'
-      }}
-    >
-      ↑
-    </button>
-  );
-};
-
-// ─── Section Divider ───
-const SectionDivider: React.FC<{ style?: React.CSSProperties }> = ({ style }) => (
-  <div
-    style={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: '16px',
-      margin: '0 auto',
-      maxWidth: '200px',
-      padding: '8px 0',
-      ...style
-    }}
-  >
-    <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, transparent, rgba(21,34,71,0.15))' }} />
-    <div style={{ width: '6px', height: '6px', background: '#152247', transform: 'rotate(45deg)', opacity: 0.3 }} />
-    <div style={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, rgba(21,34,71,0.15), transparent)' }} />
-  </div>
-);
-
-
-// ═══════════════════════════════════════════════
-// ─── Main Page Export ───
-// ═══════════════════════════════════════════════
-export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({
-  onNavigate,
-}) => {
   return (
     <div
-      className="serviced-apartments-page"
-      style={{
-        background: '#ffffff',
-        fontFamily: "'Space Grotesk', system-ui, sans-serif",
-        paddingTop: '72px'
-      }}
+      ref={cardRef}
+      className={`accommodations-banner-card ${isInView ? 'in-view' : ''}`}
+      onClick={() => onNavigate?.('book-now')}
     >
-      <ScopedStyles />
-      <ScrollToTopButton />
-
-      {/* 1. HERO BANNER with parallax */}
-      <HeroBanner />
-
-      {/* Contained content */}
-      <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 48px 80px' }}>
-
-        {/* 2. MOVING IMAGE TRAY CAROUSEL */}
-        <MovingImageTray />
-
-        {/* Divider */}
-        <SectionDivider style={{ marginBottom: '64px' }} />
-
-        {/* 3. VISION / SERVICED TO PERFECTION */}
-        <div
+      <img
+        src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=85"
+        alt="1 and 2-Bedroom Serviced Apartments"
+        className="accommodations-banner-bg"
+      />
+      <div className="accommodations-banner-overlay" />
+      <div className="accommodations-banner-content">
+        <div className="accommodations-banner-subtitle">
+          Stay With RJ's Larom
+        </div>
+        <h3 className="accommodations-banner-title">
+          1 & 2-BEDROOM APARTMENTS
+        </h3>
+        <p className="accommodations-banner-desc">
+          Thoughtfully curated serviced residences blending five-star hotel hospitality with the comforts of private luxury living, private sky balconies, and custom Italian finishes.
+        </p>
+        <button
+          className="home-curtain-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            onNavigate?.('book-now');
+          }}
           style={{
-            display: 'grid',
-            gridTemplateColumns: 'minmax(320px, 44%) 1fr',
-            gap: '64px',
-            alignItems: 'start',
-            marginBottom: '96px',
-            overflow: 'hidden'
+            background: '#152247',
+            color: '#ffffff',
+            padding: '16px 44px',
+            borderRadius: '0px',
+            fontSize: '15px',
+            fontWeight: 800,
+            border: 'none',
+            cursor: 'pointer',
+            boxShadow: '0 12px 32px rgba(21, 34, 71, 0.35)',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            letterSpacing: '0.5px'
           }}
         >
-          <ScrollEaseIn direction="left">
-            <div>
-              <div
-                style={{
-                  fontSize: '11px',
-                  fontWeight: 800,
-                  color: '#94a3b8',
-                  letterSpacing: '2.5px',
-                  textTransform: 'uppercase',
-                  marginBottom: '10px'
-                }}
-              >
-                VISION
-              </div>
-              <h2
-                style={{
-                  fontFamily: "'Space Grotesk', system-ui, sans-serif",
-                  fontSize: '42px',
-                  fontWeight: 900,
-                  color: '#152247',
-                  letterSpacing: '0.5px',
-                  lineHeight: '1.15',
-                  textTransform: 'uppercase',
-                  margin: '0 0 12px 0'
-                }}
-              >
-                SERVICED TO PERFECTION
-              </h2>
-              {/* Accent line */}
-              <div
-                style={{
-                  width: '40px',
-                  height: '2px',
-                  background: 'linear-gradient(90deg, #152247, transparent)'
-                }}
-              />
-            </div>
-          </ScrollEaseIn>
-
-          <ScrollEaseIn direction="right">
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <p
-                style={{
-                  fontFamily: "'Inter', system-ui, sans-serif",
-                  fontSize: '15.5px',
-                  color: '#475569',
-                  lineHeight: '1.75',
-                  margin: 0
-                }}
-              >
-                At RJ's Larom Residences, we believe that spaces should do more than function — they should resonate. Each serviced suite is a quiet dialogue between ambient light, material, and form, crafted with clarity and emotional depth.
-              </p>
-            </div>
-          </ScrollEaseIn>
-        </div>
-
-        {/* 4. INTERIOR SECTION */}
-        <div style={{ marginBottom: '96px', paddingTop: '40px' }}>
-          {/* Header: Text left, Interior heading right */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr minmax(320px, 44%)',
-              gap: '64px',
-              alignItems: 'start',
-              marginBottom: '72px',
-              overflow: 'hidden'
-            }}
-          >
-            <ScrollEaseIn direction="left">
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                <p
-                  style={{
-                    fontFamily: "'Inter', system-ui, sans-serif",
-                    fontSize: '15.5px',
-                    color: '#475569',
-                    lineHeight: '1.75',
-                    margin: 0
-                  }}
-                >
-                  Crafted with architectural precision and warm luxury, the Bedroom Serviced Apartment at RJ's Larom Residences is a curated living space. The private master bedroom features bespoke wood paneling, plush king bedding, and ambient cove lighting.
-                </p>
-                <p
-                  style={{
-                    fontFamily: "'Inter', system-ui, sans-serif",
-                    fontSize: '15px',
-                    color: '#64748b',
-                    lineHeight: '1.75',
-                    margin: 0
-                  }}
-                >
-                  An expansive open-plan living room merges seamlessly into an artisanal fine dining area, equipped with integrated appliances, custom stone dining surfaces, and designer cookware.
-                </p>
-              </div>
-            </ScrollEaseIn>
-
-            <ScrollEaseIn direction="right">
-              <div style={{ textAlign: 'right' }}>
-                <div
-                  style={{
-                    fontSize: '11px',
-                    fontWeight: 800,
-                    color: '#94a3b8',
-                    letterSpacing: '2.5px',
-                    textTransform: 'uppercase',
-                    marginBottom: '10px'
-                  }}
-                >
-                  DESIGN PHILOSOPHY
-                </div>
-                <h3
-                  style={{
-                    fontFamily: "'Space Grotesk', system-ui, sans-serif",
-                    fontSize: '38px',
-                    fontWeight: 900,
-                    color: '#152247',
-                    letterSpacing: '0.5px',
-                    lineHeight: '1.15',
-                    textTransform: 'uppercase',
-                    margin: '0 0 12px 0'
-                  }}
-                >
-                  INTERIOR
-                </h3>
-                {/* Accent line right-aligned */}
-                <div
-                  style={{
-                    width: '40px',
-                    height: '2px',
-                    background: 'linear-gradient(90deg, transparent, #152247)',
-                    marginLeft: 'auto'
-                  }}
-                />
-              </div>
-            </ScrollEaseIn>
-          </div>
-
-          {/* Interior image grid */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(4, 1fr)',
-              gap: '28px',
-              alignItems: 'start'
-            }}
-          >
-            <CurtainRevealImage
-              src="https://images.unsplash.com/photo-1617098900591-3f90928e8c54?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzJ8fGJlZHJvb218ZW58MHx8MHx8fDA%3D?auto=format&fit=crop&w=1200&q=80"
-              alt="Bespoke Master Bedroom Suite"
-              caption="SPACES THAT BREATHE"
-              height="440px"
-              delay={0}
-            />
-            <CurtainRevealImage
-              src="https://images.unsplash.com/photo-1633505412556-82c0921e8f4a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGRpbmluZyUyMHJvb218ZW58MHx8MHx8fDA%3D?auto=format&fit=crop&w=1200&q=80"
-              alt="Artisanal Fine Dining Table & Suite Dining"
-              caption="TEXTURES OF STILLNESS"
-              height="290px"
-              delay={150}
-            />
-            <CurtainRevealImage
-              src="https://images.unsplash.com/photo-1661107259637-4e1c55462428?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8d2FzaHJvb218ZW58MHx8MHx8fDA%3D?auto=format&fit=crop&w=1200&q=80"
-              alt="Calacatta Marble Washroom"
-              caption="LIGHT AS A MATERIAL"
-              height="300px"
-              marginTop="120px"
-              delay={300}
-            />
-            <CurtainRevealImage
-              src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80"
-              alt="Open-Concept Living Room Lounge"
-              caption="THE BEAUTY OF RESTRAINT"
-              height="360px"
-              delay={450}
-            />
-            <CurtainRevealImage
-              src="https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8a2l0Y2hlbiUyMGRlc2lnbnxlbnwwfHwwfHx8MA%3D%3D"
-              alt="Modern Luxury Kitchen Interior"
-              caption="CRAFTED FOR HARMONY"
-              height="340px"
-              marginTop="40px"
-              delay={0}
-            />
-            <CurtainRevealImage
-              src="https://images.unsplash.com/photo-1591944438730-23dbc9076a9a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fEJBTENPTll8ZW58MHx8MHx8fDA%3D"
-              alt="Private Suite Terrace & Panoramic Sky View"
-              caption="WHERE SKY MEETS STILLNESS"
-              height="420px"
-              delay={150}
-            />
-            <CurtainRevealImage
-              src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=1200&q=80"
-              alt="Sunlit Executive Reading & Leisure Lounge"
-              caption="SANCTUARY OF MORNING LIGHT"
-              height="300px"
-              marginTop="60px"
-              delay={300}
-            />
-            <CurtainRevealImage
-              src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8QkVTUE9LRSUyMEJFRFJPT018ZW58MHx8MHx8fDA%3D"
-              alt="Bespoke Master Bedroom Suite"
-              caption="THE ART OF REFINEMENT"
-              height="380px"
-              delay={450}
-            />
-          </div>
-        </div>
-
-        {/* 5. EXTERIOR & AMENITIES */}
-        <ExteriorAmenitiesSection />
-
-        {/* 6. WHAT WE OFFER */}
-        <WhatWeOfferSection onNavigate={onNavigate} />
+          Learn More →
+        </button>
       </div>
     </div>
   );
 };
+
+export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({ onNavigate }) => {
+  return (
+    <div style={{ background: '#ffffff', color: '#152247', minHeight: '100vh', paddingBottom: '80px', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,500;1,600&family=Space+Grotesk:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        @keyframes floatWatermark {
+          0%, 100% {
+            transform: translateX(-50%) translateY(0px);
+          }
+          50% {
+            transform: translateX(-50%) translateY(-15px);
+          }
+        }
+
+        .float-apartments-text {
+          animation: floatWatermark 5s ease-in-out infinite;
+        }
+
+        /* ─── Editorial Room Cards (Maui Beach Hotel Style) ─── */
+        .editorial-room-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 110px;
+          gap: 48px;
+        }
+
+        /* Text Column: bring text smoothly from left to right */
+        .editorial-room-text-col {
+          width: 42%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          z-index: 2;
+        }
+
+        .editorial-room-title {
+          font-family: 'Space Grotesk', system-ui, sans-serif;
+          font-size: clamp(28px, 3.4vw, 42px);
+          font-weight: 800;
+          color: #152247;
+          line-height: 1.15;
+          margin: 0 0 18px 0;
+          letter-spacing: -0.5px;
+          text-transform: uppercase;
+          opacity: 0;
+          transform: translateX(-60px);
+          transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+          will-change: transform, opacity;
+        }
+
+        .editorial-room-desc {
+          font-family: 'Inter', system-ui, sans-serif;
+          font-size: 14.5px;
+          color: #475569;
+          line-height: 1.75;
+          margin: 0;
+          max-width: 440px;
+          opacity: 0;
+          transform: translateX(-50px);
+          transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.16s, transform 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.16s;
+          will-change: transform, opacity;
+        }
+
+        /* In-View: Bring text from left to right */
+        .editorial-room-row.in-view .editorial-room-title,
+        .editorial-room-row.in-view .editorial-room-desc {
+          opacity: 1;
+          transform: translateX(0);
+        }
+
+        /* Overlapping Collage: Landscape lower-left, Portrait upper-right with entrance animations */
+        /* ─── Continuous Foreground/Background Swap Animation ─── */
+        @keyframes swapLandscapeToForeground {
+          0%, 42% {
+            /* Background State */
+            z-index: 1;
+            transform: scale(0.97) translate3d(0, 0, 0);
+            filter: brightness(0.9);
+            box-shadow: 0 10px 25px rgba(21, 34, 71, 0.12);
+          }
+          48% {
+            /* Stepping forward / elevating */
+            z-index: 4;
+            transform: scale(1.05) translate3d(-18px, -12px, 50px);
+            filter: brightness(0.98);
+            box-shadow: 0 22px 48px rgba(21, 34, 71, 0.28);
+          }
+          54%, 92% {
+            /* Foreground State (overlaps portrait on the right) */
+            z-index: 3;
+            transform: scale(1.03) translate3d(12px, -8px, 25px);
+            filter: brightness(1);
+            box-shadow: 0 24px 50px rgba(21, 34, 71, 0.32);
+          }
+          98% {
+            /* Stepping back */
+            z-index: 2;
+            transform: scale(0.99) translate3d(-8px, 6px, -10px);
+            filter: brightness(0.93);
+            box-shadow: 0 12px 30px rgba(21, 34, 71, 0.15);
+          }
+          100% {
+            z-index: 1;
+            transform: scale(0.97) translate3d(0, 0, 0);
+            filter: brightness(0.9);
+            box-shadow: 0 10px 25px rgba(21, 34, 71, 0.12);
+          }
+        }
+
+        @keyframes swapPortraitToForeground {
+          0%, 42% {
+            /* Foreground State (overlaps landscape on the left) */
+            z-index: 3;
+            transform: scale(1.02) translate3d(0, 0, 25px);
+            filter: brightness(1);
+            box-shadow: -10px 20px 48px rgba(21, 34, 71, 0.28);
+          }
+          48% {
+            /* Stepping back */
+            z-index: 2;
+            transform: scale(0.98) translate3d(16px, 12px, -10px);
+            filter: brightness(0.93);
+            box-shadow: -6px 12px 25px rgba(21, 34, 71, 0.15);
+          }
+          54%, 92% {
+            /* Background State */
+            z-index: 1;
+            transform: scale(0.96) translate3d(-10px, 8px, 0);
+            filter: brightness(0.9);
+            box-shadow: -6px 10px 22px rgba(21, 34, 71, 0.12);
+          }
+          98% {
+            /* Stepping forward / elevating */
+            z-index: 4;
+            transform: scale(1.05) translate3d(16px, -12px, 50px);
+            filter: brightness(0.98);
+            box-shadow: -12px 24px 50px rgba(21, 34, 71, 0.3);
+          }
+          100% {
+            z-index: 3;
+            transform: scale(1.02) translate3d(0, 0, 25px);
+            filter: brightness(1);
+            box-shadow: -10px 20px 48px rgba(21, 34, 71, 0.28);
+          }
+        }
+
+        .editorial-room-collage-col {
+          width: 55%;
+          height: 420px;
+          position: relative;
+          display: flex;
+          align-items: center;
+          perspective: 1200px;
+          transform-style: preserve-3d;
+        }
+
+        .collage-img-landscape {
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          width: 70%;
+          height: 310px;
+          overflow: hidden;
+          border-radius: 4px;
+          box-shadow: 0 12px 35px rgba(21, 34, 71, 0.12);
+          z-index: 1;
+          opacity: 0;
+          transition: opacity 0.8s ease;
+          will-change: transform, z-index, box-shadow, filter;
+        }
+
+        .collage-img-portrait {
+          position: absolute;
+          right: 0;
+          top: 0;
+          width: 48%;
+          height: 380px;
+          overflow: hidden;
+          border-radius: 4px;
+          box-shadow: -8px 16px 40px rgba(21, 34, 71, 0.18);
+          z-index: 2;
+          opacity: 0;
+          transition: opacity 0.8s ease;
+          will-change: transform, z-index, box-shadow, filter;
+        }
+
+        /* In-View: Continuously cycle one image to foreground, other to background */
+        .editorial-room-row.in-view .collage-img-landscape {
+          opacity: 1;
+          animation: swapLandscapeToForeground 7.5s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+        }
+
+        .editorial-room-row.in-view .collage-img-portrait {
+          opacity: 1;
+          animation: swapPortraitToForeground 7.5s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+        }
+
+        /* Staggered cycle start per card */
+        .collage-delay-0 { animation-delay: 0s !important; }
+        .collage-delay-1 { animation-delay: 1.5s !important; }
+        .collage-delay-2 { animation-delay: 3s !important; }
+        .collage-delay-3 { animation-delay: 4.5s !important; }
+        .collage-delay-4 { animation-delay: 6s !important; }
+
+        /* Pause animation on hover so viewer can inspect image closely */
+        .editorial-room-collage-col:hover .collage-img-landscape,
+        .editorial-room-collage-col:hover .collage-img-portrait {
+          animation-play-state: paused;
+        }
+
+        .collage-img-landscape img,
+        .collage-img-portrait img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .editorial-room-collage-col:hover img {
+          transform: scale(1.03);
+        }
+
+        @media (max-width: 960px) {
+          .editorial-room-row {
+            flex-direction: column;
+            margin-bottom: 70px;
+            gap: 28px;
+          }
+          .editorial-room-text-col {
+            width: 100%;
+          }
+          .editorial-room-collage-col {
+            width: 100%;
+            height: 340px;
+          }
+          .collage-img-landscape {
+            width: 72%;
+            height: 250px;
+          }
+          .collage-img-portrait {
+            width: 50%;
+            height: 300px;
+          }
+        }
+
+        /* ─── 1 & 2-Bedroom Accommodations Banner (Maui Beach Hotel Style) ─── */
+        .accommodations-banner-container {
+          max-width: 1240px;
+          margin: 90px auto 40px auto;
+          padding: 0 24px;
+          width: 100%;
+          box-sizing: border-box;
+        }
+
+        .accommodations-banner-card {
+          position: relative;
+          width: 100%;
+          min-height: 500px;
+          overflow: hidden;
+          border-radius: 4px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 20px 50px rgba(15, 39, 68, 0.16);
+          opacity: 0;
+          transform: translateY(30px) scale(0.98);
+          transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+        }
+
+        .accommodations-banner-card.in-view {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+
+        .accommodations-banner-card:hover {
+          box-shadow: 0 26px 60px rgba(15, 39, 68, 0.24);
+        }
+
+        .accommodations-banner-bg {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+          transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+          z-index: 1;
+        }
+
+        .accommodations-banner-card:hover .accommodations-banner-bg {
+          transform: scale(1.04);
+        }
+
+        .accommodations-banner-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(135deg, rgba(19, 56, 79, 0.88) 0%, rgba(15, 47, 69, 0.90) 50%, rgba(10, 35, 52, 0.94) 100%);
+          z-index: 2;
+          transition: background 0.4s ease;
+        }
+
+        .accommodations-banner-card:hover .accommodations-banner-overlay {
+          background: linear-gradient(135deg, rgba(16, 50, 72, 0.84) 0%, rgba(13, 42, 63, 0.87) 50%, rgba(8, 30, 46, 0.91) 100%);
+        }
+
+        .accommodations-banner-content {
+          position: relative;
+          z-index: 3;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          padding: 100px 36px;
+          max-width: 800px;
+          box-sizing: border-box;
+        }
+
+        .accommodations-banner-subtitle {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic;
+          font-size: 14.5px;
+          color: rgba(255, 255, 255, 0.9);
+          letter-spacing: 0.5px;
+          margin-bottom: 12px;
+        }
+
+        .accommodations-banner-title {
+          font-family: 'Space Grotesk', system-ui, sans-serif;
+          font-size: clamp(28px, 3.8vw, 46px);
+          font-weight: 700;
+          letter-spacing: 3px;
+          text-transform: uppercase;
+          color: #ffffff;
+          margin: 0 0 16px 0;
+          line-height: 1.15;
+        }
+
+        .accommodations-banner-desc {
+          font-family: 'Inter', system-ui, sans-serif;
+          font-size: 14.5px;
+          color: rgba(255, 255, 255, 0.84);
+          line-height: 1.7;
+          max-width: 580px;
+          margin: 0 0 28px 0;
+        }
+
+        @media (max-width: 960px) {
+          .accommodations-banner-card {
+            min-height: 400px;
+          }
+          .accommodations-banner-content {
+            padding: 64px 24px;
+          }
+          .accommodations-banner-title {
+            letter-spacing: 1.5px;
+          }
+        }
+      `}</style>
+
+      {/* ═══════════════════════════════════════════════════════════
+          SECTION 1: HERO WATERMARK ("APARTMENTS")
+      ════════════════════════════════════════════════════════════ */}
+      <section
+        style={{
+          position: 'relative',
+          minHeight: '70vh',
+          background: 'linear-gradient(180deg, #99c6f4ff 0%, #6cb3f1ff 40%, #FAFBFD 100%)',
+          borderRadius: '0px 0px 32px 32px',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '110px 48px 0px 48px',
+          margin: 0,
+          width: '100%'
+        }}
+      >
+        <div
+          className="float-apartments-text"
+          style={{
+            position: 'absolute',
+            top: '30%',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            fontSize: 'clamp(70px, 15vw, 200px)',
+            fontWeight: 800,
+            letterSpacing: '8px',
+            color: 'rgba(15, 39, 68, 0.22)',
+            userSelect: 'none',
+            pointerEvents: 'none',
+            whiteSpace: 'nowrap',
+            zIndex: 1,
+            fontFamily: "'Space Grotesk', system-ui, sans-serif"
+          }}
+        >
+          APARTMENTS
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════
+          SECTION 2: EDITORIAL ROOM SHOWCASE (STUDIO KITCHENETTE STYLE)
+      ════════════════════════════════════════════════════════════ */}
+      <div style={{ maxWidth: '1160px', margin: '60px auto 0 auto', padding: '0 24px' }}>
+        {/* Pacific Monarch Style Editorial Header */}
+        <div style={{ textAlign: 'center', maxWidth: '780px', margin: '0 auto 64px auto' }}>
+          
+          <h2 style={{ fontSize: 'clamp(28px, 3.5vw, 42px)', fontWeight: 800, color: '#152247', margin: '0 0 16px 0', letterSpacing: '-0.5px' }}>
+            Curated Living Spaces & Interior Architecture
+          </h2>
+          <p style={{ fontSize: '15px', color: '#64748b', lineHeight: 1.7, margin: 0 }}>
+            Once you experience the views and bespoke craftsmanship of RJ's Larom, you will appreciate turnkey luxury living. Each suite features dual-aspect architectural rooms, Italian designer furniture, and round-the-clock hotel hospitality.
+          </p>
+        </div>
+
+        {/* 5 Rooms Stack: Bedroom -> Kitchen -> Living Room -> Dining Room -> Washroom */}
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          {CURATED_ROOMS.map((room, index) => (
+            <CuratedRoomItem key={room.id} room={room} index={index} />
+          ))}
+        </div>
+      </div>
+
+      {/* ═══════════════════════════════════════════════════════════
+          ACCOMMODATIONS: 1 & 2-BEDROOM APARTMENTS BANNER (MAUI BEACH HOTEL STYLE)
+      ════════════════════════════════════════════════════════════ */}
+      <div className="accommodations-banner-container">
+        <BannerAccommodationsCard onNavigate={onNavigate} />
+      </div>
+    </div>
+  );
+};
+
+export default ServicedApartmentsPage;
