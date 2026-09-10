@@ -156,7 +156,7 @@ input, select, textarea {
 .app-canvas {
   max-width: 1440px;
   margin: 20px auto;
-  background-color: #f8fafc;
+  background-color: #ffffff;
   border-radius: var(--radius-lg);
   box-shadow: 0 25px 60px rgba(10, 17, 40, 0.4);
   overflow: hidden;

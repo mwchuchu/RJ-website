@@ -81,9 +81,10 @@ export const PaymentPlanPage: React.FC<PaymentPlanPageProps> = ({ onNavigate }) 
       className="payment-plan-page animate-fade-in"
       style={{
         background: '#ffffff',
-        minHeight: '100vh',
+        minHeight: 'auto',
         color: '#152247',
-        fontFamily: "'Space Grotesk', system-ui, sans-serif"
+        fontFamily: "'Space Grotesk', system-ui, sans-serif",
+        paddingBottom: '48px'
       }}
     >
       <style>{`
@@ -119,17 +120,56 @@ export const PaymentPlanPage: React.FC<PaymentPlanPageProps> = ({ onNavigate }) 
           box-shadow: 0 14px 30px -8px rgba(21, 34, 71, 0.12);
         }
 
+        .schedule-table {
+          width: 100%;
+          border-collapse: collapse;
+          text-align: left;
+          min-width: 650px;
+        }
+
         .minimal-schedule-row {
           border-bottom: 1px solid #f1f5f9;
           font-size: 13.5px;
           color: #0f172a;
-          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+          position: relative;
+          transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                      box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                      filter 0.25s ease,
+                      opacity 0.25s ease,
+                      background 0.25s ease;
         }
 
+        .minimal-total-row {
+          position: relative;
+          transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                      box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                      filter 0.25s ease,
+                      opacity 0.25s ease,
+                      background 0.25s ease;
+        }
+
+        /* On hover to any row, make other lines blur and fade */
+        .schedule-table:hover .minimal-schedule-row:not(:hover),
+        .schedule-table:hover .minimal-total-row:not(:hover) {
+          filter: blur(1.5px);
+          opacity: 0.35;
+        }
+
+        /* Genuine floating 3D depth effect (No left strip) */
         .minimal-schedule-row:hover {
-          background: rgba(21, 34, 71, 0.035) !important;
-          transform: translateX(4px);
-          box-shadow: inset 3px 0 0 #152247;
+          background: #ffffff !important;
+          transform: translateY(-2px) scale(1.006);
+          box-shadow: 0 12px 28px -4px rgba(21, 34, 71, 0.14), 0 4px 12px -2px rgba(21, 34, 71, 0.08) !important;
+          z-index: 10;
+          border-radius: 8px;
+        }
+
+        .minimal-total-row:hover {
+          background: #ffffff !important;
+          transform: translateY(-2px) scale(1.006);
+          box-shadow: 0 12px 28px -4px rgba(21, 34, 71, 0.16), 0 4px 12px -2px rgba(21, 34, 71, 0.08) !important;
+          z-index: 10;
+          border-radius: 8px;
         }
 
         .minimal-switch-btn {
@@ -203,7 +243,7 @@ export const PaymentPlanPage: React.FC<PaymentPlanPageProps> = ({ onNavigate }) 
       <PaymentPlanSection onNavigate={onNavigate} hideExploreButton={true} onlyPieChart={true} />
 
       {/* Full Minimalist Schedule Chart & Table Section */}
-      <section style={{ maxWidth: '1160px', margin: '40px auto 80px auto', padding: '0 24px' }}>
+      <section style={{ maxWidth: '1160px', margin: '40px auto 0 auto', padding: '0 24px' }}>
         {/* Section Title */}
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <span
@@ -228,258 +268,162 @@ export const PaymentPlanPage: React.FC<PaymentPlanPageProps> = ({ onNavigate }) 
           </p>
         </div>
 
-        {/* Minimalist Controls: Suite Selector + Duration Switcher */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            gap: '14px',
-            marginBottom: '32px'
-          }}
-        >
-          {/* Suite Switch */}
-          <div
-            style={{
-              display: 'inline-flex',
-              background: '#f8fafc',
-              border: '1px solid #e2e8f0',
-              padding: '4px',
-              borderRadius: '12px',
-              gap: '6px'
-            }}
-          >
-            <button
-              onClick={() => setSelectedSuiteType('1bed')}
-              className={`minimal-switch-btn ${selectedSuiteType === '1bed' ? 'active-switch' : ''}`}
-              style={{
-                background: selectedSuiteType === '1bed' ? '#152247' : 'transparent',
-                color: selectedSuiteType === '1bed' ? '#ffffff' : '#64748b',
-                boxShadow: selectedSuiteType === '1bed' ? '0 4px 12px rgba(21, 34, 71, 0.2)' : 'none'
-              }}
-            >
-              1-Bedroom ({plans['1bed'].sqft} sq.ft)
-            </button>
-            <button
-              onClick={() => setSelectedSuiteType('2bed')}
-              className={`minimal-switch-btn ${selectedSuiteType === '2bed' ? 'active-switch' : ''}`}
-              style={{
-                background: selectedSuiteType === '2bed' ? '#152247' : 'transparent',
-                color: selectedSuiteType === '2bed' ? '#ffffff' : '#64748b',
-                boxShadow: selectedSuiteType === '2bed' ? '0 4px 12px rgba(21, 34, 71, 0.2)' : 'none'
-              }}
-            >
-              2-Bedroom ({plans['2bed'].sqft} sq.ft)
-            </button>
-          </div>
-
-          {/* Duration Switch */}
-          <div
-            style={{
-              display: 'inline-flex',
-              background: '#f8fafc',
-              border: '1px solid #e2e8f0',
-              padding: '4px',
-              borderRadius: '12px',
-              gap: '6px'
-            }}
-          >
-            <button
-              onClick={() => setSelectedDuration('6month')}
-              className={`minimal-switch-btn ${selectedDuration === '6month' ? 'active-switch' : ''}`}
-              style={{
-                background: selectedDuration === '6month' ? '#152247' : 'transparent',
-                color: selectedDuration === '6month' ? '#ffffff' : '#64748b',
-                boxShadow: selectedDuration === '6month' ? '0 4px 12px rgba(21, 34, 71, 0.2)' : 'none'
-              }}
-            >
-              6-Month Plan (10%/mo)
-            </button>
-            <button
-              onClick={() => setSelectedDuration('12month')}
-              className={`minimal-switch-btn ${selectedDuration === '12month' ? 'active-switch' : ''}`}
-              style={{
-                background: selectedDuration === '12month' ? '#152247' : 'transparent',
-                color: selectedDuration === '12month' ? '#ffffff' : '#64748b',
-                boxShadow: selectedDuration === '12month' ? '0 4px 12px rgba(21, 34, 71, 0.2)' : 'none'
-              }}
-            >
-              12-Month Plan (5%/mo)
-            </button>
-          </div>
-        </div>
-
-        {/* 4 Minimalist Product Cards with Navy Theme & Hover Effects */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-            gap: '20px',
-            marginBottom: '32px'
-          }}
-        >
-          {/* Card 1: Total Valuation */}
-          <div className="minimal-metric-card">
-            <div style={{ fontSize: '12px', fontWeight: 700, color: '#64748b', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-              Total Suite Valuation
-            </div>
-            <div style={{ fontSize: '26px', fontWeight: 900, color: '#152247', lineHeight: '1.1' }}>
-              {formatPKR(current.totalPrice)}{' '}
-              <span style={{ fontSize: '13px', fontWeight: 800, color: '#64748b' }}>PKR</span>
-            </div>
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                background: 'rgba(21, 34, 71, 0.05)',
-                border: '1px solid rgba(21, 34, 71, 0.1)',
-                padding: '4px 10px',
-                borderRadius: '6px',
-                marginTop: '14px'
-              }}
-            >
-              <span style={{ fontSize: '11.5px', fontWeight: 700, color: '#152247' }}>
-                Rs. 26,500 / sq.ft • {current.sqft} SQFT
-              </span>
-            </div>
-          </div>
-
-          {/* Card 2: Down Payment */}
-          <div className="minimal-metric-card">
-            <div style={{ fontSize: '12px', fontWeight: 700, color: '#64748b', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-              25% Down Payment
-            </div>
-            <div style={{ fontSize: '26px', fontWeight: 900, color: '#152247', lineHeight: '1.1' }}>
-              {formatPKR(current.downPayment)}{' '}
-              <span style={{ fontSize: '13px', fontWeight: 800, color: '#64748b' }}>PKR</span>
-            </div>
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                background: 'rgba(37, 99, 235, 0.08)',
-                border: '1px solid rgba(37, 99, 235, 0.18)',
-                padding: '4px 10px',
-                borderRadius: '6px',
-                marginTop: '14px'
-              }}
-            >
-              <span style={{ fontSize: '11.5px', fontWeight: 700, color: '#1d4ed8' }}>
-                Immediate Booking & Allocation
-              </span>
-            </div>
-          </div>
-
-          {/* Card 3: Monthly Installment */}
-          <div className="minimal-metric-card">
-            <div style={{ fontSize: '12px', fontWeight: 700, color: '#64748b', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-              Monthly Installment ({selectedDuration === '6month' ? '6-Mo' : '12-Mo'})
-            </div>
-            <div style={{ fontSize: '26px', fontWeight: 900, color: '#152247', lineHeight: '1.1' }}>
-              {formatPKR(currentMonthly)}{' '}
-              <span style={{ fontSize: '13px', fontWeight: 800, color: '#64748b' }}>PKR / mo</span>
-            </div>
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                background: 'rgba(2, 132, 199, 0.08)',
-                border: '1px solid rgba(2, 132, 199, 0.18)',
-                padding: '4px 10px',
-                borderRadius: '6px',
-                marginTop: '14px'
-              }}
-            >
-              <span style={{ fontSize: '11.5px', fontWeight: 700, color: '#0284c7' }}>
-                0% Mark-Up ({monthlyPercent}%/mo)
-              </span>
-            </div>
-          </div>
-
-          {/* Card 4: Possession */}
-          <div className="minimal-metric-card">
-            <div style={{ fontSize: '12px', fontWeight: 700, color: '#64748b', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-              15% On Possession
-            </div>
-            <div style={{ fontSize: '26px', fontWeight: 900, color: '#152247', lineHeight: '1.1' }}>
-              {formatPKR(current.possession)}{' '}
-              <span style={{ fontSize: '13px', fontWeight: 800, color: '#64748b' }}>PKR</span>
-            </div>
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                background: 'rgba(21, 34, 71, 0.06)',
-                border: '1px solid rgba(21, 34, 71, 0.15)',
-                padding: '4px 10px',
-                borderRadius: '6px',
-                marginTop: '14px'
-              }}
-            >
-              <span style={{ fontSize: '11.5px', fontWeight: 700, color: '#152247' }}>
-                June 2027 Keys Handover
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Full Clean Minimalist Schedule Table Card */}
+        {/* Unified Minimalist Schedule Table Card with Merged Filter Header */}
         <div
           style={{
             background: '#ffffff',
             border: '1px solid #e2e8f0',
-            borderRadius: '20px',
-            padding: '28px 32px',
-            boxShadow: '0 8px 32px rgba(21, 34, 71, 0.04)'
+            borderRadius: '16px',
+            overflow: 'hidden',
+            boxShadow: '0 8px 32px rgba(21, 34, 71, 0.04)',
+            marginBottom: '24px'
           }}
         >
-          {/* Table Header Row */}
+          {/* Minimal Merged Table Filter Header */}
           <div
             style={{
+              padding: '14px 20px',
+              background: '#ffffff',
+              borderBottom: '1px solid #e2e8f0',
               display: 'flex',
-              justifyContent: 'space-between',
               alignItems: 'center',
-              marginBottom: '20px',
-              borderBottom: '1px solid #f1f5f9',
-              paddingBottom: '16px',
               flexWrap: 'wrap',
-              gap: '12px'
+              gap: '12px 24px'
             }}
           >
-            <div>
-              <h3 style={{ fontSize: '20px', fontWeight: 900, color: '#152247', margin: 0 }}>
-                {current.title} — {selectedDuration === '6month' ? '6-Month Plan' : '12-Month Plan'}
-              </h3>
-              <p style={{ fontSize: '13px', color: '#64748b', margin: '3px 0 0 0' }}>
-                Rate: Rs. 26,500 / sq.ft • Total Size: {current.sqft} sq.ft
-              </p>
+            {/* Filter 1: Apartment Type */}
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+              
+
+              <div
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '7px',
+                  padding: '6px 12px',
+                  borderRadius: '6px',
+                  border: '1px solid #e2e8f0',
+                  background: '#ffffff',
+                  fontSize: '13px',
+                  fontWeight: 700,
+                  color: '#152247'
+                }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#152247" strokeWidth="2.2">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                </svg>
+                <span>Apartment Type</span>
+              </div>
+
+              <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
+                <select
+                  aria-label="Select apartment type"
+                  value={selectedSuiteType}
+                  onChange={(e) => setSelectedSuiteType(e.target.value as '1bed' | '2bed')}
+                  style={{
+                    padding: '7px 32px 7px 14px',
+                    borderRadius: '6px',
+                    border: '1px solid #cbd5e1',
+                    background: '#ffffff',
+                    fontSize: '13px',
+                    fontWeight: 700,
+                    color: '#152247',
+                    cursor: 'pointer',
+                    appearance: 'none',
+                    WebkitAppearance: 'none',
+                    MozAppearance: 'none',
+                    outline: 'none',
+                    boxShadow: '0 1px 2px rgba(0,0,0,0.04)'
+                  }}
+                >
+                  <option value="1bed">1-Bedroom Suite </option>
+                  <option value="2bed">2-Bedroom Luxury Suite</option>
+                </select>
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#152247"
+                  strokeWidth="2.5"
+                  style={{ position: 'absolute', right: '12px', pointerEvents: 'none' }}
+                >
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </div>
             </div>
-            <span
-              style={{
-                fontSize: '12px',
-                fontWeight: 800,
-                background: 'rgba(21, 34, 71, 0.06)',
-                color: '#152247',
-                padding: '6px 14px',
-                borderRadius: '8px',
-                border: '1px solid rgba(21, 34, 71, 0.1)'
-              }}
-            >
-              {scheduleRows.length} Payment Stages
-            </span>
+
+            {/* Filter 2: Duration */}
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+              <span style={{ fontSize: '13px', fontWeight: 700, color: '#64748b' }}>And</span>
+
+              <div
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '7px',
+                  padding: '6px 12px',
+                  borderRadius: '6px',
+                  border: '1px solid #e2e8f0',
+                  background: '#ffffff',
+                  fontSize: '13px',
+                  fontWeight: 700,
+                  color: '#152247'
+                }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#152247" strokeWidth="2.2">
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+                <span>Plan Duration</span>
+              </div>
+
+              <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
+                <select
+                  aria-label="Select plan duration"
+                  value={selectedDuration}
+                  onChange={(e) => setSelectedDuration(e.target.value as '6month' | '12month')}
+                  style={{
+                    padding: '7px 32px 7px 14px',
+                    borderRadius: '6px',
+                    border: '1px solid #cbd5e1',
+                    background: '#ffffff',
+                    fontSize: '13px',
+                    fontWeight: 700,
+                    color: '#152247',
+                    cursor: 'pointer',
+                    appearance: 'none',
+                    WebkitAppearance: 'none',
+                    MozAppearance: 'none',
+                    outline: 'none',
+                    boxShadow: '0 1px 2px rgba(0,0,0,0.04)'
+                  }}
+                >
+                  <option value="12month">12-Month Plan</option>
+                  <option value="6month">6-Month Plan</option>
+                </select>
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#152247"
+                  strokeWidth="2.5"
+                  style={{ position: 'absolute', right: '12px', pointerEvents: 'none' }}
+                >
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </div>
+            </div>
           </div>
 
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '650px' }}>
+          {/* Table Container */}
+          <div style={{ overflowX: 'auto', padding: '16px 20px 20px 20px' }}>
+            <table className="schedule-table" style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '650px' }}>
               <thead>
                 <tr
                   style={{
-                    background: '#f8fafc',
+                    background: '#ffffff',
                     borderBottom: '2px solid #e2e8f0',
                     color: '#475569',
                     fontSize: '11.5px',
@@ -510,22 +454,22 @@ export const PaymentPlanPage: React.FC<PaymentPlanPageProps> = ({ onNavigate }) 
                           borderRadius: '6px',
                           background:
                             r.type === 'Down Payment'
-                              ? 'rgba(21, 34, 71, 0.08)'
+                              ? 'rgba(217, 119, 6, 0.09)'
                               : r.type === 'Final Handover'
-                              ? 'rgba(21, 34, 71, 0.12)'
-                              : 'rgba(37, 99, 235, 0.08)',
+                                ? 'rgba(5, 150, 105, 0.09)'
+                                : 'rgba(21, 34, 71, 0.08)',
                           color:
                             r.type === 'Down Payment'
-                              ? '#152247'
+                              ? '#B45309'
                               : r.type === 'Final Handover'
-                              ? '#152247'
-                              : '#1d4ed8',
+                                ? '#059669'
+                                : '#152247',
                           border:
                             r.type === 'Down Payment'
-                              ? '1px solid rgba(21, 34, 71, 0.15)'
+                              ? '1px solid rgba(217, 119, 6, 0.22)'
                               : r.type === 'Final Handover'
-                              ? '1px solid rgba(21, 34, 71, 0.2)'
-                              : '1px solid rgba(37, 99, 235, 0.15)'
+                                ? '1px solid rgba(5, 150, 105, 0.22)'
+                                : '1px solid rgba(21, 34, 71, 0.18)'
                         }}
                       >
                         {r.type}
@@ -541,42 +485,68 @@ export const PaymentPlanPage: React.FC<PaymentPlanPageProps> = ({ onNavigate }) 
                   </tr>
                 ))}
               </tbody>
+              <tfoot>
+                <tr
+                  className="minimal-total-row"
+                  style={{
+                    background: '#ffffff',
+                    borderTop: '2px solid #152247'
+                  }}
+                >
+                  <td style={{ padding: '16px', fontWeight: 800, color: '#64748b' }}>—</td>
+                  <td style={{ padding: '16px', fontWeight: 800, fontSize: '14px', color: '#152247' }}>
+                    Total Value Price
+                  </td>
+                  <td style={{ padding: '16px' }}>
+                    <span
+                      style={{
+                        fontSize: '11.5px',
+                        fontWeight: 800,
+                        padding: '3px 10px',
+                        borderRadius: '6px',
+                        background: '#152247',
+                        color: '#ffffff',
+                        letterSpacing: '0.4px'
+                      }}
+                    >
+                      100% Total
+                    </span>
+                  </td>
+                  <td style={{ padding: '16px', fontWeight: 800, fontSize: '14px', color: '#152247' }}>
+                    100%
+                  </td>
+                  <td style={{ padding: '16px', fontWeight: 900, fontSize: '15px', color: '#152247' }}>
+                    {formatPKR(current.totalPrice)} PKR
+                  </td>
+                  <td style={{ padding: '16px', textAlign: 'right', color: '#475569', fontWeight: 700, fontSize: '12.5px' }}>
+                    Rs. 26,500 / sq.ft • {current.sqft} SQFT
+                  </td>
+                </tr>
+              </tfoot>
             </table>
           </div>
+        </div>
 
-          {/* Bottom Action */}
-          <div
+        {/* Clean Reserve Unit Action Button (No grey box container) */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+          <button
+            className="reserve-btn-hover"
+            onClick={() => onNavigate('book-now')}
             style={{
-              marginTop: '24px',
-              paddingTop: '20px',
-              borderTop: '1px solid #f1f5f9',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-              gap: '14px'
+              background: '#152247',
+              color: '#ffffff',
+              padding: '14px 40px',
+              borderRadius: '10px',
+              fontSize: '15px',
+              fontWeight: 800,
+              border: 'none',
+              cursor: 'pointer',
+              boxShadow: '0 8px 24px rgba(21, 34, 71, 0.2)',
+              letterSpacing: '0.3px'
             }}
           >
-            <div style={{ fontSize: '13.5px', color: '#64748b' }}>
-              Guaranteed Rental Yield: <strong style={{ color: '#152247' }}>{current.roi}</strong>
-            </div>
-            <button
-              className="reserve-btn-hover"
-              onClick={() => onNavigate('book-now')}
-              style={{
-                background: '#152247',
-                color: '#ffffff',
-                padding: '12px 28px',
-                borderRadius: '10px',
-                fontSize: '14px',
-                fontWeight: 800,
-                border: 'none',
-                cursor: 'pointer'
-              }}
-            >
-              Reserve Your Unit Now →
-            </button>
-          </div>
+            Reserve Your Unit Now →
+          </button>
         </div>
       </section>
     </div>

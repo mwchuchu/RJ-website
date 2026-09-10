@@ -9,6 +9,11 @@
   flex-direction: column;
   gap: 0;
   padding-bottom: 0;
+  background: #ffffff;
+}
+
+.main-page-content {
+  background: #ffffff;
 }
 
 /* NAVBAR - Liquid Frosted Glass UI with Smart Scroll Mode */

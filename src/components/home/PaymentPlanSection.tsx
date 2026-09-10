@@ -23,12 +23,12 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
       id: 0,
       name: 'Down Payment',
       percentage: 25,
-      color: '#2563EB', // High-Contrast Vibrant Royal Blue
-      hoverColor: '#1D4ED8',
+      color: '#D97706', // High-Contrast Warm Amber Gold
+      hoverColor: '#B45309',
       description: 'Immediate booking & suite allocation upon 25% down payment.',
       detailKey: 'downPayment' as const,
       icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D97706" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
         </svg>
       )
@@ -37,8 +37,8 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
       id: 1,
       name: 'Easy Installments',
       percentage: 60,
-      color: '#152247', // Deep Primary Navy
-      hoverColor: '#1F3063',
+      color: '#152247', // Dominating Deep Primary Navy
+      hoverColor: '#1E3A8A',
       description: '60% spread over 3.5 years (42 monthly or 14 quarterly installments).',
       detailKey: 'monthly' as const,
       icon: (
@@ -54,12 +54,12 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
       id: 2,
       name: 'On Possession',
       percentage: 15,
-      color: '#0284c7', // Distinct Lighter Azure/Sky Blue
-      hoverColor: '#0369a1',
+      color: '#059669', // High-Contrast Deep Emerald Green
+      hoverColor: '#047857',
       description: '15% final payment due upon key handover (June 2027).',
       detailKey: 'possession' as const,
       icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0284c7" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.778-7.778zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
         </svg>
       )
@@ -215,10 +215,10 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
         </div>
 
         {!onlyPieChart && (
-          /* 3 Overlapping Feature Poster Circles (Pure White & Blue Palette) */
+          /* 3 Overlapping Feature Poster Circles (High-Contrast Warm Gold, Dominating Navy, Emerald Green) */
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '16px', marginBottom: '50px' }}>
-            <div className="circle-poster-node" style={{ animation: 'floatCircle 6s ease-in-out infinite', borderColor: '#2563EB', background: '#ffffff' }}>
-              <div style={{ fontSize: '26px', fontWeight: 900, color: '#2563EB', lineHeight: '1' }}>25%</div>
+            <div className="circle-poster-node" style={{ animation: 'floatCircle 6s ease-in-out infinite', borderColor: '#D97706', background: '#ffffff' }}>
+              <div style={{ fontSize: '26px', fontWeight: 900, color: '#D97706', lineHeight: '1' }}>25%</div>
               <div style={{ fontSize: '12px', fontWeight: 700, color: '#0f172a', marginTop: '4px' }}>Down Payment</div>
             </div>
 
@@ -227,8 +227,8 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
               <div style={{ fontSize: '12px', fontWeight: 800, color: '#e2e8f0', marginTop: '4px' }}>Easy Installments</div>
             </div>
 
-            <div className="circle-poster-node" style={{ animation: 'floatCircle 6s ease-in-out infinite 1s', borderColor: '#0284c7', background: '#ffffff' }}>
-              <div style={{ fontSize: '26px', fontWeight: 900, color: '#0284c7', lineHeight: '1' }}>15%</div>
+            <div className="circle-poster-node" style={{ animation: 'floatCircle 6s ease-in-out infinite 1s', borderColor: '#059669', background: '#ffffff' }}>
+              <div style={{ fontSize: '26px', fontWeight: 900, color: '#059669', lineHeight: '1' }}>15%</div>
               <div style={{ fontSize: '12px', fontWeight: 700, color: '#0f172a', marginTop: '4px' }}>On Possession</div>
             </div>
           </div>
