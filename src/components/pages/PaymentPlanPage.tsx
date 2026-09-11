@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { PaymentPlanSection } from '../home/PaymentPlanSection';
 
 interface PaymentPlanPageProps {
-  onNavigate: (tabId: string) => void;
+  onNavigate: (tabId: string, params?: { suiteType?: '1bed' | '2bed'; duration?: '6month' | '12month' }) => void;
 }
 
 export const PaymentPlanPage: React.FC<PaymentPlanPageProps> = ({ onNavigate }) => {
@@ -457,7 +457,7 @@ export const PaymentPlanPage: React.FC<PaymentPlanPageProps> = ({ onNavigate }) 
                               ? 'rgba(217, 119, 6, 0.09)'
                               : r.type === 'Final Handover'
                                 ? 'rgba(5, 150, 105, 0.09)'
-                                : 'rgba(21, 34, 71, 0.08)',
+                                : 'rgba(21, 34, 71, 0.09)',
                           color:
                             r.type === 'Down Payment'
                               ? '#B45309'
@@ -469,7 +469,7 @@ export const PaymentPlanPage: React.FC<PaymentPlanPageProps> = ({ onNavigate }) 
                               ? '1px solid rgba(217, 119, 6, 0.22)'
                               : r.type === 'Final Handover'
                                 ? '1px solid rgba(5, 150, 105, 0.22)'
-                                : '1px solid rgba(21, 34, 71, 0.18)'
+                                : '1px solid rgba(21, 34, 71, 0.24)'
                         }}
                       >
                         {r.type}
@@ -531,7 +531,7 @@ export const PaymentPlanPage: React.FC<PaymentPlanPageProps> = ({ onNavigate }) 
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
           <button
             className="reserve-btn-hover"
-            onClick={() => onNavigate('book-now')}
+            onClick={() => onNavigate('book-now', { suiteType: selectedSuiteType, duration: selectedDuration })}
             style={{
               background: '#152247',
               color: '#ffffff',

@@ -37,7 +37,7 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
       id: 1,
       name: 'Easy Installments',
       percentage: 60,
-      color: '#152247', // Dominating Deep Primary Navy
+      color: '#152247', // Signature Deep Navy Blue
       hoverColor: '#1E3A8A',
       description: '60% spread over 3.5 years (42 monthly or 14 quarterly installments).',
       detailKey: 'monthly' as const,

@@ -16,8 +16,12 @@ import './App.css';
 export const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('home');
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
+  const [bookingPref, setBookingPref] = useState<{ suiteType?: '1bed' | '2bed'; duration?: '6month' | '12month' } | null>(null);
 
-  const handleSelectTab = (tabId: string) => {
+  const handleSelectTab = (tabId: string, params?: { suiteType?: '1bed' | '2bed'; duration?: '6month' | '12month' }) => {
+    if (params) {
+      setBookingPref(params);
+    }
     setActiveTab(tabId);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -57,7 +61,11 @@ export const App: React.FC = () => {
           )}
 
           {activeTab === 'book-now' && (
-            <BookNowPage />
+            <BookNowPage
+              onNavigate={handleSelectTab}
+              initialSuiteType={bookingPref?.suiteType}
+              initialDuration={bookingPref?.duration}
+            />
           )}
 
           {activeTab === 'why-invest' && (

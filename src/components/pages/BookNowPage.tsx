@@ -3,26 +3,59 @@ import { PROPERTIES } from '../../data/mockData';
 
 interface BookNowPageProps {
   onNavigate?: (tabId: string) => void;
+  initialSuiteType?: '1bed' | '2bed';
+  initialDuration?: '6month' | '12month';
 }
 
-export const BookNowPage: React.FC<BookNowPageProps> = () => {
+export const BookNowPage: React.FC<BookNowPageProps> = ({
+  initialSuiteType = '1bed',
+  initialDuration = '12month'
+}) => {
   // Only keep Unit 01 and Unit 02
   const availableUnits = PROPERTIES.filter((p) => p.number === '01' || p.number === '02');
 
-  const [selectedUnitId, setSelectedUnitId] = useState<'prop-01' | 'prop-02'>('prop-01');
-  const [selectedPlan, setSelectedPlan] = useState<'12month' | '6month'>('12month');
+  const defaultUnitId = initialSuiteType === '2bed' ? 'prop-02' : 'prop-01';
+  const [selectedUnitId, setSelectedUnitId] = useState<'prop-01' | 'prop-02'>(defaultUnitId);
+  const [selectedPlan, setSelectedPlan] = useState<'12month' | '6month'>(initialDuration);
 
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
-    unitType: '1-Bedroom Luxury Serviced Apartment (625 sq.ft • Rs. 16.56M)',
-    installmentPlan: '12-Month Annual Plan (5%/month)',
+    unitType: defaultUnitId === 'prop-02'
+      ? '2-Bedroom Executive Serviced Residence (1,140 sq.ft • Rs. 30.21M)'
+      : '1-Bedroom Luxury Serviced Apartment (625 sq.ft • Rs. 16.56M)',
+    installmentPlan: initialDuration === '6month'
+      ? '6-Month Fast-Track Plan (10%/month)'
+      : '12-Month Annual Plan (5%/month)',
     message: ''
   });
 
   const [submitted, setSubmitted] = useState(false);
+
+  // Sync state whenever props from navigation change
+  React.useEffect(() => {
+    if (initialSuiteType) {
+      const unitId = initialSuiteType === '2bed' ? 'prop-02' : 'prop-01';
+      setSelectedUnitId(unitId);
+      setFormData((prev) => ({
+        ...prev,
+        unitType: unitId === 'prop-02'
+          ? '2-Bedroom Executive Serviced Residence (1,140 sq.ft • Rs. 30.21M)'
+          : '1-Bedroom Luxury Serviced Apartment (625 sq.ft • Rs. 16.56M)'
+      }));
+    }
+    if (initialDuration) {
+      setSelectedPlan(initialDuration);
+      setFormData((prev) => ({
+        ...prev,
+        installmentPlan: initialDuration === '6month'
+          ? '6-Month Fast-Track Plan (10%/month)'
+          : '12-Month Annual Plan (5%/month)'
+      }));
+    }
+  }, [initialSuiteType, initialDuration]);
 
   // Pricing calculations at Rs. 26,500/sqft
   const activeProperty = availableUnits.find((p) => p.id === selectedUnitId) || availableUnits[0];
@@ -34,7 +67,7 @@ export const BookNowPage: React.FC<BookNowPageProps> = () => {
 
   const formatPKR = (val: number) => val.toLocaleString('en-PK');
 
-  const handleUnitCardSelect = (propId: 'prop-01' | 'prop-02') => {
+  const handleUnitSelect = (propId: 'prop-01' | 'prop-02') => {
     setSelectedUnitId(propId);
     const unitTitle = propId === 'prop-01'
       ? '1-Bedroom Luxury Serviced Apartment (625 sq.ft • Rs. 16.56M)'
@@ -44,11 +77,18 @@ export const BookNowPage: React.FC<BookNowPageProps> = () => {
       ...prev,
       unitType: unitTitle
     }));
+  };
 
-    const formEl = document.getElementById('booking-form');
-    if (formEl) {
-      formEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+  const handlePlanSelect = (plan: '6month' | '12month') => {
+    setSelectedPlan(plan);
+    const planTitle = plan === '6month'
+      ? '6-Month Fast-Track Plan (10%/month)'
+      : '12-Month Annual Plan (5%/month)';
+
+    setFormData((prev) => ({
+      ...prev,
+      installmentPlan: planTitle
+    }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -85,36 +125,6 @@ export const BookNowPage: React.FC<BookNowPageProps> = () => {
           animation: floatWatermark 5s ease-in-out infinite;
         }
 
-        .minimal-product-card {
-          background: #ffffff;
-          border: 1px solid #eef2f6;
-          border-radius: 20px;
-          padding: 20px;
-          transition: all 0.25s ease;
-          cursor: pointer;
-          position: relative;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-        }
-        .minimal-product-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 14px 32px rgba(21, 34, 71, 0.09);
-          border-color: #cbd5e1;
-        }
-        .minimal-product-card.active {
-          border: 2px solid #152247;
-          box-shadow: 0 12px 30px rgba(21, 34, 71, 0.12);
-        }
-        .card-img-container {
-          background: #f8fafc;
-          border: 1px solid #f1f5f9;
-          border-radius: 14px;
-          height: 220px;
-          overflow: hidden;
-          display: flex;
-          align-items: center;
-          justifyContent: center;
-          position: relative;
-        }
         .clean-input {
           width: 100%;
           padding: 14px 18px;
@@ -172,132 +182,6 @@ export const BookNowPage: React.FC<BookNowPageProps> = () => {
         </div>
       </section>
 
-      {/* Product Cards Container */}
-      <div style={{ maxWidth: '1160px', margin: '48px auto 48px', padding: '0 24px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '28px' }}>
-          {availableUnits.map((prop) => {
-            const isSelected = selectedUnitId === prop.id;
-            const propSqft = prop.number === '01' ? 625 : 1140;
-            const priceVal = propSqft * 26500;
-            const downPayVal = Math.round(priceVal * 0.25);
-            const installmentVal = Math.round((priceVal * 0.60) / 12);
-
-            return (
-              <div
-                key={prop.id}
-                onClick={() => handleUnitCardSelect(prop.id as 'prop-01' | 'prop-02')}
-                className={`minimal-product-card ${isSelected ? 'active' : ''}`}
-              >
-                {/* 1. Top Image Frame */}
-                <div className="card-img-container">
-                  <img
-                    src={prop.heroImage}
-                    alt={prop.title}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      transition: 'transform 0.4s ease'
-                    }}
-                  />
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: '12px',
-                      right: '12px',
-                      background: isSelected ? '#152247' : 'rgba(15, 23, 42, 0.75)',
-                      color: '#ffffff',
-                      padding: '4px 10px',
-                      borderRadius: '6px',
-                      fontSize: '11.5px',
-                      fontWeight: 800,
-                      backdropFilter: 'blur(4px)'
-                    }}
-                  >
-                    {propSqft} SQFT
-                  </div>
-                </div>
-
-                {/* 2. Product Title */}
-                <h3 style={{ fontSize: '19px', fontWeight: 800, color: '#0f172a', margin: '18px 0 10px 0', lineHeight: '1.3' }}>
-                  {prop.number === '01' ? "RJ's Larom 1-Bedroom Serviced Suite (625 SQFT)" : "RJ's Larom 2-Bedroom Executive Suite (1,140 SQFT)"}
-                </h3>
-
-                {/* 3. Brand Pill Badge */}
-                <div style={{ marginBottom: '22px' }}>
-                  <div
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      background: '#f1f5f9',
-                      padding: '6px 14px',
-                      borderRadius: '99px'
-                    }}
-                  >
-                    <span
-                      style={{
-                        background: '#152247',
-                        color: '#ffffff',
-                        fontSize: '9px',
-                        fontWeight: 900,
-                        padding: '2px 5px',
-                        borderRadius: '3px',
-                        letterSpacing: '0.5px'
-                      }}
-                    >
-                      RJ's
-                    </span>
-                    <span style={{ fontSize: '12.5px', fontWeight: 700, color: '#0f766e' }}>
-                      Larom Branded Residency
-                    </span>
-                  </div>
-                </div>
-
-                {/* 4. Price & Installment Block (Matching Reference Image) */}
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'flex-end',
-                    paddingTop: '14px',
-                    borderTop: '1px solid #f1f5f9'
-                  }}
-                >
-                  <div>
-                    <div style={{ fontSize: '12px', color: '#64748b', fontWeight: 600, marginBottom: '2px' }}>
-                      As low as
-                    </div>
-                    <div style={{ fontSize: '26px', fontWeight: 900, color: '#0f172a', lineHeight: '1' }}>
-                      {formatPKR(installmentVal)}{' '}
-                      <span style={{ fontSize: '13px', fontWeight: 800, color: '#475569' }}>
-                        PKR / mo
-                      </span>
-                    </div>
-                    <div style={{ fontSize: '12px', color: '#64748b', marginTop: '6px', fontWeight: 500 }}>
-                      On 0% mark-up • 12-Mo Plan
-                    </div>
-                  </div>
-
-                  {/* Right Side Badge: 25% Down Payment Tag */}
-                  <div style={{ textAlign: 'right' }}>
-                    <div style={{ fontSize: '10px', color: '#64748b', fontWeight: 800, textTransform: 'uppercase' }}>
-                      DOWN PAYMENT
-                    </div>
-                    <div style={{ fontSize: '14px', fontWeight: 800, color: '#15803d', marginTop: '2px' }}>
-                      {formatPKR(downPayVal)} PKR
-                    </div>
-                    <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>
-                      25% Booking
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
       {/* Clean Minimalist Booking Form */}
       <div
         id="booking-form"
@@ -306,7 +190,7 @@ export const BookNowPage: React.FC<BookNowPageProps> = () => {
           borderRadius: '24px',
           padding: '44px 48px',
           maxWidth: '1160px',
-          margin: '0 auto',
+          margin: '48px auto 0 auto',
           border: '1px solid #e2e8f0',
           boxShadow: '0 14px 40px rgba(21, 34, 71, 0.06)'
         }}
@@ -423,7 +307,7 @@ export const BookNowPage: React.FC<BookNowPageProps> = () => {
                 </label>
                 <select
                   value={selectedUnitId}
-                  onChange={(e) => handleUnitCardSelect(e.target.value as 'prop-01' | 'prop-02')}
+                  onChange={(e) => handleUnitSelect(e.target.value as 'prop-01' | 'prop-02')}
                   className="clean-input"
                   style={{ background: '#ffffff' }}
                 >
@@ -438,7 +322,7 @@ export const BookNowPage: React.FC<BookNowPageProps> = () => {
                 </label>
                 <select
                   value={selectedPlan}
-                  onChange={(e) => setSelectedPlan(e.target.value as '6month' | '12month')}
+                  onChange={(e) => handlePlanSelect(e.target.value as '6month' | '12month')}
                   className="clean-input"
                   style={{ background: '#ffffff' }}
                 >
