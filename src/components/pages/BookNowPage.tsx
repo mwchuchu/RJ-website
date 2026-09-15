@@ -195,9 +195,7 @@ export const BookNowPage: React.FC<BookNowPageProps> = ({
                 <h3 style={{ fontSize: '24px', fontWeight: 900, color: '#152247', margin: '0 0 4px 0' }}>
                   Booking Form
                 </h3>
-                <p style={{ fontSize: '14px', color: '#64748b', margin: 0 }}>
-                  Selected Residence: <strong>{activeProperty.title}</strong> ({sqft} sq.ft • Rs. {formatPKR(totalPrice)})
-                </p>
+                
               </div>
               
             </div>
