@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { PROPERTIES } from '../../data/mockData';
 import { PageHeroWatermarkBanner } from '../common/PageHeroWatermarkBanner';
 
 interface BookNowPageProps {
@@ -12,9 +11,6 @@ export const BookNowPage: React.FC<BookNowPageProps> = ({
   initialSuiteType = '1bed',
   initialDuration = '12month'
 }) => {
-  // Only keep Unit 01 and Unit 02
-  const availableUnits = PROPERTIES.filter((p) => p.number === '01' || p.number === '02');
-
   const defaultUnitId = initialSuiteType === '2bed' ? 'prop-02' : 'prop-01';
   const [selectedUnitId, setSelectedUnitId] = useState<'prop-01' | 'prop-02'>(defaultUnitId);
   const [selectedPlan, setSelectedPlan] = useState<'12month' | '6month'>(initialDuration);
@@ -59,10 +55,8 @@ export const BookNowPage: React.FC<BookNowPageProps> = ({
   }, [initialSuiteType, initialDuration]);
 
   // Pricing calculations at Rs. 26,500/sqft
-  const activeProperty = availableUnits.find((p) => p.id === selectedUnitId) || availableUnits[0];
   const sqft = selectedUnitId === 'prop-01' ? 625 : 1140;
   const totalPrice = sqft * 26500;
-  const downPayment = Math.round(totalPrice * 0.25);
   const monthly6 = Math.round((totalPrice * 0.60) / 6);
   const monthly12 = Math.round((totalPrice * 0.60) / 12);
 
