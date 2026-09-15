@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { PROPERTIES } from '../../data/mockData';
+import { PageHeroWatermarkBanner } from '../common/PageHeroWatermarkBanner';
 
 interface BookNowPageProps {
   onNavigate?: (tabId: string) => void;
@@ -143,44 +144,8 @@ export const BookNowPage: React.FC<BookNowPageProps> = ({
         }
       `}</style>
 
-      {/* Floating Giant Watermark Hero */}
-      <section
-        style={{
-          position: 'relative',
-          minHeight: '70vh',
-          background: 'radial-gradient(ellipse 120% 85% at 50% 0%, #5074a6 0%, #7b9cc7 25%, #adc6e3 50%, #dce8f5 75%, #ffffff 100%)',
-          borderRadius: '0px 0px 32px 32px',
-          overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: '110px 48px 0px 48px',
-          margin: 0,
-          width: '100%'
-        }}
-      >
-        <div
-          className="float-hero-watermark"
-          style={{
-            position: 'absolute',
-            top: '30%',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            fontSize: 'clamp(52px, 12.5vw, 185px)',
-            fontWeight: 800,
-            letterSpacing: '8px',
-            color: 'rgba(21, 34, 71, 0.25)',
-            userSelect: 'none',
-            pointerEvents: 'none',
-            whiteSpace: 'nowrap',
-            zIndex: 1,
-            fontFamily: "'Space Grotesk', system-ui, sans-serif"
-          }}
-        >
-          BOOK NOW
-        </div>
-      </section>
+      {/* Floating Giant Watermark Hero Banner with Outlined Larom Cutout */}
+      <PageHeroWatermarkBanner title="BOOK NOW" />
 
       {/* Clean Minimalist Booking Form */}
       <div
@@ -228,19 +193,17 @@ export const BookNowPage: React.FC<BookNowPageProps> = ({
             <div style={{ marginBottom: '28px', borderBottom: '1px solid #f1f5f9', paddingBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
               <div>
                 <h3 style={{ fontSize: '24px', fontWeight: 900, color: '#152247', margin: '0 0 4px 0' }}>
-                  Request Booking & Official Brochure
+                  Booking Form
                 </h3>
                 <p style={{ fontSize: '14px', color: '#64748b', margin: 0 }}>
                   Selected Residence: <strong>{activeProperty.title}</strong> ({sqft} sq.ft • Rs. {formatPKR(totalPrice)})
                 </p>
               </div>
-              <div style={{ background: '#f8fafc', padding: '8px 18px', borderRadius: '10px', border: '1px solid #e2e8f0', fontSize: '13px', fontWeight: 700, color: '#152247' }}>
-                25% Down Payment: <strong style={{ color: '#16a34a' }}>Rs. {formatPKR(downPayment)}</strong>
-              </div>
+              
             </div>
 
             {/* Name Fields (2 Columns) */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', marginBottom: '18px' }}>
+            <div className="booking-form-grid" style={{ marginBottom: '18px' }}>
               <div>
                 <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, color: '#334155', marginBottom: '6px' }}>
                   First Name *
@@ -270,7 +233,7 @@ export const BookNowPage: React.FC<BookNowPageProps> = ({
             </div>
 
             {/* Email & Phone (2 Columns) */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', marginBottom: '18px' }}>
+            <div className="booking-form-grid" style={{ marginBottom: '18px' }}>
               <div>
                 <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, color: '#334155', marginBottom: '6px' }}>
                   Email Address *
@@ -300,7 +263,7 @@ export const BookNowPage: React.FC<BookNowPageProps> = ({
             </div>
 
             {/* Unit Preference & Installment Switch (2 Columns) */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', marginBottom: '18px' }}>
+            <div className="booking-form-grid" style={{ marginBottom: '18px' }}>
               <div>
                 <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, color: '#334155', marginBottom: '6px' }}>
                   Unit Selection

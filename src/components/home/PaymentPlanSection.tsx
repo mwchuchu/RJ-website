@@ -181,23 +181,63 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
           background: #e0f2fe;
           box-shadow: 0 14px 32px rgba(2, 132, 199, 0.2);
         }
+        .payment-plan-main-grid {
+          display: grid;
+          grid-template-columns: 1fr minmax(320px, 440px);
+          gap: 50px;
+          align-items: center;
+        }
+
+        @media (max-width: 992px) {
+          .payment-plan-main-grid {
+            grid-template-columns: 1fr !important;
+            gap: 40px !important;
+          }
+        }
+
+        @media (max-width: 600px) {
+          .circle-poster-node {
+            width: 95px !important;
+            height: 95px !important;
+          }
+          .circle-poster-node .node-percent {
+            font-size: 20px !important;
+          }
+          .circle-poster-node .node-label {
+            font-size: 9.5px !important;
+          }
+          .suite-selector-row {
+            flex-direction: column !important;
+            align-items: stretch !important;
+          }
+          .suite-pricing-banner {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+          }
+          .milestone-item-row {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+          }
+        }
       `}</style>
 
       <div style={{ maxWidth: '1280px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
         {/* Section Header */}
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
 
-          <h2 style={{ fontSize: '40px', fontWeight: 900, color: '#0f172a', margin: '0 0 12px 0', letterSpacing: '-0.5px' }}>
+          <h2 style={{ fontSize: 'clamp(28px, 5vw, 40px)', fontWeight: 900, color: '#0f172a', margin: '0 0 12px 0', letterSpacing: '-0.5px' }}>
             Investor Payment Plan & Structure
           </h2>
 
-          <p style={{ color: '#64748b', fontSize: '16px', maxWidth: '680px', margin: '0 auto', lineHeight: '1.6' }}>
+          <p style={{ color: '#64748b', fontSize: '15.5px', maxWidth: '680px', margin: '0 auto', lineHeight: '1.6' }}>
             Book your luxury fully furnished serviced 1 & 2 bedroom suite with a 25% down payment, 60% easy monthly installments over 3.5 years, and 15% at possession.
           </p>
 
           {!onlyPieChart && (
             /* Interactive Suite Selector Buttons (Only 1 & 2 Bedroom Suites) */
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '14px', marginTop: '22px' }}>
+            <div className="suite-selector-row" style={{ display: 'flex', justifyContent: 'center', gap: '14px', marginTop: '22px', flexWrap: 'wrap' }}>
               <button
                 className={`suite-pill-btn ${selectedSuite === '1bed' ? 'active' : ''}`}
                 onClick={() => setSelectedSuite('1bed')}
@@ -216,37 +256,36 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
 
         {!onlyPieChart && (
           /* 3 Overlapping Feature Poster Circles (High-Contrast Warm Gold, Dominating Navy, Emerald Green) */
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '16px', marginBottom: '50px' }}>
+          <div className="circle-poster-row" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '14px', marginBottom: '44px', flexWrap: 'wrap' }}>
             <div className="circle-poster-node" style={{ animation: 'floatCircle 6s ease-in-out infinite', borderColor: '#D97706', background: '#ffffff' }}>
-              <div style={{ fontSize: '26px', fontWeight: 900, color: '#D97706', lineHeight: '1' }}>25%</div>
-              <div style={{ fontSize: '12px', fontWeight: 700, color: '#0f172a', marginTop: '4px' }}>Down Payment</div>
+              <div className="node-percent" style={{ fontSize: '26px', fontWeight: 900, color: '#D97706', lineHeight: '1' }}>25%</div>
+              <div className="node-label" style={{ fontSize: '12px', fontWeight: 700, color: '#0f172a', marginTop: '4px' }}>Down Payment</div>
             </div>
 
-            <div className="circle-poster-node" style={{ zIndex: 2, transform: 'scale(1.12)', borderColor: '#152247', background: '#152247', animation: 'floatCircle 6s ease-in-out infinite 0.5s', boxShadow: '0 10px 25px rgba(21, 34, 71, 0.35)' }}>
-              <div style={{ fontSize: '32px', fontWeight: 900, color: '#ffffff', lineHeight: '1' }}>60%</div>
-              <div style={{ fontSize: '12px', fontWeight: 800, color: '#e2e8f0', marginTop: '4px' }}>Easy Installments</div>
+            <div className="circle-poster-node" style={{ zIndex: 2, transform: 'scale(1.1)', borderColor: '#152247', background: '#152247', animation: 'floatCircle 6s ease-in-out infinite 0.5s', boxShadow: '0 10px 25px rgba(21, 34, 71, 0.35)' }}>
+              <div className="node-percent" style={{ fontSize: '30px', fontWeight: 900, color: '#ffffff', lineHeight: '1' }}>60%</div>
+              <div className="node-label" style={{ fontSize: '12px', fontWeight: 800, color: '#e2e8f0', marginTop: '4px' }}>Easy Installments</div>
             </div>
 
             <div className="circle-poster-node" style={{ animation: 'floatCircle 6s ease-in-out infinite 1s', borderColor: '#059669', background: '#ffffff' }}>
-              <div style={{ fontSize: '26px', fontWeight: 900, color: '#059669', lineHeight: '1' }}>15%</div>
-              <div style={{ fontSize: '12px', fontWeight: 700, color: '#0f172a', marginTop: '4px' }}>On Possession</div>
+              <div className="node-percent" style={{ fontSize: '26px', fontWeight: 900, color: '#059669', lineHeight: '1' }}>15%</div>
+              <div className="node-label" style={{ fontSize: '12px', fontWeight: 700, color: '#0f172a', marginTop: '4px' }}>On Possession</div>
             </div>
           </div>
         )}
 
         {onlyPieChart ? (
           /* Centered Live Animated SVG Pie Chart & Legend (Only Pie Chart for Payment Plan Page) */
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', maxWidth: '540px', margin: '0 auto' }}>
-
-
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', maxWidth: '540px', margin: '0 auto', width: '100%' }}>
             {/* Live Interactive SVG Pie Chart */}
             <svg
-              width="290"
-              height="290"
+              width="280"
+              height="280"
               viewBox="0 0 280 280"
               style={{
                 animation: 'pieSpinIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-                overflow: 'visible'
+                overflow: 'visible',
+                maxWidth: '100%'
               }}
             >
               {/* Segment 0: 25% Down Payment (0% to 25%) */}
@@ -288,7 +327,7 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
             </svg>
 
             {/* Interactive Pie Chart Legend */}
-            <div style={{ display: 'flex', gap: '20px', marginTop: '28px', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', gap: '16px', marginTop: '24px', flexWrap: 'wrap', justifyContent: 'center' }}>
               {segments.map((s) => (
                 <div
                   key={s.id}
@@ -313,12 +352,12 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
           </div>
         ) : (
           /* Main 2-Column Grid: Left Breakdown Details | Right Live Pie Chart (Original for Home Page) */
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr minmax(320px, 440px)', gap: '50px', alignItems: 'center' }}>
+          <div className="payment-plan-main-grid">
 
             {/* Left Column: Suite Pricing, Milestone Segment Cards & Explore Button */}
             <div>
               {/* Active Suite Total Price Display Banner */}
-              <div style={{ background: '#f0f4ff', border: '1px solid rgba(37, 99, 235, 0.25)', borderRadius: '16px', padding: '20px 24px', marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div className="suite-pricing-banner" style={{ background: '#f0f4ff', border: '1px solid rgba(37, 99, 235, 0.25)', borderRadius: '16px', padding: '20px 24px', marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
                   <div style={{ fontSize: '12px', fontWeight: 800, color: '#2563EB', textTransform: 'uppercase', letterSpacing: '1px' }}>
                     {currentSuite.title}
@@ -327,7 +366,7 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
                     {currentSuite.price}
                   </div>
                 </div>
-                <div style={{ textAlign: 'right' }}>
+                <div style={{ textAlign: 'left' }}>
                   <div style={{ fontSize: '11px', color: '#64748b', fontWeight: 600 }}>Estimated Handover</div>
                   <div style={{ fontSize: '14px', fontWeight: 800, color: '#2563EB' }}>June 2027 (Possession)</div>
                 </div>
@@ -342,6 +381,7 @@ export const PaymentPlanSection: React.FC<PaymentPlanSectionProps> = ({ onNaviga
                   return (
                     <div
                       key={seg.id}
+                      className="milestone-item-row"
                       onMouseEnter={() => setActiveSegment(seg.id)}
                       onMouseLeave={() => setActiveSegment(null)}
                       style={{

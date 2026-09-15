@@ -150,16 +150,56 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           className="stadium-amenities-showcase-section"
           style={{
             background: '#ffffff',
-            padding: '100px 48px',
+            padding: '80px 24px',
             position: 'relative',
             overflow: 'hidden'
           }}
         >
-          <div style={{ maxWidth: '1240px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(480px, 1fr))', gap: '60px', alignItems: 'center' }}>
+          <style>{`
+            .stadium-amenities-grid {
+              max-width: 1240px;
+              margin: 0 auto;
+              display: grid;
+              grid-template-columns: 1.1fr 1fr;
+              gap: 50px;
+              align-items: center;
+            }
+            .stadium-capsule-container {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: -15px;
+              position: relative;
+              width: 100%;
+              padding: 20px 0;
+            }
+            @media (max-width: 992px) {
+              .stadium-amenities-grid {
+                grid-template-columns: 1fr !important;
+                gap: 40px !important;
+              }
+            }
+            @media (max-width: 600px) {
+              .stadium-capsule-card.left-capsule,
+              .stadium-capsule-card.right-capsule {
+                width: 95px !important;
+                height: 220px !important;
+              }
+              .stadium-capsule-card.center-capsule {
+                width: 130px !important;
+                height: 280px !important;
+              }
+              .stadium-headline-title {
+                font-size: 32px !important;
+              }
+            }
+          `}</style>
+          <div className="stadium-amenities-grid">
             {/* Left Column: Headline with Blue Wavy Underline, Single Explore More Button, & 3 Stat Cards */}
             <div>
 
               <h2
+                className="stadium-headline-title"
                 style={{
                   fontSize: '44px',
                   fontWeight: 900,
@@ -200,12 +240,12 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 </span>{' '}
                 Tailored to Your Perfect Lifestyle.
               </h2>
-              <p style={{ color: '#64748b', fontSize: '16px', lineHeight: '1.65', marginBottom: '32px', maxWidth: '540px' }}>
+              <p style={{ color: '#64748b', fontSize: '15.5px', lineHeight: '1.65', marginBottom: '32px', maxWidth: '540px' }}>
                 Experience Pakistan's premier hotel-managed residence featuring 33+ world-class amenities, state-of-the-art TechnoGym fitness center, rooftop infinity pool, 5-star Turkish hospitality, RFID elevator security, and 24/7 concierge.
               </p>
 
               {/* Action Button */}
-              <div style={{ marginBottom: '44px' }}>
+              <div style={{ marginBottom: '36px' }}>
                 <button
                   className="stadium-explore-btn home-curtain-btn"
                   onClick={() => onNavigate('amenities')}
@@ -252,17 +292,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
             {/* Right Column: Trio of Stadium Capsule Cards Slideshow + Clickable Carousel Dots */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '-20px',
-                  position: 'relative',
-                  width: '100%',
-                  padding: '20px 0'
-                }}
-              >
+              <div className="stadium-capsule-container">
                 {/* Left Stadium Capsule */}
                 <div
                   className="stadium-capsule-card left-capsule"

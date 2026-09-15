@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import type { Property } from '../../types/index';
+import { PageHeroWatermarkBanner } from '../common/PageHeroWatermarkBanner';
 
 interface ServicedApartmentsPageProps {
   onSelectProperty?: (prop: Property) => void;
@@ -267,7 +268,7 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({ 
 
         /* Text Column: bring text smoothly from left to right */
         .editorial-room-text-col {
-          width: 42%;
+          width: 46%;
           display: flex;
           flex-direction: column;
           justify-content: center;
@@ -291,11 +292,11 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({ 
 
         .editorial-room-desc {
           font-family: 'Inter', system-ui, sans-serif;
-          font-size: 14.5px;
+          font-size: 15.5px;
           color: #475569;
           line-height: 1.75;
           margin: 0;
-          max-width: 440px;
+          max-width: 520px;
           opacity: 0;
           transform: translateX(-50px);
           transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.16s, transform 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.16s;
@@ -307,6 +308,44 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({ 
         .editorial-room-row.in-view .editorial-room-desc {
           opacity: 1;
           transform: translateX(0);
+        }
+
+        @media (max-width: 992px) {
+          .editorial-room-row {
+            flex-direction: column !important;
+            margin-bottom: 70px !important;
+            gap: 32px !important;
+          }
+          .editorial-room-text-col {
+            width: 100% !important;
+          }
+          .editorial-room-collage-col {
+            width: 100% !important;
+            height: 320px !important;
+          }
+          .collage-img-landscape {
+            height: 240px !important;
+          }
+          .collage-img-portrait {
+            height: 290px !important;
+          }
+        }
+
+        @media (max-width: 600px) {
+          .editorial-room-collage-col {
+            height: 250px !important;
+          }
+          .collage-img-landscape {
+            height: 190px !important;
+            width: 78% !important;
+          }
+          .collage-img-portrait {
+            height: 230px !important;
+            width: 54% !important;
+          }
+          .editorial-room-title {
+            font-size: 24px !important;
+          }
         }
 
         /* Overlapping Collage: Landscape lower-left, Portrait upper-right with entrance animations */
@@ -608,43 +647,7 @@ export const ServicedApartmentsPage: React.FC<ServicedApartmentsPageProps> = ({ 
       {/* ═══════════════════════════════════════════════════════════
           SECTION 1: HERO WATERMARK ("APARTMENTS")
       ════════════════════════════════════════════════════════════ */}
-      <section
-        style={{
-          position: 'relative',
-          minHeight: '70vh',
-          background: 'radial-gradient(ellipse 120% 85% at 50% 0%, #5074a6 0%, #7b9cc7 25%, #adc6e3 50%, #dce8f5 75%, #ffffff 100%)',
-          borderRadius: '0px 0px 32px 32px',
-          overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: '110px 48px 0px 48px',
-          margin: 0,
-          width: '100%'
-        }}
-      >
-        <div
-          className="float-hero-watermark"
-          style={{
-            position: 'absolute',
-            top: '30%',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            fontSize: 'clamp(52px, 12.5vw, 185px)',
-            fontWeight: 800,
-            letterSpacing: '8px',
-            color: 'rgba(21, 34, 71, 0.25)',
-            userSelect: 'none',
-            pointerEvents: 'none',
-            whiteSpace: 'nowrap',
-            zIndex: 1,
-            fontFamily: "'Space Grotesk', system-ui, sans-serif"
-          }}
-        >
-          APARTMENTS
-        </div>
-      </section>
+      <PageHeroWatermarkBanner title="APARTMENTS" />
 
       {/* ═══════════════════════════════════════════════════════════
           SECTION 2: EDITORIAL ROOM SHOWCASE (STUDIO KITCHENETTE STYLE)

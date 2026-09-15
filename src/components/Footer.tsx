@@ -150,6 +150,20 @@ export const Footer: React.FC = () => {
         .contact-link-row:hover svg {
           transform: scale(1.15);
         }
+
+        /* Responsive Footer Breakpoints */
+        @media (max-width: 992px) {
+          .footer-top-grid {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 36px !important;
+          }
+          .footer-bottom-bar {
+            flex-direction: column !important;
+            gap: 12px !important;
+            text-align: center !important;
+          }
+        }
       `}</style>
 
       {/* Horizontal Scrolling Ribbon of Original Partner Logos Without Borders */}
@@ -175,7 +189,7 @@ export const Footer: React.FC = () => {
 
       <div className="footer-top-grid">
         {/* Brand Column with Official Company Logo Showcase */}
-        <div className="footer-col-brand" style={{ minWidth: '340px', flex: '1.4' }}>
+        <div className="footer-col-brand" style={{ minWidth: 'min(100%, 300px)', flex: '1.4' }}>
           <div className="footer-logo">
             <img
               src="/images/Rj-logo.png"

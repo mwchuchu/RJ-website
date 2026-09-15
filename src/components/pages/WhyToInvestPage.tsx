@@ -175,18 +175,35 @@ const SlideshowImageTray: React.FC = () => {
       />
 
       {/* 4 Image Columns Decreasing in Height to the Right */}
-      <div
-        style={{
-          position: 'relative',
-          zIndex: 2,
-          display: 'grid',
-          gridTemplateColumns: '1.2fr 1fr 0.85fr 0.7fr',
-          height: '100%',
-          gap: '16px',
-          padding: '20px',
-          alignItems: 'center'
-        }}
-      >
+      <style>{`
+        .why-invest-tray-grid {
+          position: relative;
+          z-index: 2;
+          display: grid;
+          grid-template-columns: 1.2fr 1fr 0.85fr 0.7fr;
+          height: 100%;
+          gap: 16px;
+          padding: 20px;
+          align-items: center;
+        }
+        @media (max-width: 900px) {
+          .why-invest-tray-grid {
+            grid-template-columns: 1fr 1fr !important;
+            height: auto !important;
+            gap: 12px !important;
+            padding: 10px 0 !important;
+          }
+          .why-invest-tray-container {
+            height: auto !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .why-invest-tray-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
+      <div className="why-invest-tray-grid">
         {[0, 1, 2, 3].map((offset) => {
           const slide = getSlideAt(offset);
           const height = cardHeights[offset];
@@ -389,7 +406,7 @@ export const WhyToInvestPage: React.FC<WhyToInvestPageProps> = ({ onNavigate }) 
   ];
 
   return (
-    <div className="why-invest-page animate-fade-in" style={{ padding: '120px 48px 60px', background: '#f8f9fa', color: '#0f172a' }}>
+    <div className="why-invest-page animate-fade-in why-invest-page-container" style={{ padding: 'clamp(90px, 10vw, 120px) clamp(16px, 4vw, 48px) 60px', background: '#f8f9fa', color: '#0f172a' }}>
       <style>{`
         .why-invest-sharp-btn {
           position: relative !important;
@@ -430,19 +447,47 @@ export const WhyToInvestPage: React.FC<WhyToInvestPageProps> = ({ onNavigate }) 
           transform: translateY(-4px) scale(1.02) !important;
           box-shadow: 0 16px 36px rgba(37, 99, 235, 0.45) !important;
         }
+        .why-invest-header-grid {
+          display: grid;
+          grid-template-columns: 1.2fr 1fr;
+          gap: 48px;
+          align-items: start;
+          margin-bottom: 48px;
+        }
+        .why-invest-yield-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 32px;
+          max-width: 850px;
+          margin: 0 auto;
+          align-items: flex-end;
+          padding-top: 20px;
+        }
+        .why-invest-graph-legend-container {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          margin-bottom: 28px;
+        }
+        @media (max-width: 900px) {
+          .why-invest-header-grid {
+            grid-template-columns: 1fr !important;
+            gap: 24px !important;
+          }
+          .why-invest-graph-legend-container {
+            justify-content: center !important;
+          }
+        }
+        @media (max-width: 600px) {
+          .why-invest-yield-grid {
+            gap: 16px !important;
+          }
+        }
       `}</style>
 
       {/* SECTION 1: HEADER & AUTOPLAY SLIDESHOW IMAGE TRAY (EXACT MATCH TO REFERENCE MOCKUP UI) */}
       <ScrollAnimateSection>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1.2fr 1fr',
-            gap: '48px',
-            alignItems: 'start',
-            marginBottom: '48px'
-          }}
-        >
+        <div className="why-invest-header-grid">
           {/* Left Column: Bold Headline */}
           <div>
             <h1
@@ -503,17 +548,7 @@ export const WhyToInvestPage: React.FC<WhyToInvestPageProps> = ({ onNavigate }) 
           </div>
 
           {/* 3 Vertical Bar Pillars */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: '32px',
-              maxWidth: '850px',
-              margin: '0 auto',
-              alignItems: 'flex-end',
-              paddingTop: '20px'
-            }}
-          >
+          <div className="why-invest-yield-grid">
             {[
               {
                 title: "RJ's Larom Serviced Apartments",
@@ -861,9 +896,9 @@ export const WhyToInvestPage: React.FC<WhyToInvestPageProps> = ({ onNavigate }) 
           </div>
 
           <div>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '28px' }}>
+            <div className="why-invest-graph-legend-container">
               {/* Legend */}
-              <div style={{ display: 'flex', gap: '20px', alignItems: 'center', background: '#f8fafc', padding: '10px 20px', borderRadius: '99px', border: '1px solid #e2e8f0' }}>
+              <div style={{ display: 'flex', gap: '20px', alignItems: 'center', background: '#f8fafc', padding: '10px 20px', borderRadius: '99px', border: '1px solid #e2e8f0', flexWrap: 'wrap', justifyContent: 'center' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px' }}>
                   <span style={{ width: '12px', height: '12px', background: '#38bdf8', borderRadius: '3px', display: 'inline-block' }} />
                   <span style={{ color: '#0f172a', fontWeight: 700 }}>Short-Term (&lt;30 Nights)</span>

@@ -225,7 +225,42 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
   const selectedPhoto = sharedLayout ? signingPhotos[sharedLayout.index] : null;
 
   return (
-    <div className="larom-hotel-page animate-fade-in" style={{ padding: '120px 48px 60px 48px', background: '#ffffff' }}>
+    <div className="larom-hotel-page animate-fade-in" style={{ padding: '100px 24px 60px 24px', background: '#ffffff', maxWidth: '1440px', margin: '0 auto' }}>
+      <style>{`
+        .larom-partnership-grid {
+          display: grid;
+          grid-template-columns: minmax(300px, 34%) 1fr;
+          gap: 56px;
+          align-items: start;
+        }
+        .larom-ceremony-2x2-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 24px;
+        }
+        @media (max-width: 992px) {
+          .larom-hotel-page {
+            padding: 90px 16px 40px 16px !important;
+          }
+          .larom-partnership-grid {
+            grid-template-columns: 1fr !important;
+            gap: 36px !important;
+          }
+          .larom-partnership-banner {
+            padding: 40px 20px !important;
+          }
+        }
+        @media (max-width: 600px) {
+          .larom-ceremony-2x2-grid {
+            grid-template-columns: 1fr !important;
+            gap: 16px !important;
+          }
+          .larom-editorial-partner-section {
+            padding: 36px 16px !important;
+            min-height: auto !important;
+          }
+        }
+      `}</style>
       {/* EDITORIAL PARTNER SHOWCASE SECTION (EXACT MATCH TO REFERENCE MOCKUP UI) */}
       <div
         ref={laromEditorialSectionRef}
@@ -366,6 +401,7 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
 
         {/* Left Side Label */}
         <div
+          className="larom-side-label"
           style={{
             position: 'absolute',
             left: '32px',
@@ -385,6 +421,7 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
 
         {/* Right Side Label */}
         <div
+          className="larom-side-label"
           style={{
             position: 'absolute',
             right: '32px',
@@ -417,7 +454,7 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
           position: 'relative'
         }}
       >
-        <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 340px', gap: '32px', alignItems: 'center' }}>
+        <div className="larom-marquee-building-grid">
           {/* Left Column: Animated Marquee Typography Wall */}
           <div style={{ position: 'relative', overflow: 'hidden', padding: '16px 0' }}>
             {/* Subtitle / Category Label */}
@@ -561,7 +598,7 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
           </div>
 
           {/* Right Column: Architectural Photo Card Squeezed to Right */}
-          <div style={{ width: '100%', maxWidth: '340px', justifySelf: 'end' }}>
+          <div style={{ width: '100%', maxWidth: '340px', justifySelf: 'center' }}>
             <CurtainRevealImage
               src="/images/larom-building image.png"
               alt="LAROM Building Architecture"
@@ -622,14 +659,7 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
         </div>
 
         {/* 4-Card Staggered Architectural Grid matching Reference Image */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: '28px',
-            alignItems: 'start'
-          }}
-        >
+        <div className="larom-4col-staggered-grid">
           {[
             {
               title: 'ASIA',
@@ -660,7 +690,7 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
               image: 'https://images.unsplash.com/photo-1576606970009-7ddc4229ced7?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8VVNBfGVufDB8fDB8fHww'
             }
           ].map((item, idx) => (
-            <div key={idx} style={{ marginTop: item.marginTop }}>
+            <div key={idx} className="larom-staggered-col" style={{ marginTop: item.marginTop }}>
               {/* Image Box with Top-to-Bottom Curtain Drop Animation on Scroll */}
               <CurtainRevealImage
                 src={item.image}
@@ -750,14 +780,7 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
         </div>
 
         {/* 4-Card Staggered Architectural Grid matching Reference Image */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: '28px',
-            alignItems: 'start'
-          }}
-        >
+        <div className="larom-4col-staggered-grid">
           {[
             {
               title: 'General Room',
@@ -788,7 +811,7 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
               image: 'https://images.unsplash.com/photo-1760072513367-55182245e76c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHByZW1pdW0lMjByb29tfGVufDB8fDB8fHwy'
             }
           ].map((item, idx) => (
-            <div key={idx} style={{ marginTop: item.marginTop }}>
+            <div key={idx} className="larom-staggered-col" style={{ marginTop: item.marginTop }}>
               {/* Image Box with Top-to-Bottom Curtain Drop Animation on Scroll */}
               <CurtainRevealImage
                 src={item.image}
@@ -836,7 +859,7 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
 
       {/* OUR PARTNERSHIP SECTION (SLATE/NAVY CARD WITH ISLAMABAD CLUB CEREMONY PHOTOS & CURTAIN ANIMATION) */}
       <div
-        className="larom-signing-ceremony-section"
+        className="larom-signing-ceremony-section larom-partnership-banner"
         style={{
           position: 'relative',
           borderRadius: '0px',
@@ -848,14 +871,7 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
           color: '#ffffff'
         }}
       >
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'minmax(300px, 34%) 1fr',
-            gap: '56px',
-            alignItems: 'start'
-          }}
-        >
+        <div className="larom-partnership-grid">
           {/* Left Column: Heading & Paragraph */}
           <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
             <div>
@@ -935,13 +951,7 @@ export const LaromHotelPage: React.FC<LaromHotelPageProps> = () => {
 
           {/* Right Column: 2x2 Grid of Ceremony Cards */}
           <div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(2, 1fr)',
-                gap: '24px'
-              }}
-            >
+            <div className="larom-ceremony-2x2-grid">
               {[
                 {
                   title: 'Signing Ceremony',

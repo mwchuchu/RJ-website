@@ -7,15 +7,12 @@ import { AmenitiesPage } from './components/pages/AmenitiesPage';
 import { PaymentPlanPage } from './components/pages/PaymentPlanPage';
 import { BookNowPage } from './components/pages/BookNowPage';
 import { WhyToInvestPage } from './components/pages/WhyToInvestPage';
-import { PropertyModal } from './components/PropertyModal';
 import { Footer } from './components/Footer';
 import { WhatsAppWidget } from './components/WhatsAppWidget';
-import type { Property } from './types/index';
 import './App.css';
 
 export const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('home');
-  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [bookingPref, setBookingPref] = useState<{ suiteType?: '1bed' | '2bed'; duration?: '6month' | '12month' } | null>(null);
 
   const handleSelectTab = (tabId: string, params?: { suiteType?: '1bed' | '2bed'; duration?: '6month' | '12month' }) => {
@@ -43,7 +40,6 @@ export const App: React.FC = () => {
 
           {activeTab === 'serviced-apartments' && (
             <ServicedApartmentsPage
-              onSelectProperty={(prop: Property) => setSelectedProperty(prop)}
               onNavigate={handleSelectTab}
             />
           )}
@@ -75,12 +71,6 @@ export const App: React.FC = () => {
 
         {/* Shared Footer on Every Page View */}
         <Footer />
-
-        {/* 6-Tab Property Details Modal Drawer */}
-        <PropertyModal
-          property={selectedProperty}
-          onClose={() => setSelectedProperty(null)}
-        />
 
         {/* Sticky WhatsApp Floating Widget (+923230537371) */}
         <WhatsAppWidget />

@@ -207,21 +207,113 @@ export const BrandedResidencyShowcase: React.FC<BrandedResidencyShowcaseProps> =
           transform: translateY(-2px);
           box-shadow: 0 10px 22px rgba(21, 34, 71, 0.4);
         }
+        .branded-showcase-grid {
+          display: grid;
+          grid-template-columns: minmax(380px, 55%) 1fr;
+          gap: 48px;
+          align-items: start;
+        }
+        .branded-main-img-wrapper {
+          width: 100%;
+          height: 560px;
+          overflow: hidden;
+          background: #f4f4f4;
+          border-radius: 6px;
+          box-shadow: 0 12px 36px rgba(21, 34, 71, 0.08);
+        }
+        .branded-content-column {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          min-height: 560px;
+        }
+        .branded-text-photo-grid {
+          display: grid;
+          grid-template-columns: 1fr minmax(180px, 220px);
+          gap: 32px;
+          align-items: center;
+          flex: 1;
+        }
+        .branded-second-img-box {
+          width: 100%;
+          height: 230px;
+          overflow: hidden;
+          background: #f4f4f4;
+          border-radius: 6px;
+          box-shadow: 0 10px 28px rgba(21, 34, 71, 0.12);
+        }
+        .branded-bottom-row {
+          display: flex;
+          align-items: flex-end;
+          justify-content: space-between;
+          gap: 24px;
+          margin-top: 32px;
+        }
+
+        /* ─── Responsive Breakpoints for Editorial Showcase ─── */
+        @media (max-width: 1024px) {
+          .branded-showcase-grid {
+            grid-template-columns: 1fr !important;
+            gap: 36px !important;
+          }
+          .branded-main-img-wrapper {
+            height: 420px !important;
+          }
+          .branded-content-column {
+            min-height: auto !important;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .branded-text-photo-grid {
+            grid-template-columns: 1fr !important;
+            gap: 20px !important;
+          }
+          .branded-main-img-wrapper {
+            height: 320px !important;
+          }
+          .branded-second-img-box {
+            height: 200px !important;
+            max-width: 320px;
+          }
+          .branded-headline-title {
+            font-size: clamp(32px, 8vw, 44px) !important;
+          }
+          .branded-item-title {
+            font-size: 26px !important;
+          }
+          .branded-bottom-row {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 16px !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .branded-main-img-wrapper {
+            height: 260px !important;
+          }
+          .branded-second-img-box {
+            height: 180px !important;
+          }
+        }
       `}</style>
 
       <div
+        className="branded-showcase-container"
         style={{
-          maxWidth: '1360px',
+          maxWidth: '1440px',
           margin: '0 auto',
-          padding: '0 40px',
+          padding: '0 24px',
           opacity: hasTriggered ? 1 : 0,
           transform: hasTriggered ? 'translateY(0)' : 'translateY(30px)',
           transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)'
         }}
       >
         {/* Main Title Header */}
-        <div style={{ textAlign: 'center', marginBottom: '44px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '36px' }}>
           <h2
+            className="branded-headline-title"
             style={{
               fontFamily: "'Playfair Display', 'Bodoni Moda', 'Cormorant Garamond', serif",
               fontSize: '52px',
@@ -239,27 +331,12 @@ export const BrandedResidencyShowcase: React.FC<BrandedResidencyShowcaseProps> =
 
         {/* Borderless Editorial Content Layout Container */}
         <div
+          className="branded-showcase-grid"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'minmax(380px, 54%) 1fr',
-            gap: '56px',
-            alignItems: 'start',
-            border: 'none',
-            background: 'transparent'
-          }}
         >
-          {/* LEFT SIDE: Bigger Main Portrait Photo */}
-          <div
-            style={{
-              width: '100%',
-              height: '540px',
-              overflow: 'hidden',
-              background: '#f4f4f4',
-              borderRadius: '4px'
-            }}
-          >
+          {/* LEFT SIDE: Main Portrait Photo */}
+          <div className="branded-main-img-wrapper">
             <img
               key={`main-${currentItem.id}`}
               src={currentItem.mainImage}
@@ -273,33 +350,33 @@ export const BrandedResidencyShowcase: React.FC<BrandedResidencyShowcaseProps> =
             />
           </div>
 
-          {/* RIGHT SIDE: Layout with Title, Text, Smaller Second Photo Positioned in Vertical Middle */}
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              minHeight: '540px'
-            }}
-          >
-            {/* Middle Section: Title, Description & Right Sub-Column for Second Photo Centered Vertically */}
+          {/* RIGHT SIDE: Layout with Title, Text, Second Photo */}
+          <div className="branded-content-column">
+            {/* Middle Section: Title, Description & Right Sub-Column for Second Photo */}
             <div
               key={`content-${currentItem.id}`}
-              className="anim-text-content"
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr minmax(150px, 175px)',
-                gap: '28px',
-                alignItems: 'center',
-                flex: 1
-              }}
+              className="anim-text-content branded-text-photo-grid"
             >
               {/* Middle Left: Feature Title & Description */}
               <div>
+                <div
+                  style={{
+                    fontSize: '13px',
+                    fontWeight: 800,
+                    color: '#2563EB',
+                    letterSpacing: '1.8px',
+                    textTransform: 'uppercase',
+                    marginBottom: '10px'
+                  }}
+                >
+                  {currentItem.number} • RESIDENCE FEATURE
+                </div>
+
                 <h3
+                  className="branded-item-title"
                   style={{
                     fontFamily: "'Playfair Display', 'Bodoni Moda', 'Cormorant Garamond', serif",
-                    fontSize: '32px',
+                    fontSize: '34px',
                     fontWeight: 800,
                     color: '#152247',
                     letterSpacing: '-0.02em',
@@ -315,28 +392,22 @@ export const BrandedResidencyShowcase: React.FC<BrandedResidencyShowcaseProps> =
                   style={{
                     fontFamily: "'Inter', system-ui, sans-serif",
                     color: '#475569',
-                    fontSize: '14.5px',
-                    lineHeight: '1.65',
+                    fontSize: '15.5px',
+                    lineHeight: '1.75',
                     margin: 0,
-                    maxWidth: '340px'
+                    width: '100%',
+                    maxWidth: '520px'
                   }}
                 >
                   {currentItem.description}
                 </p>
               </div>
 
-              {/* Middle Right: Smaller Second Photo Aligned Vertically to the Middle of Main Image */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {/* Middle Right: Second Photo */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
                 <div
                   key={`second-${currentItem.id}`}
-                  className="anim-second-photo"
-                  style={{
-                    width: '100%',
-                    height: '185px',
-                    overflow: 'hidden',
-                    background: '#f4f4f4',
-                    borderRadius: '4px'
-                  }}
+                  className="anim-second-photo branded-second-img-box"
                 >
                   <img
                     src={currentItem.secondImage}
@@ -351,30 +422,22 @@ export const BrandedResidencyShowcase: React.FC<BrandedResidencyShowcaseProps> =
               </div>
             </div>
 
-            {/* Bottom Row: Subtext on Left + Navy Blue Circular Nav Buttons on Right */}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'flex-end',
-                justifyContent: 'space-between',
-                gap: '24px',
-                marginTop: '32px'
-              }}
-            >
+            {/* Bottom Row: Subtext on Left + Navigation Buttons on Right */}
+            <div className="branded-bottom-row">
               <div
                 style={{
                   fontFamily: "'Inter', system-ui, sans-serif",
-                  fontSize: '13px',
+                  fontSize: '14px',
                   color: '#64748b',
-                  maxWidth: '300px',
-                  lineHeight: '1.5'
+                  maxWidth: '460px',
+                  lineHeight: '1.6'
                 }}
               >
                 {currentItem.conceptSubtext}
               </div>
 
               {/* Navy Blue Circular Prev/Next Arrow Buttons */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
                 <button
                   onClick={() => setActiveSlide((prev) => (prev - 1 + apartmentFeatures.length) % apartmentFeatures.length)}
                   className="nav-btn-navy"
@@ -395,14 +458,14 @@ export const BrandedResidencyShowcase: React.FC<BrandedResidencyShowcaseProps> =
         </div>
 
         {/* Bottom CTA Action Button */}
-        <div style={{ textAlign: 'center', marginTop: '56px' }}>
+        <div style={{ textAlign: 'center', marginTop: '48px' }}>
           <button
             className="home-curtain-btn"
             onClick={() => onNavigate('serviced-apartments')}
             style={{
               padding: '16px 44px',
               borderRadius: '0px',
-              fontSize: '14px',
+              fontSize: '14.5px',
               fontWeight: 800,
               background: '#152247',
               color: '#ffffff',

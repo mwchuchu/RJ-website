@@ -52,38 +52,122 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'why-invest', label: 'Why to Invest' }
   ];
 
-  return (
-    <header className={`navbar-container nav-mode-${navMode}`}>
-      <div className="navbar-logo" onClick={() => onSelectTab('home')}>
-        <img
-          src="/images/Rj-logo.png"
-          alt="RJ's Larom Residences Company Logo"
-          className="navbar-company-logo-img"
-          onError={(e) => {
-            const target = e.currentTarget;
-            if (!target.src.endsWith('/images/Larom-logo.jpg')) {
-              target.src = '/images/Larom-logo.jpg';
-            }
-          }}
-          style={{ height: '42px', width: 'auto', borderRadius: '0px', objectFit: 'contain' }}
-        />
-        <span className="logo-text">RJ's Larom<br /><strong className="logo-sub">Residences</strong></span>
-      </div>
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-      <nav className="navbar-links">
-        {navItems.map((item) => {
-          const isActive = activeTab === item.id;
-          return (
-            <button
-              key={item.id}
-              className={`nav-tab-btn ${isActive ? 'active' : ''}`}
-              onClick={() => onSelectTab(item.id)}
-            >
-              {item.label}
-            </button>
-          );
-        })}
-      </nav>
-    </header>
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const handleNavClick = (tabId: string) => {
+    onSelectTab(tabId);
+    setMobileMenuOpen(false);
+  };
+
+  return (
+    <>
+      <header className={`navbar-container nav-mode-${navMode}`}>
+        <div className="navbar-logo" onClick={() => handleNavClick('home')}>
+          <img
+            src="/images/Rj-logo.png"
+            alt="RJ's Larom Residences Company Logo"
+            className="navbar-company-logo-img"
+            onError={(e) => {
+              const target = e.currentTarget;
+              if (!target.src.endsWith('/images/Larom-logo.jpg')) {
+                target.src = '/images/Larom-logo.jpg';
+              }
+            }}
+            style={{ height: '42px', width: 'auto', borderRadius: '0px', objectFit: 'contain' }}
+          />
+          <span className="logo-text">RJ's Larom<br /><strong className="logo-sub">Residences</strong></span>
+        </div>
+
+        {/* Desktop Navbar Links */}
+        <nav className="navbar-links desktop-navbar-links">
+          {navItems.map((item) => {
+            const isActive = activeTab === item.id;
+            return (
+              <button
+                key={item.id}
+                className={`nav-tab-btn ${isActive ? 'active' : ''}`}
+                onClick={() => handleNavClick(item.id)}
+              >
+                {item.label}
+              </button>
+            );
+          })}
+        </nav>
+
+        {/* Mobile Hamburger Toggle Button */}
+        <button
+          className={`mobile-hamburger-btn ${mobileMenuOpen ? 'open' : ''}`}
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label={mobileMenuOpen ? 'Close Menu' : 'Open Menu'}
+        >
+          <span className="hamburger-line line-1" />
+          <span className="hamburger-line line-2" />
+          <span className="hamburger-line line-3" />
+        </button>
+      </header>
+
+      {/* Mobile Backdrop Overlay */}
+      <div
+        className={`mobile-nav-backdrop ${mobileMenuOpen ? 'open' : ''}`}
+        onClick={() => setMobileMenuOpen(false)}
+      />
+
+      {/* Mobile Slide-in Drawer */}
+      <div className={`mobile-nav-drawer ${mobileMenuOpen ? 'open' : ''}`}>
+        <div className="mobile-nav-header">
+          <div className="navbar-logo" onClick={() => handleNavClick('home')}>
+            <img
+              src="/images/Rj-logo.png"
+              alt="RJ's Larom Residences Logo"
+              style={{ height: '36px', width: 'auto', objectFit: 'contain' }}
+            />
+            <span className="logo-text" style={{ color: '#ffffff' }}>RJ's Larom<br /><strong className="logo-sub" style={{ color: '#93c5fd' }}>Residences</strong></span>
+          </div>
+          <button
+            className="mobile-close-btn"
+            onClick={() => setMobileMenuOpen(false)}
+            aria-label="Close Navigation Menu"
+          >
+            ✕
+          </button>
+        </div>
+
+        <nav className="mobile-nav-links-list">
+          {navItems.map((item, idx) => {
+            const isActive = activeTab === item.id;
+            return (
+              <button
+                key={item.id}
+                className={`mobile-nav-item-btn ${isActive ? 'active' : ''}`}
+                onClick={() => handleNavClick(item.id)}
+                style={{ animationDelay: `${0.04 + idx * 0.04}s` }}
+              >
+                <span>{item.label}</span>
+                <span className="mobile-nav-arrow">{isActive ? '●' : '→'}</span>
+              </button>
+            );
+          })}
+        </nav>
+
+        <div className="mobile-nav-footer">
+          <a
+            href="tel:+923230537371"
+            className="mobile-nav-contact-pill"
+          >
+            📞 +92 323 0537371
+          </a>
+        </div>
+      </div>
+    </>
   );
 };

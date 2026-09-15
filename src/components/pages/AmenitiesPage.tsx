@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { CATEGORIZED_AMENITIES } from '../../data/mockData';
+import { PageHeroWatermarkBanner } from '../common/PageHeroWatermarkBanner';
 
 interface AmenitiesPageProps {
   onNavigate: (tabId: string) => void;
@@ -125,44 +126,8 @@ export const AmenitiesPage: React.FC<AmenitiesPageProps> = ({ onNavigate }) => {
           transform: scale(1.06);
         }
       `}</style>
-      <section
-        style={{
-          position: 'relative',
-          minHeight: '70vh',
-          background: 'radial-gradient(ellipse 120% 85% at 50% 0%, #5074a6 0%, #7b9cc7 25%, #adc6e3 50%, #dce8f5 75%, #ffffff 100%)',
-          borderRadius: '0px 0px 32px 32px',
-          overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: '110px 48px 0px 48px',
-          margin: 0,
-          width: '100%'
-        }}
-      >
-        {/* Floating Giant Watermark */}
-        <div
-          className="float-hero-watermark"
-          style={{
-            position: 'absolute',
-            top: '30%',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            fontSize: 'clamp(52px, 12.5vw, 185px)',
-            fontWeight: 800,
-            letterSpacing: '8px',
-            color: 'rgba(21, 34, 71, 0.25)',
-            userSelect: 'none',
-            pointerEvents: 'none',
-            whiteSpace: 'nowrap',
-            zIndex: 1,
-            fontFamily: "'Space Grotesk', system-ui, sans-serif"
-          }}
-        >
-          AMENITIES
-        </div>
-      </section>
+      {/* Animated Hero Watermark Banner with Floating Outlined Larom Cutout */}
+      <PageHeroWatermarkBanner title="AMENITIES" />
 
       {/* ═══════════════════════════════════════════════════════════
           SECTION 2: CATEGORY FILTER PILLS & AMENITIES GRID
